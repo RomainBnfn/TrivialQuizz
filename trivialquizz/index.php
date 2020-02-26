@@ -5,7 +5,7 @@
   <?php require_once "include/header.html"?>
 </head>
 <body>
-  <!-- Le reste du contenu -->
-
+  <?php require_once "include/navbar.php"?>
+  <?php require_once "include/script.html"?>
 </body>
 </html>
