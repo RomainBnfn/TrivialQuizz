@@ -1,18 +1,22 @@
+<nav class="navbar sticky-top navbar-light bg-light">
+  <a class="navbar-brand" href="#">Sticky top</a>
+</nav>
+<!--
 <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
-    <!-- Logo pour aller à la page d'accueil -->
-    <div>
+    <div class="row">
+      <div class="col-xs-offset-3 col-xs-6">
         <a href="index.php">
           ​<picture>
             <img src="image/logo.png" class="img-logo" alt="Logo du Trivial Quizz">
           </picture>
         </a>
-    </div>
 
-    <!-- Se connecter -->
-    <div>
-      <button type="button" class="btn btn-primary">Inscription</button>
-      <button type="button" class="btn btn-outline-primary">Connexion</button>
+        <span>
+          <button type="button" class="btn btn-primary">Inscription</button>
+          <button type="button" class="btn btn-outline-primary">Connexion</button>
+        </span>
+      </div>
     </div>
-  </div>
 </nav>
+-->

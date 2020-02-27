@@ -3,7 +3,6 @@
 <head>
   <title>Trivial Quizz</title>
   <?php require_once "include/header.html"?>
-  <?php require_once "include/script.html"?>
 </head>
 <body>
   <?php require_once "include/navbar.php"?>
@@ -12,10 +11,9 @@
     jQuery(function(){
       $("#id").hover(function(){
           !$(this).append('Hello World !'); // $(this) représente le paragraphe courant
-
       });
-
     });
   </script>
+  <?php require_once "include/script.html"?>
 </body>
 </html>
