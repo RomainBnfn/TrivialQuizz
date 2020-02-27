@@ -1,5 +1,17 @@
 <nav class="navbar sticky-top navbar-light bg-light">
-  <a class="navbar-brand" href="#">Sticky top</a>
+  <div class="container">
+    <div>
+      <a href="index.php">
+          <img src="image/logo.png" class="img-logo" alt="Logo du Trivial Quizz" />
+      </a>
+    </div>
+    <div>
+      <span>
+        <button type="button" class="btn btn-primary">Inscription</button>
+        <button type="button" class="btn btn-outline-primary">Connexion</button>
+      </span>
+    </div>
+  </div>
 </nav>
 <!--
 <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
