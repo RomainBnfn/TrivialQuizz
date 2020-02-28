@@ -1,20 +1,52 @@
 <?php
   session_start();
+  $index_location = "/github/trivialquizz/index.php";
   /*
   if(!isset($_SESSION['is_admin']))
   {
     //TODO: Changer la location
-    header("Location: /github/trivialquizz/index.php");
+    header("Location: ".$index_location);
     exit();
   }
   */
   //require_once "../include/liaisonbdd.php";
   require_once "../include/functions.php";
+  if(empty($_GET['id']) || !is_numeric($id) )
+  {
+    //TODO: Changer la location
+    header("Location: ".$index_location);
+    exit();
+  }
+  $id = $_GET['id'];
+  $requete = $bdd -> prepare("SELECT * FROM quizz WHERE qui_id = ?");
+  $requete -> execute(array($id));
+  $result = $requete -> fetch();
+  if(empty($result))
+      {
+          echo "<h3>Ce film n'existe pas...</h3>";
+          echo "<title>Erreur</title>";
+          exit();
+      }
+      // Tout est bon, le film existe :
+      $title = $result["TITLE"];
+      $director = $result["PRODUCER"];
+      $annee = $result["YEAR"];
+      $long = $result["LONG_DESC"];
+      $image = $result["IMAGE"];
+      $user = $result["LOGIN_UTILISATEUR"];
+
+      if(!fopen("images/$image", 'rb'))
+      {
+          echo "<h3>L'image n'existe pas..</h3>";
+          echo "<title>Erreur</title>";
+          exit();
+      };
+      echo "<title>MyMovies - $title</title>";
 ?>
 <!doctype html>
 <html lang="fr">
 <head>
-  <title>Panel d'Admin</title>
+  <title>Edition de Quizz</title>
   <?php require_once "../include/header.html"?>
 </head>
 <body>
