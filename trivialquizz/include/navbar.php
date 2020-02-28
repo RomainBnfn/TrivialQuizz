@@ -3,7 +3,8 @@
     <div>
       <!-- TODO: CHANGER LE CHEMIN D'ACCES -->
       <a href="/github/trivialquizz/index.php">
-        <img src="image/logo.png" class="img-logo" alt="Logo du Trivial Quizz" />
+        <!-- TODO: CHANGER LE CHEMIN D'ACCES -->
+        <img src="/github/trivialquizz/image/logo.png" class="img-logo" alt="Logo du Trivial Quizz" />
       </a>
     </div>
     <div>
