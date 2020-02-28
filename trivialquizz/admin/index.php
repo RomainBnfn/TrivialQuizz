@@ -61,7 +61,5 @@
     </div>
   </div>
   <?php require_once "../include/script.html"?>
-<!--
-require_once( ABSPATH . 'wp-admin/includes/admin.php' );
---></body>
+</body>
 </html>

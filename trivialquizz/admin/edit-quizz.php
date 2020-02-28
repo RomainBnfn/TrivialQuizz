@@ -1,10 +1,10 @@
 <?php
   session_start();
-  $index_location = "/github/trivialquizz/index.php";
+  //TODO: Changer la location
+  $index_location = "/github/trivialquizz/admin/index.php";
   /*
   if(!isset($_SESSION['is_admin']))
   {
-    //TODO: Changer la location
     header("Location: ".$index_location);
     exit();
   }
@@ -13,35 +13,38 @@
   require_once "../include/functions.php";
   if(empty($_GET['id']) || !is_numeric($id) )
   {
-    //TODO: Changer la location
     header("Location: ".$index_location);
     exit();
   }
   $id = $_GET['id'];
-  $requete = $bdd -> prepare("SELECT * FROM quizz WHERE qui_id = ?");
+  $requete = $bdd -> prepare("SELECT * FROM quiz WHERE qui_id = ?");
   $requete -> execute(array($id));
   $result = $requete -> fetch();
   if(empty($result))
-      {
-          echo "<h3>Ce film n'existe pas...</h3>";
-          echo "<title>Erreur</title>";
-          exit();
-      }
-      // Tout est bon, le film existe :
-      $title = $result["TITLE"];
-      $director = $result["PRODUCER"];
-      $annee = $result["YEAR"];
-      $long = $result["LONG_DESC"];
-      $image = $result["IMAGE"];
-      $user = $result["LOGIN_UTILISATEUR"];
+  {
+    header("Location: ".$index_location);
+    exit();
+  }
+  // Tout est ok, le quiz existe
+  $nom = $result["qui_nom"];
+  $description = $result["qui_desc"];
+  $id_theme = $result["th_id"];
 
-      if(!fopen("images/$image", 'rb'))
-      {
-          echo "<h3>L'image n'existe pas..</h3>";
-          echo "<title>Erreur</title>";
-          exit();
-      };
-      echo "<title>MyMovies - $title</title>";
+  // Le thème :
+  $requete = $bdd -> query("SELECT * FROM theme WHERE th_id =".$id_theme);
+  $result = $requete -> fetch();
+  $theme = $result["th_nom"];
+  $couleur = $result["th_couleur"];
+
+  // Les  questions :
+  $requete = $bdd -> prepare(
+    "SELECT * FROM questions
+     WHERE qui_id IN (
+       SELECT qui_id IN QUIZ_QUEST
+       WHERE que_id = ?)"
+     );
+  $result -> execute(array($id));
+  $result_questions = $result -> fetchAll();
 ?>
 <!doctype html>
 <html lang="fr">
@@ -51,49 +54,49 @@
 </head>
 <body>
   <?php require_once "../include/navbar.php"?>
-  <div class="bandeau-principal fond-bleu">Panel d'admin</div>
+  <!-- TODO: Ajouter une couleur en fct de $couleur -->
+  <div class="bandeau-principal">Edition de Quizz : <?= $nom ?></div>
+
   <div class="cadre-global">
     <div class="cadre-central">
 
-      <div class="titre1">
-        <div>Thèmes</div>
+      <!-- DEBUT : Cadre des options générales -->
+      <div>
+        <div class="titre1">
+          <div>Général</div>
+          <div>
+            <button type="button" class="btn btn-danger">Supprimer le quizz</button>
+          </div>
+        </div>
+
         <div>
-          <button type="button" class="btn btn-success">Ajouter</button>
+          Liste des options possibles, des statistiques moyennes ?...
         </div>
       </div>
+      <!-- FIN : Cadre des options générales -->
 
-      <!--Liste des Thèmes-->
-      <?php
-        $requete = $bdd -> query("SELECT * FROM theme");
-        while($result = $requete ->fetch())
-        {
-          $name = $result["th_nom"];
-          $id = $result["th_id"];
-          $desc = $result["th_description"];
-          $couleur = $result["th_couleur"];
-          ?>
-          <div>
-            <div class="titre2">
-              <div class="cat-title"><?= $name ?></div>
-              <div class="edition">
-                <button type="button" class="btn btn-warning">Edition</button>
-                <button type="button" class="btn btn-danger">Supprimer</button>
-              </div>
-            </div>
-            <div><?= $desc ?></div>
-          </div>
-        <?php
-        }
-      ?>
-      <h2>Quizz</h2>
-      <span>Ajouter</span>
+      <!-- DEBUT : Cadre de la liste des Questions -->
       <div>
-        Liste des Quizz
+        <div class="titre1">
+          <div>Les questions</div>
+          <div>
+            <button type="button" class="btn btn-success">Ajouter une question</button>
+          </div>
+        </div>
+
+        <div>
+          <?php
+            foreach ($result_questions as $infos_question) {
+              //AJOUTER : DISPLAY
+            }
+          ?>
+        </div>
       </div>
+      <!-- FIN : Cadre de la liste des Questions -->
+
     </div>
   </div>
+
   <?php require_once "../include/script.html"?>
-<!--
-require_once( ABSPATH . 'wp-admin/includes/admin.php' );
---></body>
+</body>
 </html>
