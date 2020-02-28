@@ -6,13 +6,19 @@
 </head>
 <body>
   <?php require_once "include/navbar.php"?>
-  <p id="id">Test</p><div>Test</div><div>Test</div>
+  <section>
+    <article class="">
+      <h1>Thèmes classique</h1>
+      <div id="logotheme-container"
+    </article>
+    <article class="">
+      <h1>Thèmes personnalisés</h1>
+
+    </article>
+  </section>
+
   <script>
     $(document).ready(function(){
-      $("#id").hover(function(){
-          !$(this).append('Hello World !'); // $(this) représente le paragraphe courant
-
-      });
 
     });
   </script>

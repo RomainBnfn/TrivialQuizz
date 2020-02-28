@@ -54,8 +54,6 @@ CREATE TABLE questions
   que_id INTEGER NOT NULL PRIMARY KEY AUTO_INCREMENT,
   que_lib VARCHAR(500) NOT NULL,
   re_id_bonnerep INTEGER NOT NULL,
-  qui_id INTEGER NOT NULL,
-  FOREIGN KEY (qui_id) REFERENCES quiz(qui_id)
 ) engine=innodb character set utf8 collate utf8_unicode_ci;
 
 CREATE TABLE reponses
