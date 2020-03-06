@@ -1,0 +1,31 @@
+@font-face {
+  font-family: 'CaviarDreams';
+  src: url("../font/CaviarDreams/CaviarDreams.ttf") format('truetype');
+  font-weight: normal;
+}
+@font-face {
+  font-family: 'CaviarDreams';
+  src: url("../font/CaviarDreams/CaviarDreams_Bold.ttf") format('truetype');
+  font-weight: bold;
+}
+
+.bt-theme
+{
+  cursor: pointer;
+}
+#roue_theme_classique
+{
+  height: 40vw;
+  width: 40vw;
+}
+.center
+{
+  display: flex;
+  justify-content: center;
+}
+text
+{
+  font-weight: bold;
+  font-family: 'CaviarDreams';
+  font-size: 15px;
+}

@@ -5,7 +5,7 @@ DROP TABLE IF EXISTS score;
 DROP TABLE IF EXISTS quiz;
 DROP TABLE IF EXISTS theme;
 DROP TABLE IF EXISTS admin;
-DROP TABLE IF EXISTS joueur;
+DROP TABLE IF EXISTS profil;
 
 CREATE TABLE profil
 (
@@ -40,7 +40,7 @@ CREATE TABLE score
   sc_date DATE NOT NULL,
   pr_id INTEGER NOT NULL,
   qui_id INTEGER NOT NULL,
-  FOREIGN KEY (jo_id) REFERENCES joueur(jo_id),
+  FOREIGN KEY (pr_id) REFERENCES profil(pr_id),
   FOREIGN KEY (qui_id) REFERENCES quiz(qui_id)
 ) engine=innodb character set utf8 collate utf8_unicode_ci;
 
@@ -48,7 +48,7 @@ CREATE TABLE question
 (
   que_id INTEGER NOT NULL PRIMARY KEY AUTO_INCREMENT,
   que_lib VARCHAR(500) NOT NULL,
-  re_id_bonnerep INTEGER NOT NULL,
+  re_id_bonnerep INTEGER NOT NULL
 ) engine=innodb character set utf8 collate utf8_unicode_ci;
 
 CREATE TABLE reponse
