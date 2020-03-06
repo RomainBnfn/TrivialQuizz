@@ -1,5 +1,3 @@
-SET FOREIGN_KEY_CHECKS=0;
-
 DROP TABLE IF EXISTS quiz_quest;
 DROP TABLE IF EXISTS question;
 DROP TABLE IF EXISTS reponse;
@@ -9,20 +7,12 @@ DROP TABLE IF EXISTS theme;
 DROP TABLE IF EXISTS admin;
 DROP TABLE IF EXISTS joueur;
 
-SET FOREIGN_KEY_CHECKS=1;
-
-CREATE TABLE joueur
+CREATE TABLE profil
 (
-  jo_id INTEGER NOT NULL PRIMARY KEY AUTO_INCREMENT,
-  jo_pseudo VARCHAR(20) NOT NULL,
-  jo_password VARCHAR(20) NOT NULL
-) engine=innodb character set utf8 collate utf8_unicode_ci;
-
-CREATE TABLE admin
-(
-  ad_id INTEGER NOT NULL PRIMARY KEY AUTO_INCREMENT,
-  ad_pseudo VARCHAR(20) NOT NULL,
-  ad_password VARCHAR(20) NOT NULL
+  pr_id INTEGER NOT NULL PRIMARY KEY AUTO_INCREMENT,
+  pr_pseudo VARCHAR(20) NOT NULL,
+  pr_password VARCHAR(20) NOT NULL,
+  pr_is_admin BIT(1) NOT NULL
 ) engine=innodb character set utf8 collate utf8_unicode_ci;
 
 CREATE TABLE theme
@@ -47,7 +37,7 @@ CREATE TABLE score
   sc_point INTEGER NOT NULL,
   sc_temps INTEGER NOT NULL,
   sc_date DATE NOT NULL,
-  jo_id INTEGER NOT NULL,
+  pr_id INTEGER NOT NULL,
   qui_id INTEGER NOT NULL,
   FOREIGN KEY (jo_id) REFERENCES joueur(jo_id),
   FOREIGN KEY (qui_id) REFERENCES quiz(qui_id)
