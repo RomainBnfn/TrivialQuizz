@@ -1,11 +1,26 @@
+<?php
+  if(!isset($_SESSION))
+  {
+    session_start();
+  }
+  //TODO: Changer la location
+  $index_location = "/github/trivialquizz/admin/index.php";
+?>
 <nav class="navbar sticky-top navbar-light bg-light">
   <div class="container">
     <div>
-      <!-- TODO: CHANGER LE CHEMIN D'ACCES -->
-      <a href="/github/trivialquizz/index.php">
+      <a href=<?= $index_location ?>>
         <!-- TODO: CHANGER LE CHEMIN D'ACCES -->
         <img src="/github/trivialquizz/image/logo.png" class="img-logo" alt="Logo du Trivial Quizz" />
       </a>
+    </div>
+    <div>
+      <div>
+        Un onglet
+      </div>
+      <div>
+        Un autre
+      </div>
     </div>
     <div>
       <span>
@@ -15,22 +30,3 @@
     </div>
   </div>
 </nav>
-<!--
-<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
-  <div class="container">
-    <div class="row">
-      <div class="col-xs-offset-3 col-xs-6">
-        <a href="index.php">
-          ​<picture>
-            <img src="image/logo.png" class="img-logo" alt="Logo du Trivial Quizz">
-          </picture>
-        </a>
-
-        <span>
-          <button type="button" class="btn btn-primary">Inscription</button>
-          <button type="button" class="btn btn-outline-primary">Connexion</button>
-        </span>
-      </div>
-    </div>
-</nav>
--->

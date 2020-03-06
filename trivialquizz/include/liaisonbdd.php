@@ -2,8 +2,8 @@
     try
     {
         $bdd = new PDO(
-            "mysql:host=localhost;dbname=mymovies_bfn;charset=utf8",
-            "consultant",
+            "mysql:host=localhost;dbname=id12662519_trivial;charset=utf8",
+            "quizz_user",
             "1234",
             array(PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION)
         );
