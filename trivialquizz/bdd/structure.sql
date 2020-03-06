@@ -12,7 +12,7 @@ CREATE TABLE profil
   pr_id INTEGER NOT NULL PRIMARY KEY AUTO_INCREMENT,
   pr_pseudo VARCHAR(20) NOT NULL,
   pr_password VARCHAR(20) NOT NULL,
-  pr_is_admin BIT(1) NOT NULL
+  pr_is_admin BIT(1)
 ) engine=innodb character set utf8 collate utf8_unicode_ci;
 
 CREATE TABLE theme
@@ -20,7 +20,8 @@ CREATE TABLE theme
   th_id INTEGER NOT NULL PRIMARY KEY AUTO_INCREMENT,
   th_nom VARCHAR(50) NOT NULL,
   th_couleur VARCHAR(7) NOT NULL,
-  th_description VARCHAR(1000)
+  th_description VARCHAR(1000),
+  th_is_principal BIT(1)
 ) engine=innodb character set utf8 collate utf8_unicode_ci;
 
 CREATE TABLE quiz

@@ -7,11 +7,10 @@
 <body>
   <?php require_once "include/navbar.php"?>
   <section>
-    <article class="">
+    <article class="container">
       <h1>Thèmes classique</h1>
-      <div id="logotheme-container"
     </article>
-    <article class="">
+    <article class="container">
       <h1>Thèmes personnalisés</h1>
 
     </article>
