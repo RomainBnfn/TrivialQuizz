@@ -46,8 +46,7 @@
   // ne rentre pas un nom déjà existant (pas beau).
   $requete = $bdd -> query("SELECT qui_nom FROM quiz");
   $result = $requete -> fetchAll();
-  print_r($result);
-  exit();
+
   $listeNoms[] = [];
   $i = 0;
   foreach ($result as $info)
@@ -56,6 +55,17 @@
     $i++;
   }
 
+  // On récupère la liste des thèmes
+  $requete = $bdd -> query("SELECT th_id, th_nom FROM theme");
+  $result = $requete -> fetchAll();
+
+  $listeThemes[] = [];
+  $i = 0;
+  foreach ($result as $info)
+  {
+    $listeThemes[$i] = array($info["th_id"], $info["th_nom"]);
+    $i++;
+  }
 ?>
 <!doctype html>
 <html lang="fr">
@@ -77,9 +87,39 @@
         </div>
 
         <div>
-          Les options sont :
-          - Le nom
-          - Le
+          <form id="formGeneral" method="POST" onsubmit="">
+            <div>
+              <div id="formGeneralNom_error"></div>
+              <label name="nom">Nom : </label>
+              <input id="formGeneralNom" type="text" name="nom" required/>
+            </div> <br/>
+
+            <div>
+              <div id="formGeneralDesc_error"></div>
+              <label name="desc">Description : </label>
+              <textarea id="formGeneralDesc" type="text" name="desc" rows="5" draggable="false" required ></textarea>
+            </div> <br/>
+
+            <div>
+              <select name="theme" size="1">
+                <?php
+                foreach ($listeThemes as $themeInfos)
+                {
+                  // themeInfos[0] : ID
+                  // themeInfos[1] : NOM
+                ?>
+                  <option value="<?= $themeInfos[0] ?>"><?= $themeInfos[1] ?></option>
+                <?php
+                }
+                ?>
+              </SELECT>
+            </div>
+
+            <input type="submit" />
+          </form>
+          <!-- TODO: Rajouter les autres options -->
+          <?php //Condition sur le nom : in_array("TESTTT", $listeNoms)?>
+
         </div>
       </div>
       <!-- FIN : Cadre des options générales -->
