@@ -1,24 +1,27 @@
 <?php
   session_start();
   include "include/fonctions.php";
-  $th_base = (getDb()->query('select * from theme where th_is_principal is not null'))->fetchAll();
+  $bd = getDb();
+  $th_base = ($bd->query('select * from theme where th_is_principal is not null'))->fetchAll();
+  $th_custom = ($bd->query('select * from theme where th_is_principal is null'))->fetchAll();
 
   $R = 200; //rayon
-  $r = 10; // petite marge
-  $G = 1.5; // grandissement focus/unfocus
+  $r = 5; // petite marge
+  $G = 1.2; // grandissement focus/unfocus
   $L = 2*($r+$G*$R); // hauteur/largeur de la viewBox
   $c = $L/2; // centre de la viewBox
 
   $pathFocus = generatePath($r, $G*$R, $c);
   $pathUnfocus = generatePath($r, $R, $c);
 
-  $coordText = array(
-    array($c-0.95*$R*cos(toRad(40)),$c-0.95*$R*sin(toRad(40))),
-    array($c+0.7*$R*cos(torad(80)),$c-0.95*$R*sin(toRad(40))),
-    array($c+0.2*$R,$c+0.03*$R),
-    array($c+0.7*$R*cos(torad(80)),$c+0.95*$R*sin(toRad(40))),
-    array($c-0.95*$R*cos(toRad(40)),$c+0.95*$R*sin(toRad(40))),
-    array($c-0.9*$R,$c+0.03*$R));
+  $coordTextFocus = generateCoordText($r, $G*$R, $c);
+  $coordTextUnfocus = generateCoordText($r, $R, $c);
+
+  $descTheme = array();
+  for($i=0;$i<count($th_base);$i=$i+1)
+  {
+    $descTheme[$i] = $th_base[$i]["th_description"];
+  }
 
 ?>
 <!doctype html>
@@ -40,53 +43,45 @@
             while ($i < count($th_base) || $i < 6) {
             ?>
               <path class="theme<?=$i?>" d="<?=$pathUnfocus[$i]?>" fill="<?=$th_base[$i]["th_couleur"]?>"/>
-              <text id="th-text<?=$i?>" fill="#fff" x="<?=$coordText[$i][0]?>" y="<?=$coordText[$i][1]?>"><?=$th_base[$i]["th_nom"]?></text>
+              <text id="th-text<?=$i?>" fill="#fff" x="<?=$coordTextUnfocus[$i][0]?>" y="<?=$coordTextUnfocus[$i][1]?>"><?=$th_base[$i]["th_nom"]?></text>
               <path class="bt-theme theme<?=$i?>" d="<?=$pathUnfocus[$i]?>" fill="#ffffff00" stroke="#000000" stroke-width="1"/>
             <?php
               $i = $i + 1;
             }
             ?>
-          </svg>
+            </svg>
         </div>
+        <p id="th-desc"></p>
     </article>
+    <?php
+    if(count($th_custom)==0){
+    ?>
     <article class="container">
       <h1>Thèmes personnalisés</h1>
-
+      <div id="container-th-custom-btn">
+      <?php
+        for($i=0;$i<5;$i=$i+1){ //$i<count($th_custom)
+          ?>
+          <a href="#" class="th-custom-btn center" style="background-color: #22448844" >
+            <p class="center">Theme custom stylé</p>
+          </a>
+          <?php
+        }
+      ?>
+      </div>
     </article>
+    <?php
+    }
+    ?>
   </section>
+
+  <script type="text/javascript" src="js/animation_roue.js"></script>
   <script type="text/javascript">
-    var themeFocused = -1;
     var pathFocus = <?=json_encode($pathFocus)?>;
     var pathUnfocus = <?=json_encode($pathUnfocus)?>;
-    $(document).ready(function(){
-      $(".bt-theme").mouseenter(function(){
-        focusTheme(getThemeNumber($(this)));
-      });
-      $(".bt-theme").mouseleave(function(){
-        unfocusTheme(getThemeNumber($(this)));
-      });
-    });
-    function getThemeNumber(pathObj){
-      return pathObj[0].getAttribute("class")[14];
-    }
-    function unfocusTheme(themeNumber){
-      var path = document.getElementsByClassName("theme"+themeNumber);
-      if(themeNumber != -1){
-        for (var i=0;i<path.length;i=i+1)
-        {
-          path[i].setAttribute("d",pathUnfocus[themeNumber]);
-        }
-      }
-    }
-    function focusTheme(themeNumber){
-      var path = document.getElementsByClassName("theme"+themeNumber);
-      if(themeNumber != -1){
-        for (var i=0;i<path.length;i=i+1)
-        {
-          path[i].setAttribute("d",pathFocus[themeNumber]);
-        }
-      }
-    }
+    var coordTextFocus = <?=json_encode($coordTextFocus)?>;
+    var coordTextUnfocus = <?=json_encode($coordTextUnfocus)?>;
+    var descTheme = <?=json_encode($descTheme)?>;
   </script>
   <?php require_once "js/script.html"?>
 </body>

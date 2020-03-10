@@ -1,6 +1,5 @@
 <?php
-  function getDb()
-  {
+  function getDb(){
     $server = "localhost";
     $db = "id12662519_trivial";
     $username = "quizz_superadmin";
@@ -11,8 +10,7 @@
   }
 
   //$r marge entre les "part", $R rayon d'une "part", $c centre de la roue/"du gateau"
-  function generatePath($r, $R, $c)
-  {
+  function generatePath($r, $R, $c){
     $A = array( $c-$r*cos(toRad(60)), $c-$r*sin(toRad(60)));
     $B = array( $c+$r*cos(toRad(60)), $A[1]);
     $C = array( $c+$r, $c);
@@ -42,8 +40,21 @@
     return $path;
   }
 
-  function toRad($deg)
-  {
+  function generateCoordText($r, $R, $c){
+    return
+    array(
+      array($c-0.9*$R*cos(toRad(34)),$c-0.9*$R*sin(toRad(37))),
+      array($c+0.7*$R*cos(torad(80)),$c-0.9*$R*sin(toRad(37))),
+      array($c+0.2*$R,$c+0.03*$R),
+      array($c+0.7*$R*cos(torad(85)),$c+0.9*$R*sin(toRad(40))),
+      array($c-0.9*$R*cos(toRad(33)),$c+0.9*$R*sin(toRad(40))),
+      array($c-0.9*$R,$c+0.03*$R)
+    );
+  }
+
+  function toRad($deg){
     return $deg*pi()/180;
   }
+
+
 ?>

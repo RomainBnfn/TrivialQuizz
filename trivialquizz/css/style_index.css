@@ -15,17 +15,56 @@
 }
 #roue_theme_classique
 {
-  height: 40vw;
-  width: 40vw;
+  height: 30vw;
+  width: 30vw;
 }
 .center
 {
   display: flex;
   justify-content: center;
+  align-items: center;
 }
 text
 {
   font-weight: bold;
   font-family: 'CaviarDreams';
   font-size: 15px;
+}
+
+#th-desc
+{
+  height: 0;
+  transition: 0.6s;
+  overflow: hidden;
+  font-size: 17px;
+}
+#container-th-custom-btn
+{
+  padding: 2vw;
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+}
+.th-custom-btn
+{
+  margin-top: 2vw;
+  border-radius: 12px;
+  height: 13vw;
+  width: 20vw;
+  box-shadow: 2px 2px 5px rgba(20,20,20,.5);
+}
+.th-custom-btn:link
+{
+  text-decoration: none;
+}
+.th-custom-btn > p
+{
+  color: white;
+  font-family: "CaviarDreams";
+  font-weight: bold;
+  font-size: 1.5vw;
+}
+.th-custom-btn:hover
+{
+  box-shadow: 4px 5px 5px rgba(20,20,20,.5);
 }
