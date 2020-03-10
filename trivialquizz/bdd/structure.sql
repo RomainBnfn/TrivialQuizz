@@ -4,7 +4,6 @@ DROP TABLE IF EXISTS reponse;
 DROP TABLE IF EXISTS score;
 DROP TABLE IF EXISTS quiz;
 DROP TABLE IF EXISTS theme;
-DROP TABLE IF EXISTS admin;
 DROP TABLE IF EXISTS profil;
 
 CREATE TABLE profil
@@ -27,7 +26,8 @@ CREATE TABLE theme
 CREATE TABLE quiz
 (
   qui_id INTEGER NOT NULL PRIMARY KEY AUTO_INCREMENT,
-  qui_desc VARCHAR(20) NOT NULL,
+  qui_nom VARCHAR(20) NOT NULL,
+  qui_desc VARCHAR(200) NOT NULL,
   th_id INTEGER NOT NULL,
   FOREIGN KEY (th_id) REFERENCES theme(th_id)
 ) engine=innodb character set utf8 collate utf8_unicode_ci;
