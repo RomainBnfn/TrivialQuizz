@@ -18,7 +18,7 @@
   // Si le id en GET n'existe pas ou n'est pas un numbre.
   if(empty($_GET['id']) || !is_numeric($_GET['id']) )
   {
-    header("Location: ".$index_location."iii");
+    header("Location: ".$index_location);
     exit();
   }
   $id = $_GET['id'];
@@ -62,18 +62,21 @@
         </div>
 
         <div>
-          <form method="POST" onsubmit="">
+          <form id="formGeneral" method="POST" onsubmit="">
             <div>
+              <div id="formGeneralNom_error"></div>
               <label name="nom">Nom : </label>
-              <input type="text" name="nom" value="<?= $th_nom ?>" required/>
-            </div>
+              <input id="formGeneralNom" type="text" name="nom" value="<?= $th_nom ?>" required/>
+            </div> <br/>
             <div>
+              <div id="formGeneralDesc_error"></div>
               <label name="desc">Description : </label>
-              <textarea type="text" name="desc" required ><?= $th_description ?></textarea>
-            </div>
+              <textarea id="formGeneralDesc" type="text" name="desc" rows="5" draggable="false" required ><?= $th_description ?></textarea>
+            </div> <br/>
             <div>
+              <div id="formGeneralCouleur_error"></div>
               <label>Couleur : </label>
-              <input />
+              <input id="formGeneralCouleur" />
             </div>
             <input type="submit" />
           </form>
@@ -119,5 +122,34 @@
   </div>
 
   <?php require_once "../include/script.html"?>
+  <script>
+    $(function(){
+      $("#formGeneralNom").on({
+        blur : function(){
+          if ($(this).val() == "")
+          {
+            $(this).css({
+              borderColor : 'red'
+            });
+          }
+        },
+
+        keyup : function(){
+          if ($(this).val() == "")
+          {
+            $(this).css({
+              borderColor : 'red'
+            });
+          }
+          else
+          {
+            $(this).css({
+              borderColor : 'grey'
+            });
+          }
+        }
+      });
+    });
+  </script>
 </body>
 </html>
