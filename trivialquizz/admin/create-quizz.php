@@ -23,6 +23,15 @@
   require_once "../include/liaisonbdd.php";
   require_once "../include/functions.php";
 
+  // Si la page est rechargée après avoir envoyé le formulaire
+  if(!empty($_POST) && !empty($_POST["nom"]) && !empty($_POST["desc"]) && !empty($_POST["theme"]) && is_numeric($_POST["theme"]))
+  {
+    $requete = $bdd -> prepare("INSERT INTO quiz (qui_id, qui_desc, th_id, qui_nom) VALUES ( ? , ? , ? , ?)");
+    $requete -> execute(array($_POST["id"], $_POST["desc"], $_POST["theme"], $_POST["nom"]));
+    header("Location: edit-quizz.php");
+    exit();
+  }
+
   // On regarde si l'id passé en méthode get est correct
   if(empty($_GET['id']) || !is_numeric($_GET['id']) )
   {
@@ -59,6 +68,13 @@
   $requete = $bdd -> query("SELECT th_id, th_nom FROM theme");
   $result = $requete -> fetchAll();
 
+  // Aucun thème n'existe !
+  if(empty($result))
+  {
+    header("Location: ".$index_location);
+    exit();
+  }
+
   $listeThemes[] = [];
   $i = 0;
   foreach ($result as $info)
@@ -67,10 +83,11 @@
     $i++;
   }
 ?>
+
 <!doctype html>
 <html lang="fr">
 <head>
-  <title>Edition de Quizz</title>
+  <title>Création de Quizz</title>
   <?php require_once "../include/header.html"?>
 </head>
 <body>
@@ -92,6 +109,7 @@
               <div id="formGeneralNom_error"></div>
               <label name="nom">Nom : </label>
               <input id="formGeneralNom" type="text" name="nom" required/>
+              <div class="nom_error" style="display: none; color: 'red';">Ce nom de Quiz existe déjà...</div>
             </div> <br/>
 
             <div>
@@ -101,24 +119,26 @@
             </div> <br/>
 
             <div>
+              <label name="theme">Thème :</label>
               <select name="theme" size="1">
                 <?php
                 foreach ($listeThemes as $themeInfos)
                 {
                   // themeInfos[0] : ID
                   // themeInfos[1] : NOM
+
+                  // PS : La liste a au moins un élément car sinon l'utilisateur
+                  // aurait été redirigé.
                 ?>
                   <option value="<?= $themeInfos[0] ?>"><?= $themeInfos[1] ?></option>
                 <?php
                 }
                 ?>
-              </SELECT>
-            </div>
-
+              </select>
+            </div> <br/>
+            <input type="hidden" value="<?= $id ?>" />
             <input type="submit" />
           </form>
-          <!-- TODO: Rajouter les autres options -->
-          <?php //Condition sur le nom : in_array("TESTTT", $listeNoms)?>
 
         </div>
       </div>
@@ -128,5 +148,8 @@
   </div>
 
   <?php require_once "../include/script.html"?>
+<script>
+  <?php //Condition sur le nom : in_array("TESTTT", $listeNoms)?>
+</script>
 </body>
 </html>

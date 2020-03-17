@@ -1,15 +1,18 @@
 <?php
   session_start();
-  /*
+
+  //TODO: Changer ça
+  $_SESSION['is_admin'] = true;
   if(!isset($_SESSION['is_admin']))
   {
     //TODO: Changer la location
     header("Location: /github/trivialquizz/index.php");
     exit();
   }
-  */
+
   require_once "../include/liaisonbdd.php";
   require_once "../include/functions.php";
+
 ?>
 <!doctype html>
 <html lang="fr">
@@ -81,29 +84,40 @@
         <div class="titre1">
           <div>Les Quizz</div>
           <div>
-            <button type="button" class="btn btn-success">Ajouter</button>
+            <?php
+              //Nous devons déterminer l'id du potentiel futur quizz :
+              $requete = $bdd -> query("SELECT MAX(qui_id) FROM quiz");
+              $result = $requete -> fetch();
+              $futurIdQuiz = $result[0] + 1;
+            ?>
+            <a href="/github/trivialquizz/admin/create-quizz.php?id=<?= $futurIdQuiz ?>">
+              <button type="button" class="btn btn-success">Ajouter</button>
+            </a>
           </div>
         </div>
 
         <!-- DEBUT: Liste des Quizz-->
         <div>
           <?php
+            // Nous devons déterminer le nombre de quizz pour savoir quoi afficher
             $requete = $bdd -> query("SELECT COUNT(*) FROM quiz");
             $result = $requete -> fetch();
             $nbQuiz = $result[0];
+
             if ($nbQuiz <= 0)
             {
               echo "Il n'y a encore aucun Quiz de créé. Appuyez sur le bouton ajouter pour remédier à ce grave problème ! :)";
             }
             else
             {
-              $requete = $bdd -> query("SELECT * FROM quiz");
+              $requete = $bdd -> query("SELECT * FROM quiz ORDER BY th_id");
               while($result = $requete ->fetch())
               {
-                $name = $result["th_nom"];
-                $id = $result["th_id"];
-                $desc = $result["th_description"];
-                $couleur = $result["th_couleur"];
+                $name = $result["qui_nom"];
+                $id = $result["qui_id"];
+                $desc = $result["qui_desc"];
+                // Trouver quel est le nom, couleur du thème..
+                $idTheme = $result["th_id"];
                 ?>
                 <div>
                   <div class="titre2">
