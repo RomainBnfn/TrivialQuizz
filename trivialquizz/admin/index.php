@@ -123,7 +123,9 @@
                   <div class="titre2">
                     <div class="cat-title"><?= $name ?></div>
                     <div class="edition">
-                      <button type="button" class="btn btn-warning">Edition</button>
+                      <a href="edit-quizz.php?id=<?= $id ?>">
+                        <button type="button" class="btn btn-warning">Edition</button>
+                      </a>
                       <button type="button" class="btn btn-danger">Supprimer</button>
                     </div>
                   </div>

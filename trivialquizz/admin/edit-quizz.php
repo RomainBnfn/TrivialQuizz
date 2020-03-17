@@ -2,16 +2,19 @@
   session_start();
   //TODO: Changer la location
   $index_location = "/github/trivialquizz/admin/index.php";
-  /*
+
+  //TODO: Changer àa
+  $_SESSION["is_admin"] = true;
   if(!isset($_SESSION['is_admin']))
   {
     header("Location: ".$index_location);
     exit();
   }
-  */
-  //require_once "../include/liaisonbdd.php";
+
+  require_once "../include/liaisonbdd.php";
   require_once "../include/functions.php";
-  if(empty($_GET['id']) || !is_numeric($id) )
+
+  if(empty($_GET['id']) || !is_numeric($_GET['id']) )
   {
     header("Location: ".$index_location);
     exit();
@@ -37,13 +40,12 @@
   $couleur = $result["th_couleur"];
 
   // Les  questions :
-  $requete = $bdd -> prepare(
+  $requete = $bdd -> query(
     "SELECT * FROM questions
      WHERE qui_id IN (
        SELECT qui_id IN QUIZ_QUEST
-       WHERE que_id = ?)"
+       WHERE que_id = $id)"
      );
-  $result -> execute(array($id));
   $result_questions = $result -> fetchAll();
 ?>
 <!doctype html>
