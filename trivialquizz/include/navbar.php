@@ -4,7 +4,7 @@
     <div>
         <a href="index.php">
           ​<picture>
-            <img src="image/logo.png" class="img-logo" alt="Logo du Trivial Quizz">
+            <img src="/trivial/trivialquizz/image/logo.png" class="img-logo" alt="Logo du Trivial Quizz">
           </picture>
         </a>
     </div>

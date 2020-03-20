@@ -9,7 +9,7 @@
     //TODO: Changer la location
     header("Location: $base_location/index.php");
     exit();
-  } 
+  }
 
   require_once "../include/liaisonbdd.php";
   require_once "../include/functions.php";
@@ -155,10 +155,10 @@
         {
           if (empty($id)) break;
         ?>
-        $("#quizzN<?= $id ?>").click(function(){
+        $("#suppressionQuizzN<?= $id ?>").click(function(){
           fetch("ajax/quizz-delete.php?id=<?= $id ?>")
-            .then(()) => {
-              $(this).text("");
+            .then(() => {
+              $("#quizzN<?= $id ?>").text("");
             })
             .catch(() => {
               // Code called in the future when an errors occurs during the request

@@ -32,48 +32,52 @@
   <link rel="stylesheet" type="text/css" href="css/style_index.css">
 </head>
 <body>
+
   <?php require_once "include/navbar.php"?>
-  <section class="cadre-global">
-    <article class="container">
-      <h1 class="titre1">Thèmes classique</h1>
-      <div class="center">
-          <svg id="roue-theme-classique" viewBox="0 0 <?="$L $L"?>">
-            <?php
-            $i = 0;
-            while ($i < count($th_base) || $i < 6) {
-            ?>
-              <path class="theme<?=$i?>" d="<?=$pathUnfocus[$i]?>" fill="<?=$th_base[$i]["th_couleur"]?>"/>
-              <text id="th-text<?=$i?>" fill="#fff" x="<?=$coordTextUnfocus[$i][0]?>" y="<?=$coordTextUnfocus[$i][1]?>"><?=$th_base[$i]["th_nom"]?></text>
-              <path class="bt-theme theme<?=$i?>" d="<?=$pathUnfocus[$i]?>" fill="#ffffff00" stroke="#000000" stroke-width="1"/>
-            <?php
-              $i = $i + 1;
-            }
-            ?>
-            </svg>
-        </div>
-        <p id="th-desc"></p>
-    </article>
-    <?php
-    if(count($th_custom)==0){
-    ?>
-    <article class="container">
-      <h1 class="titre1">Thèmes personnalisés</h1>
-      <div id="container-th-custom-btn">
+
+  <div class="cadre-global">
+    <div class="cadre-central">
+      <article class="container">
+        <h1 class="titre1">Thèmes classique</h1>
+        <div class="center">
+            <svg id="roue-theme-classique" viewBox="0 0 <?="$L $L"?>">
+              <?php
+              $i = 0;
+              while ($i < count($th_base) || $i < 6) {
+              ?>
+                <path class="theme<?=$i?>" d="<?=$pathUnfocus[$i]?>" fill="<?=$th_base[$i]["th_couleur"]?>"/>
+                <text id="th-text<?=$i?>" fill="#fff" x="<?=$coordTextUnfocus[$i][0]?>" y="<?=$coordTextUnfocus[$i][1]?>"><?=$th_base[$i]["th_nom"]?></text>
+                <path class="bt-theme theme<?=$i?>" d="<?=$pathUnfocus[$i]?>" fill="#ffffff00" stroke="#000000" stroke-width="1"/>
+              <?php
+                $i = $i + 1;
+              }
+              ?>
+              </svg>
+          </div>
+          <p id="th-desc"></p>
+      </article>
       <?php
-        for($i=0;$i<5;$i=$i+1){ //$i<count($th_custom)
-          ?>
-          <a href="#" class="th-custom-btn center" style="background-color: #22448844" >
-            <p class="center">Theme custom stylé</p>
-          </a>
-          <?php
-        }
+      if(count($th_custom)==0){
       ?>
-      </div>
-    </article>
-    <?php
-    }
-    ?>
-  </section>
+      <article class="container">
+        <h1 class="titre1">Thèmes personnalisés</h1>
+        <div id="container-th-custom-btn">
+        <?php
+          for($i=0;$i<5;$i=$i+1){ //$i<count($th_custom)
+            ?>
+            <a href="#" class="th-custom-btn center" style="background-color: #22448844" >
+              <p class="center">Theme custom stylé</p>
+            </a>
+            <?php
+          }
+        ?>
+        </div>
+      </article>
+      <?php
+      }
+      ?>
+    </div>
+  </div>
 
   <script type="text/javascript" src="js/animation_roue.js"></script>
   <script type="text/javascript">
