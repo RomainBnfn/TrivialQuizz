@@ -2,9 +2,11 @@
   session_start();
   include "include/fonctions.php";
   $bd = getDb();
+  //importation des thèmes de base et custom
   $th_base = ($bd->query('select * from theme where th_is_principal is not null'))->fetchAll();
   $th_custom = ($bd->query('select * from theme where th_is_principal is null'))->fetchAll();
 
+  //
   $R = 200; //rayon
   $r = 5; // petite marge
   $G = 1.2; // grandissement focus/unfocus
@@ -29,50 +31,52 @@
 <head>
   <title>Trivial Quizz</title>
   <?php require_once "include/header.html"?>
-  <link rel="stylesheet" type="text/css" href="css/style_index.css">
+  <link rel="stylesheet" type="text/css" href="css/style-index.css">
 </head>
 <body>
   <?php require_once "include/navbar.php"?>
   <section class="cadre-global">
-    <article class="container">
-      <h1 class="titre1">Thèmes classique</h1>
-      <div class="center">
-          <svg id="roue-theme-classique" viewBox="0 0 <?="$L $L"?>">
-            <?php
-            $i = 0;
-            while ($i < count($th_base) || $i < 6) {
-            ?>
-              <path class="theme<?=$i?>" d="<?=$pathUnfocus[$i]?>" fill="<?=$th_base[$i]["th_couleur"]?>"/>
-              <text id="th-text<?=$i?>" fill="#fff" x="<?=$coordTextUnfocus[$i][0]?>" y="<?=$coordTextUnfocus[$i][1]?>"><?=$th_base[$i]["th_nom"]?></text>
-              <path class="bt-theme theme<?=$i?>" d="<?=$pathUnfocus[$i]?>" fill="#ffffff00" stroke="#000000" stroke-width="1"/>
-            <?php
-              $i = $i + 1;
-            }
-            ?>
-            </svg>
-        </div>
-        <p id="th-desc"></p>
-    </article>
-    <?php
-    if(count($th_custom)==0){
-    ?>
-    <article class="container">
-      <h1 class="titre1">Thèmes personnalisés</h1>
-      <div id="container-th-custom-btn">
+    <div class="cadre-central">
+      <article class="container">
+        <h1 class="titre1">Thèmes classique</h1>
+        <div class="center">
+            <svg id="roue-theme-classique" viewBox="0 0 <?="$L $L"?>">
+              <?php
+              $i = 0;
+              while ($i < count($th_base) || $i < 6) {
+              ?>
+                <path class="theme<?=$i?>" d="<?=$pathUnfocus[$i]?>" fill="<?=$th_base[$i]["th_couleur"]?>"/>
+                <text id="th-text<?=$i?>" fill="#fff" x="<?=$coordTextUnfocus[$i][0]?>" y="<?=$coordTextUnfocus[$i][1]?>"><?=$th_base[$i]["th_nom"]?></text>
+                <path class="bt-theme theme<?=$i?>" d="<?=$pathUnfocus[$i]?>" fill="#ffffff00" stroke="#000000" stroke-width="1"/>
+                <?php
+                $i = $i + 1;
+              }
+              ?>
+              </svg>
+          </div>
+          <p id="th-desc"></p>
+      </article>
       <?php
-        for($i=0;$i<5;$i=$i+1){ //$i<count($th_custom)
-          ?>
-          <a href="#" class="th-custom-btn center" style="background-color: #22448844" >
-            <p class="center">Theme custom stylé</p>
-          </a>
-          <?php
-        }
+      if(count($th_custom)==0){
       ?>
-      </div>
-    </article>
-    <?php
-    }
-    ?>
+      <article class="container">
+        <h1 class="titre1">Thèmes personnalisés</h1>
+        <div id="container-th-custom-btn">
+        <?php
+          for($i=0;$i<5;$i=$i+1){ //$i<count($th_custom)
+            ?>
+            <a href="#" class="th-custom-btn center" style="background-color: #22448844" >
+              <p class="center">Theme custom stylé</p>
+            </a>
+            <?php
+          }
+        ?>
+        </div>
+      </article>
+      <?php
+      }
+      ?>
+    </div>
   </section>
 
   <script type="text/javascript" src="js/animation_roue.js"></script>
