@@ -33,11 +33,11 @@
 </head>
 <body>
   <?php require_once "include/navbar.php"?>
-  <section>
+  <section class="cadre-global">
     <article class="container">
-      <h1>Thèmes classique</h1>
+      <h1 class="titre1">Thèmes classique</h1>
       <div class="center">
-          <svg id="roue_theme_classique" viewBox="0 0 <?="$L $L"?>">
+          <svg id="roue-theme-classique" viewBox="0 0 <?="$L $L"?>">
             <?php
             $i = 0;
             while ($i < count($th_base) || $i < 6) {
@@ -57,7 +57,7 @@
     if(count($th_custom)==0){
     ?>
     <article class="container">
-      <h1>Thèmes personnalisés</h1>
+      <h1 class="titre1">Thèmes personnalisés</h1>
       <div id="container-th-custom-btn">
       <?php
         for($i=0;$i<5;$i=$i+1){ //$i<count($th_custom)

@@ -1,19 +1,8 @@
-@font-face {
-  font-family: 'CaviarDreams';
-  src: url("../font/CaviarDreams/CaviarDreams.ttf") format('truetype');
-  font-weight: normal;
-}
-@font-face {
-  font-family: 'CaviarDreams';
-  src: url("../font/CaviarDreams/CaviarDreams_Bold.ttf") format('truetype');
-  font-weight: bold;
-}
-
 .bt-theme
 {
   cursor: pointer;
 }
-#roue_theme_classique
+#roue-theme-classique
 {
   height: 30vw;
   width: 30vw;
