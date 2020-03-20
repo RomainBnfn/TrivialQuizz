@@ -7,7 +7,7 @@
    *
    *  Après création, l'administrateur est redirigé vers la page d'édition du quizz.
    */
-  session_start();
+  session_start(); 
   //TODO: Changer la location
   $index_location = "/trivial/trivialquizz/admin/index.php";
 

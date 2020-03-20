@@ -3,7 +3,7 @@
   //TODO: Changer la location
   $index_location = "/trivial/trivialquizz/admin/index.php";
 
-  //TODO: Enlever ça
+  //TODO: Enlever ça 
   $_SESSION['is_admin'] = true;
   // Le visiteur n'est pas un admin.
   if(!isset($_SESSION['is_admin']))

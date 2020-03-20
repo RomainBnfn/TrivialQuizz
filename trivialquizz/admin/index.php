@@ -9,7 +9,7 @@
     //TODO: Changer la location
     header("Location: $base_location/index.php");
     exit();
-  }
+  } 
 
   require_once "../include/liaisonbdd.php";
   require_once "../include/functions.php";

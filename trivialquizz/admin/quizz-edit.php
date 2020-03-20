@@ -27,7 +27,7 @@
     header("Location: ".$index_location);
     exit();
   }
-
+  
   // Tout est ok, le quiz existe
   $nom = $result["qui_nom"];
   $description = $result["qui_desc"];
