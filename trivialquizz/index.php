@@ -35,6 +35,9 @@
 </head>
 <body>
   <?php require_once "include/navbar.php"?>
+  <section class="bandeau-principal fond-bleu">
+    Accueil
+  </section>
   <section class="cadre-global">
     <div class="cadre-central">
       <article class="container">
