@@ -2,9 +2,11 @@
   session_start();
   include "include/fonctions.php";
   $bd = getDb();
+  //importation des thèmes de base et custom
   $th_base = ($bd->query('select * from theme where th_is_principal is not null'))->fetchAll();
   $th_custom = ($bd->query('select * from theme where th_is_principal is null'))->fetchAll();
 
+  //
   $R = 200; //rayon
   $r = 5; // petite marge
   $G = 1.2; // grandissement focus/unfocus
@@ -29,13 +31,20 @@
 <head>
   <title>Trivial Quizz</title>
   <?php require_once "include/header.html"?>
-  <link rel="stylesheet" type="text/css" href="css/style_index.css">
+  <link rel="stylesheet" type="text/css" href="css/style-index.css">
 </head>
 <body>
 
   <?php require_once "include/navbar.php"?>
+<<<<<<< HEAD
 
   <div class="cadre-global">
+=======
+  <section class="bandeau-principal fond-bleu">
+    Accueil
+  </section>
+  <section class="cadre-global">
+>>>>>>> dfc684c686f917f6080e6a764989bd2c73a84711
     <div class="cadre-central">
       <article class="container">
         <h1 class="titre1">Thèmes classique</h1>
@@ -48,7 +57,11 @@
                 <path class="theme<?=$i?>" d="<?=$pathUnfocus[$i]?>" fill="<?=$th_base[$i]["th_couleur"]?>"/>
                 <text id="th-text<?=$i?>" fill="#fff" x="<?=$coordTextUnfocus[$i][0]?>" y="<?=$coordTextUnfocus[$i][1]?>"><?=$th_base[$i]["th_nom"]?></text>
                 <path class="bt-theme theme<?=$i?>" d="<?=$pathUnfocus[$i]?>" fill="#ffffff00" stroke="#000000" stroke-width="1"/>
+<<<<<<< HEAD
               <?php
+=======
+                <?php
+>>>>>>> dfc684c686f917f6080e6a764989bd2c73a84711
                 $i = $i + 1;
               }
               ?>
@@ -77,7 +90,11 @@
       }
       ?>
     </div>
+<<<<<<< HEAD
   </div>
+=======
+  </section>
+>>>>>>> dfc684c686f917f6080e6a764989bd2c73a84711
 
   <script type="text/javascript" src="js/animation_roue.js"></script>
   <script type="text/javascript">
