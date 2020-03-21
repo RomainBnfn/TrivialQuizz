@@ -7,7 +7,7 @@
    *
    *  Après création, l'administrateur est redirigé vers la page d'édition du quizz.
    */
-  session_start(); 
+  session_start();
   //TODO: Changer la location
   $index_location = "/trivial/trivialquizz/admin/index.php";
 
@@ -55,6 +55,7 @@
   $listeNoms = getAllQuizzNames($bdd);
 
 //-----------------------------------------
+
   // On récupère la liste des thèmes
   $requete = $bdd -> query("SELECT th_id, th_nom FROM theme");
   $result = $requete -> fetchAll();
@@ -73,6 +74,7 @@
     $listeThemes[$i] = array($info["th_id"], $info["th_nom"]);
     $i++;
   }
+
 //-----------------------------------------
 ?>
 
