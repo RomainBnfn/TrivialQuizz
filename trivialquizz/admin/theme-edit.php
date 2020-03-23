@@ -60,7 +60,6 @@
         <div class="titre1">
           <div>Paramètres Généraux</div>
         </div>
-        <?= echo getAllThemesInfos($bdd) ?>
         <div>
           <form id="formGeneral" method="POST" onsubmit="">
             <div>

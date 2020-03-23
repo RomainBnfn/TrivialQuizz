@@ -53,7 +53,7 @@
       <!-- DEBUT : Cadre des options générales -->
       <div>
         <h2 class="titre1">
-          <div>Général</div>
+          <div>Paramètres généraux</div>
           <div>
             <!-- Quand on appuie sur le bouton, on envoie une requête -->
             <button type="button" class="btn btn-danger">Supprimer le quizz</button>

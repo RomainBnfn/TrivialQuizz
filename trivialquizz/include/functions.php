@@ -1,20 +1,20 @@
 <?php
 //
 // -----------------------------------------------------------------------------
-// UPDATE (21/03/2020)
+//  Ces fonctions lancent des Requêtes SQL :
 
   /// Essaie de charger un quizz, envoie null s'il n'existe pas.
   /// S'il existe, renvoie un tableau contenant toutes ses infos.
-  function tryLoadQuizz($bdd, $id)
+  function tryLoadQuizz($bdd, $idQuizz)
   {
     try
     {
-      if(!is_numeric($id))
+      if(!is_numeric($idQuizz))
       {
         return null;
       }
 
-      $requete = $bdd -> query("SELECT * FROM quiz WHERE qui_id = $id");
+      $requete = $bdd -> query("SELECT * FROM quiz WHERE qui_id = $idQuizz");
       $result = $requete -> fetch();
 
       // Le Quizz n'existe pas !
@@ -24,7 +24,7 @@
       }
 
       $_QUIZZ;
-      $_QUIZZ["id"] = $id;
+      $_QUIZZ["id"] = $idQuizz;
       $_QUIZZ["nom"] = $result["qui_nom"];
       $_QUIZZ["desc"] = $result["qui_desc"];
       $_QUIZZ["id_theme"] = $result["th_id"];
@@ -40,15 +40,15 @@
 
   /// Essaie de charger un theme, envoie null s'il n'existe pas.
   /// S'il existe, renvoie un tableau contenant toutes ses infos.
-  function tryLoadTheme($bdd, $id)
+  function tryLoadTheme($bdd, $idTheme)
   {
     try
     {
-      if(!is_numeric($id))
+      if(!is_numeric($idTheme))
       {
         return null;
       }
-      $requete = $bdd -> query("SELECT * FROM theme WHERE th_id = $id");
+      $requete = $bdd -> query("SELECT * FROM theme WHERE th_id = $idTheme");
       $result = $requete -> fetch();
 
       if(empty($result))
@@ -57,7 +57,7 @@
       }
 
       $_THEME;
-      $_THEME["id"] = $id;
+      $_THEME["id"] = $idTheme;
       $_THEME["nom"] = $result["th_nom"];
       $_THEME["couleur"] = $result["th_couleur"];
       //Suite is Comming
@@ -70,7 +70,9 @@
     }
   }
 
-  ///
+  /// Essaie de charger toutes les questions d'un quizz, puis renvoie une liste
+  /// de liste qui comportent les infos des questions. Renvoie null sinon.
+  ///   Renvoie $_QUESTIONS[] qui comporte tous les $_QUESTION[]
   function tryLoadQuizzQuestion($bdd, $idQuizz)
   {
     try
@@ -106,7 +108,9 @@
     }
   }
 
-  ///
+  /// Essaie de charger tous les thèmes, puis renvoie une liste de listes
+  /// qui comportent les infos des thèmes. Renvoie null sinon.
+  ///   Renvoie $_THEMES[] qui comporte tous les $_THEME[]
   function getAllThemesInfos($bdd)
   {
     $requete = $bdd -> query("SELECT * FROM theme");
@@ -131,43 +135,31 @@
     return $_THEMES;
   }
 
-//
-// -----------------------------------------------------------------------------
-// OLD
-
-  function escape($value)
+  /// Essaie de charger tous les quizzes, puis renvoie une liste de listes
+  /// qui comportent les infos des thèmes. Renvoie null sinon.
+  ///   Renvoie $_QUIZZES[] qui comporte tous les $_QUIZZ[]
+  function getAllQuizzesInfos($bdd)
   {
-    return htmlspecialchars($value, ENT_QUOTES, 'UTF-8', false);
-  }
-
-  function getAllThemesID($bdd)
-  {
-    $requete = $bdd -> query("SELECT th_id FROM theme");
+    $requete = $bdd -> query("SELECT * FROM quiz ORDER BY th_id");
     $result = $requete -> fetchAll();
-    //
-    $listeThemes[] = [];
+
+    if(empty($result))
+    {
+      return null;
+    }
+
+    $_QUIZZES[] = [];
     $i = 0;
     foreach ($result as $info)
     {
-      $listeThemes[$i] = $info["th_id"];
+      $_QUIZZES[$i] = array('id' => $info["qui_id"], 'nom' => $info["qui_nom"], 'desc' => $info["qui_desc"], 'id_theme' => $info["th_id"]);
       $i++;
     }
-    return $listeThemes;
-  }
-
-  function getAllQuizzID($bdd)
-  {
-    $requete = $bdd -> query("SELECT qui_id FROM quiz");
-    $result = $requete -> fetchAll();
-    //
-    $listeQuizz[] = [];
-    $i = 0;
-    foreach ($result as $info)
+    if (empty($_QUIZZES[0]))
     {
-      $listeQuizz[$i] = $info["qui_id"];
-      $i++;
+      return null;
     }
-    return $listeQuizz;
+    return $_QUIZZES;
   }
 
   function getNbQuizz($bdd)
@@ -184,18 +176,11 @@
     return $result[0];
   }
 
-
   function existQuizz($bdd, $id)
   {
     $requete = $bdd -> query("SELECT * FROM quiz WHERE qui_id = $id");
     $result = $requete -> fetch();
     return (!empty($result));
-  }
-
-  function getQuizzInfo($bdd, $id)
-  {
-    $requete = $bdd -> query("SELECT * FROM quiz WHERE qui_id = $id");
-    return $requete -> fetch();
   }
 
   function existTheme($bdd, $id)
@@ -205,19 +190,25 @@
     return (!empty($result));
   }
 
-  function getAllQuizzNames($bdd)
-  {
-    $requete = $bdd -> query("SELECT qui_nom FROM quiz");
-    $result = $requete -> fetchAll();
 
-    $listeNoms[] = [];
-    $i = 0;
-    foreach ($result as $info)
+  // -----------------------------------------------------------------------------
+  //  Autre :
+
+  function escape($value)
+  {
+    return htmlspecialchars($value, ENT_QUOTES, 'UTF-8', false);
+  }
+
+  function loadThemeFromTab($_THEMES, $id_Theme)
+  {
+    foreach($_THEMES as $_THEME)
     {
-      $listeNoms[$i] = $info["qui_nom"];
-      $i++;
+      if($_THEME["id"]==$id_Theme)
+      {
+        return $_THEME;
+      }
     }
-    return $listeNoms;
+    return null;
   }
 
 ?>

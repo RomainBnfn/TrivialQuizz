@@ -4,7 +4,7 @@
    session_start();
    header('Content-Type: application/json');
 
-   //TODO: CHANGER CA 
+   //TODO: CHANGER CA
    $_SESSION['is_admin'] = true;
 
    // On regarde si l'utilisateur est bien un admin
@@ -35,5 +35,6 @@
 
    //Tout est ok : Suppression !
    $bdd -> query("DELETE FROM QUIZ WHERE qui_id = $id");
-   echo '{"nbQuizzRestant":'.getNbQuizz($bdd).'}';
+
+   echo getNbQuizz($bdd);
 ?>

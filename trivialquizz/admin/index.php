@@ -1,8 +1,8 @@
 <?php
   session_start();
 
-  $base_location = "/trivial/trivialquizz";
   //TODO: Changer ça
+  $base_location = "/trivial/trivialquizz";
   $_SESSION['is_admin'] = true;
   if(!isset($_SESSION['is_admin']))
   {
@@ -14,6 +14,11 @@
   require_once "../include/liaisonbdd.php";
   require_once "../include/functions.php";
 
+  $_THEMES = getAllThemesInfos($bdd); //Sera utile partout après, autant le charger.
+  $_QUIZZES = getAllQuizzesInfos($bdd);
+
+  $messagePasDeQuizz = "Il n'y a encore aucun Quiz de créé. Appuyez sur le bouton ajouter pour remédier à ce grave problème ! :)";
+  // On le stock car réutilisé dans le js.
 ?>
 <!doctype html>
 <html lang="fr">
@@ -96,43 +101,28 @@
         </div>
 
         <!-- DEBUT: Liste des Quizz-->
-        <div>
+        <div id="containerListQuizz">
           <?php
-            // Nous devons déterminer le nombre de quizz pour savoir quoi afficher
-            $nbQuiz = getNbQuizz($bdd);
-
-            // - Il n'y a pas de quiz -
-            //
-            if ($nbQuiz <= 0)
+            if ($_QUIZZES == null) // Pas de quizz
             {
-              echo "Il n'y a encore aucun Quiz de créé. Appuyez sur le bouton ajouter pour remédier à ce grave problème ! :)";
+              echo $messagePasDeQuizz;
             }
-            //  - Il y a au moins un quizz -
-            //
-            else
+            else // Il y a au moins un quizz
             {
-              $requete = $bdd -> query("SELECT * FROM quiz ORDER BY th_id");
-
-              while($result = $requete ->fetch())
+              foreach ($_QUIZZES as $_QUIZZ)
               {
-                $name = $result["qui_nom"];
-                $id = $result["qui_id"];
-                $desc = $result["qui_desc"];
-                // Trouver quel est le nom, couleur du thème..
-                $idTheme = $result["th_id"];
                 ?>
-
-                <div id="quizzN<?= $id ?>"> <!-- L'id sert pour identifier les différents div des quizz-->
+                <div id="quizzN<?= $_QUIZZ["id"] ?>"> <!-- L'id sert pour identifier les différents div des quizz-->
                   <div class="titre2">
-                    <div class="cat-title"><?= $name ?></div>
+                    <div class="cat-title"><?= $_QUIZZ["nom"] ?></div>
                     <div class="edition">
-                      <a href="quizz-edit.php?id=<?= $id ?>">
+                      <a href="quizz-edit.php?id=<?= $_QUIZZ["id"] ?>">
                         <button type="button" class="btn btn-warning">Edition</button>
                       </a>
-                      <button id="suppressionQuizzN<?= $id ?>" type="button" class="btn btn-danger">Supprimer</button>
+                      <button id="suppressionQuizzN<?= $_QUIZZ["id"] ?>" type="button" class="btn btn-danger">Supprimer</button>
                     </div>
                   </div>
-                  <div><?= $desc ?></div>
+                  <div><?= $_QUIZZ["desc"] ?></div>
                 </div>
 
               <?php
@@ -143,31 +133,41 @@
           <!-- FIN: Liste des Quizz-->
       </div>
       <!-- FIN: Section des Quizz -->
-      <br/>
+
     </div>
   </div>
 
   <?php require_once "../include/script.html"?>
   <script>
-    $(document).ready(function(){
-      <?php
-        foreach (getAllQuizzID($bdd) as $id)
-        {
-          if (empty($id)) break;
-        ?>
-        $("#suppressionQuizzN<?= $id ?>").click(function(){
-          fetch("ajax/quizz-delete.php?id=<?= $id ?>")
-            .then(() => {
-              $("#quizzN<?= $id ?>").text("");
-            })
-            .catch(() => {
-              // Code called in the future when an errors occurs during the request
-            });
-        });
+      $(document).ready(function(){
         <?php
-        }
-      ?>
-    });
+          foreach (getAllQuizzID($bdd) as $id)
+          {
+            if (empty($id)) break;
+          ?>
+          $("#suppressionQuizzN<?= $id ?>").click(function(){
+            fetch("ajax/quizz-delete.php?id=<?= $id ?>")
+              .then((response) => {
+                response.text()
+                .then((resp) => {
+                  if (resp != 0)
+                  {
+                    $("#quizzN<?= $id ?>").text("");
+                  }
+                  else
+                  {
+                    $("#containerListQuizz").text("<?= $messagePasDeQuizz ?>");
+                  }
+                })
+              })
+              /* A voir si on met un message d'erreur
+              .catch(() => {
+              });*/
+          });
+          <?php
+          }
+        ?>
+      });
   </script>
 </body>
 </html>
