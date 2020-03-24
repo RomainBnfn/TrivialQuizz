@@ -20,15 +20,22 @@
    {
      exit();
    }
+   $id=$_GET['id'];
 
-   // Le quizz n'existe pas !
-   if(!existQuizz($bdd, $id))
+   // Le theme n'existe pas !
+   if(!existTheme($bdd, $id))
+   {
+     exit();
+   }
+
+   // Suppression d'un Thème principal
+   $_THEME = tryLoadTheme($bdd, $id);
+   if($_THEME["is_Principal == 1"])
    {
      exit();
    }
 
    //Tout est ok : Suppression !
-   $bdd -> query("DELETE FROM QUIZ WHERE qui_id = $id");
+   $bdd -> query("DELETE FROM THEME WHERE th_id = $id");
 
-   echo getNbQuizz($bdd);
 ?>

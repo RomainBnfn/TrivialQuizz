@@ -23,11 +23,16 @@
   require_once "../include/functions.php";
 
   // Si la page est rechargée après avoir envoyé le formulaire
-  if(!empty($_POST) && !empty($_POST["nom"]) && !empty($_POST["desc"]) && !empty($_POST["couleur"]) && is_numeric($_POST["is_Principal"]))
+  if(!empty($_POST)
+  && !empty($_POST["nom"])
+  && !empty($_POST["desc"])
+  && !empty($_POST["couleur"])
+  )
   {
     // On crée le quizz dans la bdd
-    $requete = $bdd -> prepare("INSERT INTO theme (th_id, th_nom, th_couleur, th_description, th_is_principal) VALUES ( 0 , ? , ? , ? , ?)");
-    $requete -> execute(array($_POST["nom"], $_POST["couleur"], $_POST["desc"],  $_POST["is_Principal"]));
+    $requete = $bdd -> prepare("INSERT INTO theme (th_id, th_nom, th_couleur, th_is_principal, th_description) VALUES ( 0 , ? , ? , 0 , ?)");
+    $requete -> execute(array($_POST["nom"], $_POST["couleur"], $_POST["desc"]));
+
     // On redirige l'utilisateur vers la page d'edit
     header("Location: index.php");
     exit();
@@ -35,28 +40,7 @@
 
   // On prépare la liste des noms de tous les quizz pour que l'utilisateur
   // ne rentre pas un nom déjà existant (pas beau).
-  $listeNoms = getAllQuizzNames($bdd);
-
-//-----------------------------------------
-
-  // On récupère la liste des thèmes
-  $requete = $bdd -> query("SELECT th_id, th_nom FROM theme");
-  $result = $requete -> fetchAll();
-
-  // Aucun thème n'existe !
-  if(empty($result))
-  {
-    header("Location: ".$index_location);
-    exit();
-  }
-
-  $listeThemes[] = [];
-  $i = 0;
-  foreach ($result as $info)
-  {
-    $listeThemes[$i] = array($info["th_id"], $info["th_nom"]);
-    $i++;
-  }
+  $listeNoms = getAllThemesNames($bdd);
 
 //-----------------------------------------
 ?>
@@ -64,15 +48,17 @@
 <!doctype html>
 <html lang="fr">
 <head>
-  <title>Création de Quizz</title>
+  <title>Création de Thème</title>
   <?php require_once "../include/header.html"?>
 </head>
 <body>
   <?php require_once "../include/navbar.php"?>
-  <div style="background-color: orange" class="bandeau-principal">Création de Quizz</div>
+  <div style="background-color: pink" class="bandeau-principal">Création de Thème</div>
 
   <div class="cadre-global">
     <div class="cadre-central">
+
+      <?php require_once "include/admin-navbar.php"?>
 
       <!-- DEBUT : Cadre des options générales -->
       <div>
@@ -82,39 +68,32 @@
 
         <div>
           <form id="formGeneral" method="POST" onsubmit="">
+
+
             <div>
-              <div id="formGeneralNom_error"></div>
+              <div id="errorGeneral_Nom" style="display: none; color: 'red';">Ce nom de Quiz existe déjà...</div>
               <label name="nom">Nom : </label>
-              <input id="formGeneralNom" type="text" name="nom" required/>
-              <div class="nom_error" style="display: none; color: 'red';">Ce nom de Quiz existe déjà...</div>
+              <input id="formGeneral_Nom" type="text" name="nom" required/>
             </div> <br/>
 
+
             <div>
-              <div id="formGeneralDesc_error"></div>
+              <div id="errorGeneral_Desc"></div>
               <label name="desc">Description : </label>
-              <textarea id="formGeneralDesc" type="text" name="desc" rows="5" draggable="false" required ></textarea>
+              <textarea id="formGeneral_Desc" type="text" name="desc" rows="5" draggable="false" required ></textarea>
             </div> <br/>
+
 
             <div>
-              <label name="theme">Thème :</label>
-              <select name="theme" size="1">
-                <?php
-                foreach ($listeThemes as $themeInfos)
-                {
-                  // themeInfos[0] : ID
-                  // themeInfos[1] : NOM
-
-                  // PS : La liste a au moins un élément car sinon l'utilisateur
-                  // aurait été redirigé.
-                ?>
-                  <option value="<?= $themeInfos[0] ?>"><?= $themeInfos[1] ?></option>
-                <?php
-                }
-                ?>
-              </select>
+              <div id="errorGeneral_Couleur"></div>
+              <label name="couleur">Couleur : </label>
+              <input id="formGeneral_Nom" type="text" name="couleur" required/>
             </div> <br/>
-            <input type="hidden" value="<?= $id ?>" />
+
+
             <input type="submit" />
+
+
           </form>
 
         </div>

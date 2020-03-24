@@ -204,6 +204,21 @@
     }
     return $listeNoms;
   }
+
+  function getAllThemesNames($bdd)
+  {
+    $requete = $bdd -> query("SELECT th_nom FROM theme");
+    $result = $requete -> fetchAll();
+
+    $listeNoms[] = [];
+    $i = 0;
+    foreach ($result as $info)
+    {
+      $listeNoms[$i] = $info["th_nom"];
+      $i++;
+    }
+    return $listeNoms;
+  }
   // -----------------------------------------------------------------------------
   //  Autre :
 
