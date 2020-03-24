@@ -2,7 +2,7 @@
   <div class="container">
     <!-- Logo pour aller à la page d'accueil -->
     <div>
-        <a href="index.php">
+        <a href="/trivial/trivialquizz/index.php">
           ​<picture>
             <img src="/trivial/trivialquizz/image/logo.png" class="img-logo" alt="Logo du Trivial Quizz">
           </picture>

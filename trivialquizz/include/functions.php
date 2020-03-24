@@ -190,7 +190,20 @@
     return (!empty($result));
   }
 
+  function getAllQuizzNames($bdd)
+  {
+    $requete = $bdd -> query("SELECT qui_nom FROM quiz");
+    $result = $requete -> fetchAll();
 
+    $listeNoms[] = [];
+    $i = 0;
+    foreach ($result as $info)
+    {
+      $listeNoms[$i] = $info["qui_nom"];
+      $i++;
+    }
+    return $listeNoms;
+  }
   // -----------------------------------------------------------------------------
   //  Autre :
 
@@ -210,5 +223,4 @@
     }
     return null;
   }
-
 ?>

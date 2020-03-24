@@ -40,38 +40,35 @@
       <div>
         <div class="titre1">
           <div>Thèmes</div>
-          <div>
+          <a href="<?=$base_location?>/admin/theme-create.php">
             <button type="button" class="btn btn-success">Ajouter</button>
-          </div>
+          </a>
         </div>
 
         <!-- DEBUT: Liste des Thèmes-->
         <div>
           <?php
-            $nbTheme = getNbTheme($bdd);
-            if ($nbTheme <= 0)
+            if ($_THEMES == null)
             {
               echo "Il n'y a encore aucun Thème de créé. Vous devez faire quelque chose, vite ! Appuyez sur le bouton 'Ajouter' !!";
             }
             else
             {
-              $requete = $bdd -> query("SELECT * FROM theme");
-              while($result = $requete ->fetch())
+              foreach($_THEMES as $_THEME)
               {
-                $name = $result["th_nom"];
-                $id = $result["th_id"];
-                $desc = $result["th_description"];
-                $couleur = $result["th_couleur"];
                 ?>
                 <div>
                   <div class="titre2">
-                    <div class="cat-title"><?= $name ?></div>
+                    <div class="cat-title"><?= $_THEME["nom"] ?></div>
                     <div class="edition">
                       <button type="button" class="btn btn-warning">Edition</button>
-                      <button type="button" class="btn btn-danger">Supprimer</button>
+                      <?php if($_THEME["is_Principal"] == 0){
+                        // On ne met que le boutton de suppression pour les Thèmes non principaux?>
+                        <button type="button" class="btn btn-danger">Supprimer</button>
+                      <?php } ?>
                     </div>
                   </div>
-                  <div><?= $desc ?></div>
+                  <div><?= $_THEME["desc"] ?></div>
                 </div>
               <?php
               }
@@ -88,13 +85,7 @@
         <div class="titre1">
           <div>Les Quizz</div>
           <div>
-            <?php
-              //Nous devons déterminer l'id du potentiel futur quizz :
-              $requete = $bdd -> query("SELECT MAX(qui_id) FROM quiz");
-              $result = $requete -> fetch();
-              $futurIdQuiz = $result[0] + 1;
-            ?>
-            <a href="<?=$base_location?>/admin/quizz-create.php?id=<?= $futurIdQuiz ?>">
+            <a href="<?=$base_location?>/admin/quizz-create.php">
               <button type="button" class="btn btn-success">Ajouter</button>
             </a>
           </div>
@@ -122,7 +113,8 @@
                       <button id="suppressionQuizzN<?= $_QUIZZ["id"] ?>" type="button" class="btn btn-danger">Supprimer</button>
                     </div>
                   </div>
-                  <div><?= $_QUIZZ["desc"] ?></div>
+                  <div>Description: <?= $_QUIZZ["desc"] ?></div>
+                  <div>Thème: <?= loadThemeFromTab($_THEMES, $_QUIZZ["id_theme"])["nom"] ?></div>
                 </div>
 
               <?php
@@ -141,18 +133,18 @@
   <script>
       $(document).ready(function(){
         <?php
-          foreach (getAllQuizzID($bdd) as $id)
+          foreach ($_QUIZZES as $_QUIZZ)
           {
-            if (empty($id)) break;
+            if (empty($_QUIZZ["id"])) break;
           ?>
-          $("#suppressionQuizzN<?= $id ?>").click(function(){
-            fetch("ajax/quizz-delete.php?id=<?= $id ?>")
+          $("#suppressionQuizzN<?= $_QUIZZ["id"] ?>").click(function(){
+            fetch("ajax/quizz-delete.php?id=<?= $_QUIZZ["id"] ?>")
               .then((response) => {
                 response.text()
                 .then((resp) => {
                   if (resp != 0)
                   {
-                    $("#quizzN<?= $id ?>").text("");
+                    $("#quizzN<?= $_QUIZZ["id"] ?>").text("");
                   }
                   else
                   {
@@ -169,5 +161,6 @@
         ?>
       });
   </script>
+
 </body>
 </html>

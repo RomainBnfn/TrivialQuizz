@@ -45,7 +45,7 @@
 <body>
   <?php require_once "../include/navbar.php"?>
   <!-- TODO: Ajouter une couleur en fct de $couleur -->
-  <h1 class="bandeau-principal">Edition de Quizz : <?= $_QUIZZ["nom"] ?></h1>
+  <h1 id="titreGeneral" class="bandeau-principal">Edition de Quizz : <?= $_QUIZZ["nom"] ?></h1>
 
   <div class="cadre-global">
     <div class="cadre-central">
@@ -159,5 +159,22 @@
   </div>
 
   <?php require_once "../include/script.html"?>
+  <script>
+    var listeNoms = <?=json_encode(getAllQuizzNames($bdd))?>,
+        nameQuizz = <?=json_encode($_QUIZZ["nom"])?>;
+    listeNoms = listeNoms.filter(function(value, index, arr){ return value != nameQuizz;})
+
+    $(document).ready(function(){
+      $("#editGeneral_Nom").keyup(() => {
+        $("#titreGeneral").text("Edition de Quizz : "+ $("#editGeneral_Nom").val());
+        if( listeNoms.includes( $("#editGeneral_Nom").val() ))
+        {
+          $("#errorGeneral_Nom").css("visibility", "visible");
+        } else {
+          $("#errorGeneral_Nom").css("visibility", "collapse");
+        }
+      });
+    });
+  </script>
 </body>
 </html>

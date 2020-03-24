@@ -1,10 +1,10 @@
 <?php
   /*  Cette page est accessible via le pannel d'administration. Lors de la création
-   * d'un quizz, cette page s'ouvre et l'administrateur peut rentrer les paramètres
+   * d'un theme, cette page s'ouvre et l'administrateur peut rentrer les paramètres
    * généraux qui viendront remplir la BDD.
-   *  Si cette page n'est pas remplie et envoyer, le quizz n'est pas créé.
+   *  Si cette page n'est pas remplie et envoyer, le thème n'est pas créé.
    *
-   *  Après création, l'administrateur est redirigé vers la page d'édition du quizz.
+   *  Après création, l'administrateur est redirigé vers la page d'édition du thème.
    */
   session_start();
 
@@ -23,11 +23,11 @@
   require_once "../include/functions.php";
 
   // Si la page est rechargée après avoir envoyé le formulaire
-  if(!empty($_POST) && !empty($_POST["nom"]) && !empty($_POST["desc"]) && !empty($_POST["theme"]) && is_numeric($_POST["theme"]))
+  if(!empty($_POST) && !empty($_POST["nom"]) && !empty($_POST["desc"]) && !empty($_POST["couleur"]) && is_numeric($_POST["is_Principal"]))
   {
     // On crée le quizz dans la bdd
-    $requete = $bdd -> prepare("INSERT INTO quiz (qui_id, qui_desc, th_id, qui_nom) VALUES ( 0 , ? , ? , ?)");
-    $requete -> execute(array($_POST["desc"], $_POST["theme"], $_POST["nom"]));
+    $requete = $bdd -> prepare("INSERT INTO theme (th_id, th_nom, th_couleur, th_description, th_is_principal) VALUES ( 0 , ? , ? , ? , ?)");
+    $requete -> execute(array($_POST["nom"], $_POST["couleur"], $_POST["desc"],  $_POST["is_Principal"]));
     // On redirige l'utilisateur vers la page d'edit
     header("Location: index.php");
     exit();
