@@ -21,6 +21,7 @@
      exit();
    }
 
+   $id = $_GET['id'];
    // Le quizz n'existe pas !
    if(!existQuizz($bdd, $id))
    {

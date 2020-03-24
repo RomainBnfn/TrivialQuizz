@@ -20,17 +20,11 @@
    {
      exit();
    }
-   $id=$_GET['id'];
-
-   // Le theme n'existe pas !
-   if(!existTheme($bdd, $id))
-   {
-     exit();
-   }
+   $id = $_GET['id'];
 
    // Suppression d'un Thème principal
    $_THEME = tryLoadTheme($bdd, $id);
-   if($_THEME["is_Principal == 1"])
+   if($_THEME == null || $_THEME["is_Principal"] == 1)
    {
      exit();
    }
