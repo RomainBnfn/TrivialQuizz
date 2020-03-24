@@ -28,7 +28,7 @@
 .cadre-global{
 	box-shadow: 0px -4px 5px 1px rgba(0, 0, 0, .4);
 	display: flex;
-	width: 100vw;
+	width: auto;
 	justify-content: center;
 }
 .cadre-central{

@@ -1,12 +1,14 @@
 <?php
   session_start();
-  include "include/fonctions.php";
-  $bd = getDb();
+  require_once "include/liaisonbdd.php";
+  require_once "include/functions.php";
   //importation des thèmes de base et custom
-  $th_base = ($bd->query('select * from theme where th_is_principal is not null'))->fetchAll();
-  $th_custom = ($bd->query('select * from theme where th_is_principal is null'))->fetchAll();
+  /*$th_base = ($bdd->query('select * from theme where th_is_principal is not null'))->fetchAll();
+  $th_custom = ($bdd->query('select * from theme where th_is_principal is null'))->fetchAll();*/
 
-  //
+  $th_base = getAllThemesPrincipauxInfos($bdd);
+  $th_custom = getAllThemesPersoInfos($bdd);
+
   $R = 200; //rayon
   $r = 5; // petite marge
   $G = 1.2; // grandissement focus/unfocus
@@ -22,7 +24,7 @@
   $descTheme = array();
   for($i=0;$i<count($th_base);$i=$i+1)
   {
-    $descTheme[$i] = $th_base[$i]["th_description"];
+    $descTheme[$i] = $th_base[$i]["desc"];
   }
 
 ?>
@@ -49,8 +51,8 @@
               $i = 0;
               while ($i < count($th_base) || $i < 6) {
               ?>
-                <path class="theme<?=$i?>" d="<?=$pathUnfocus[$i]?>" fill="<?=$th_base[$i]["th_couleur"]?>"/>
-                <text id="th-text<?=$i?>" fill="#fff" x="<?=$coordTextUnfocus[$i][0]?>" y="<?=$coordTextUnfocus[$i][1]?>"><?=$th_base[$i]["th_nom"]?></text>
+                <path class="theme<?=$i?>" d="<?=$pathUnfocus[$i]?>" fill="<?=$th_base[$i]["couleur"]?>"/>
+                <text id="th-text<?=$i?>" fill="#fff" x="<?=$coordTextUnfocus[$i][0]?>" y="<?=$coordTextUnfocus[$i][1]?>"><?=$th_base[$i]["nom"]?></text>
                 <path class="bt-theme theme<?=$i?>" d="<?=$pathUnfocus[$i]?>" fill="#ffffff00" stroke="#000000" stroke-width="1"/>
               <?php
                 $i = $i + 1;
