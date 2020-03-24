@@ -49,6 +49,7 @@ CREATE TABLE question
   que_id INTEGER NOT NULL PRIMARY KEY AUTO_INCREMENT,
   que_lib VARCHAR(500) NOT NULL,
   re_id_bonnerep INTEGER NOT NULL
+  FOREIGN KEY (re_id_bonnerep) REFERENCES reponse(re_id)
 ) engine=innodb character set utf8 collate utf8_unicode_ci;
 
 CREATE TABLE reponse
@@ -57,6 +58,8 @@ CREATE TABLE reponse
   re_lib VARCHAR(200),
   que_id INTEGER NOT NULL,
   FOREIGN KEY (que_id) REFERENCES question(que_id)
+  ON DELETE CASCADE
+  ON UPDATE CASCADE
 ) engine=innodb character set utf8 collate utf8_unicode_ci;
 
 CREATE TABLE quiz_quest
