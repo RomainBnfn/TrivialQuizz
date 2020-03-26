@@ -83,13 +83,11 @@
   function tryLoadQuizz($bdd, $idQuizz)
   {
     $data = tryQueryBDD($bdd, "SELECT * FROM quiz WHERE qui_id = $idQuizz");
-
-    if(!is_null($data)){
-      return loadQuizzFromSQLResult($data);
-
-    }else {
+    if($data[0] == null)
+    {
       return null;
     }
+    return loadQuizzFromSQLResult($data[0]);
   }
 
   /// Essaie de charger un theme, envoie null s'il n'existe pas.
@@ -97,12 +95,11 @@
   function tryLoadTheme($bdd, $idTheme)
   {
     $data = tryQueryBDD($bdd, "SELECT * FROM theme WHERE th_id = $idTheme");
-
-    if(!is_null($data)){
-      return loadThemeFromSQLResult($data);
-    }else {
+    if($data[0] == null)
+    {
       return null;
     }
+    return loadThemeFromSQLResult($data[0]);
   }
 
 

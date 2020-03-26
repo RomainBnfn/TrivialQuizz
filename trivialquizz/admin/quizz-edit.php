@@ -27,6 +27,8 @@
     exit();
   }
 
+
+
   $_THEME = tryLoadTheme($bdd, $_QUIZZ["id_theme"]);
   if(empty($_THEME))
   {
