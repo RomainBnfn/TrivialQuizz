@@ -20,10 +20,12 @@
    {
      exit();
    }
+
    $id = $_GET['id'];
 
    // Suppression d'un Thème principal
    $_THEME = tryLoadTheme($bdd, $id);
+
    if($_THEME == null || $_THEME["is_Principal"] == 1)
    {
      exit();
