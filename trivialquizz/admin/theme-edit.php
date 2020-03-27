@@ -55,6 +55,8 @@
   <div class="cadre-global">
     <div class="cadre-central">
 
+      <?php require_once "include/admin-navbar.php"?>
+
       <!-- DEBUT : Cadre des options générales -->
       <div>
         <div class="titre1">
@@ -63,17 +65,17 @@
         <div>
           <form id="formGeneral" method="POST" onsubmit="">
             <div>
-              <div id="formGeneralNom_error"></div>
+              <div id="errorGeneral_Nom"></div>
               <label name="nom">Nom : </label>
               <input id="formGeneralNom" type="text" name="nom" value="<?= $th_nom ?>" required/>
             </div> <br/>
             <div>
-              <div id="formGeneralDesc_error"></div>
+              <div id="errorGeneral_Desc"></div>
               <label name="desc">Description : </label>
               <textarea id="formGeneralDesc" type="text" name="desc" rows="5" draggable="false" required ><?= $th_description ?></textarea>
             </div> <br/>
             <div>
-              <div id="formGeneralCouleur_error"></div>
+              <div id="errorGeneral_Couleur"></div>
               <label>Couleur : </label>
               <input id="formGeneralCouleur" />
             </div>

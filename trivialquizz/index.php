@@ -2,6 +2,7 @@
   session_start();
   require_once "include/liaisonbdd.php";
   require_once "include/functions.php";
+
   //importation des thèmes de base et custom
   /*$th_base = ($bdd->query('select * from theme where th_is_principal is not null'))->fetchAll();
   $th_custom = ($bdd->query('select * from theme where th_is_principal is null'))->fetchAll();*/
@@ -63,7 +64,11 @@
           <p id="th-desc"></p>
       </article>
       <?php
+<<<<<<< HEAD
       if(empty($th_custom)){
+=======
+      if(count($th_custom)!=0){
+>>>>>>> cb82c6a751e6b34dd4fa7c0c68fce412e722cc31
       ?>
       <article class="container">
         <h1 class="titre1">Thèmes personnalisés</h1>

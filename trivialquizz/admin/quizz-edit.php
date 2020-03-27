@@ -27,6 +27,8 @@
     exit();
   }
 
+
+
   $_THEME = tryLoadTheme($bdd, $_QUIZZ["id_theme"]);
   if(empty($_THEME))
   {
@@ -45,10 +47,12 @@
 <body>
   <?php require_once "../include/navbar.php"?>
   <!-- TODO: Ajouter une couleur en fct de $couleur -->
-  <h1 id="titreGeneral" class="bandeau-principal">Edition de Quizz : <?= $_QUIZZ["nom"] ?></h1>
+  <div id="titreGeneral" class="bandeau-principal">Edition de Quizz : <?= $_QUIZZ["nom"] ?></div>
 
   <div class="cadre-global">
     <div class="cadre-central">
+
+      <?php require_once "include/admin-navbar.php"?>
 
       <!-- DEBUT : Cadre des options générales -->
       <div>
@@ -82,7 +86,7 @@
               <br/>
 
               <div>
-                <div id="formGeneralDesc_error"></div>
+                <div id="errorGeneral_Desc"></div>
                 <label name="desc">Description : </label>
                 <textarea id="formGeneralDesc" type="text" name="desc" rows="5" draggable="false" required ><?= $_QUIZZ["desc"] ?></textarea>
               </div> <br/>

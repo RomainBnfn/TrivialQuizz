@@ -2,7 +2,6 @@
   /*  Ceci n'est pas une page.
    */
    session_start();
-   header('Content-Type: application/json');
 
    //TODO: CHANGER CA
    $_SESSION['is_admin'] = true;
@@ -23,12 +22,8 @@
    }
 
    $id = $_GET['id'];
-   $requete = $bdd -> prepare("SELECT * FROM quiz WHERE qui_id = ?");
-   $requete -> execute(array($id));
-   $result = $requete -> fetch();
-
    // Le quizz n'existe pas !
-   if(empty($result))
+   if(!existQuizz($bdd, $id))
    {
      exit();
    }

@@ -29,7 +29,10 @@
     $requete = $bdd -> prepare("INSERT INTO quiz (qui_id, qui_desc, th_id, qui_nom) VALUES ( 0 , ? , ? , ?)");
     $requete -> execute(array($_POST["desc"], $_POST["theme"], $_POST["nom"]));
     // On redirige l'utilisateur vers la page d'edit
-    header("Location: index.php");
+
+    $requete = $bdd -> query("SELECT MAX(qui_id) FROM quiz");
+    $result = $requete -> fetch();
+    header("Location: quizz-edit.php?id=".$result[0]);
     exit();
   }
 
@@ -39,23 +42,11 @@
 
 //-----------------------------------------
 
-  // On récupère la liste des thèmes
-  $requete = $bdd -> query("SELECT th_id, th_nom FROM theme");
-  $result = $requete -> fetchAll();
-
-  // Aucun thème n'existe !
-  if(empty($result))
+  $_THEMES = getAllThemesInfos($bdd);
+  if(empty($_THEMES))
   {
-    header("Location: ".$index_location);
+    header("Location: index.php");
     exit();
-  }
-
-  $listeThemes[] = [];
-  $i = 0;
-  foreach ($result as $info)
-  {
-    $listeThemes[$i] = array($info["th_id"], $info["th_nom"]);
-    $i++;
   }
 
 //-----------------------------------------
@@ -69,10 +60,13 @@
 </head>
 <body>
   <?php require_once "../include/navbar.php"?>
+
   <div style="background-color: orange" class="bandeau-principal">Création de Quizz</div>
 
   <div class="cadre-global">
     <div class="cadre-central">
+
+      <?php require_once "include/admin-navbar.php"?>
 
       <!-- DEBUT : Cadre des options générales -->
       <div>
@@ -82,38 +76,33 @@
 
         <div>
           <form id="formGeneral" method="POST" onsubmit="">
+
             <div>
-              <div id="formGeneralNom_error"></div>
+              <div id="errorGeneral_Nom" style="color: red; visibility: hidden;"> Ce nom est déjà utilisé !</div>
               <label name="nom">Nom : </label>
-              <input id="formGeneralNom" type="text" name="nom" required/>
-              <div class="nom_error" style="display: none; color: 'red';">Ce nom de Quiz existe déjà...</div>
+              <input id="formGeneral_Nom" type="text" name="nom" required/>
             </div> <br/>
 
             <div>
-              <div id="formGeneralDesc_error"></div>
+              <div id="errorGeneral_Desc"></div>
               <label name="desc">Description : </label>
-              <textarea id="formGeneralDesc" type="text" name="desc" rows="5" draggable="false" required ></textarea>
+              <textarea id="formGeneral_Desc" type="text" name="desc" rows="5" draggable="false" required ></textarea>
             </div> <br/>
 
             <div>
               <label name="theme">Thème :</label>
               <select name="theme" size="1">
                 <?php
-                foreach ($listeThemes as $themeInfos)
+                foreach ($_THEMES as $_THEME)
                 {
-                  // themeInfos[0] : ID
-                  // themeInfos[1] : NOM
-
-                  // PS : La liste a au moins un élément car sinon l'utilisateur
-                  // aurait été redirigé.
                 ?>
-                  <option value="<?= $themeInfos[0] ?>"><?= $themeInfos[1] ?></option>
+                  <option value="<?= $_THEME["id"] ?>"><?= $_THEME["nom"] ?></option>
                 <?php
                 }
                 ?>
               </select>
             </div> <br/>
-            <input type="hidden" value="<?= $id ?>" />
+
             <input type="submit" />
           </form>
 
