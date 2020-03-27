@@ -63,7 +63,7 @@
           <p id="th-desc"></p>
       </article>
       <?php
-      if(count($th_custom)==0){
+      if(empty($th_custom)){
       ?>
       <article class="container">
         <h1 class="titre1">Thèmes personnalisés</h1>
