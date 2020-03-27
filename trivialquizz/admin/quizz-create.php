@@ -26,8 +26,14 @@
   if(!empty($_POST) && !empty($_POST["nom"]) && !empty($_POST["desc"]) && !empty($_POST["theme"]) && is_numeric($_POST["theme"]))
   {
     // On crée le quizz dans la bdd
-    $requete = $bdd -> prepare("INSERT INTO quiz (qui_id, qui_desc, th_id, qui_nom) VALUES ( 0 , ? , ? , ?)");
-    $requete -> execute(array($_POST["desc"], $_POST["theme"], $_POST["nom"]));
+    $requete = $bdd -> prepare("INSERT INTO quiz (qui_id,
+                                                  qui_desc,
+                                                  th_id,
+                                                  qui_nom)
+                                                  VALUES ( 0 , ? , ? , ?)");
+    $requete -> execute(array($_POST["desc"],
+                              $_POST["theme"],
+                              $_POST["nom"]));
     // On redirige l'utilisateur vers la page d'edit
 
     $requete = $bdd -> query("SELECT MAX(qui_id) FROM quiz");

@@ -76,7 +76,7 @@
             A chaque niveau de difficulté : -5% à -10% (Afficher : 1e : 100% (5min) 5e : 60% (3 min))
             Sauvegarder les modifications
           -->
-            <form id="editGeneral" method="POST" onsubmit="">
+            <form id="editGeneral" method="POST">
               <div>
                 <!-- Le message est par défaut pas affiché-->
                 <div id="errorGeneral_Nom" style="color: red; visibility: hidden;"> Ce nom est déjà utilisé !</div>
@@ -92,8 +92,8 @@
               </div> <br/>
 
               <div>
-                <label name="theme">Thème :</label>
-                <select name="theme" size="1">
+                <label name="id_theme">Thème :</label>
+                <select name="id_theme" size="1">
                   <?php
                   foreach (getAllThemesInfos($bdd) as $_THEME)
                   {
@@ -104,7 +104,10 @@
                   ?>
                 </select>
               </div> <br/>
-              <input type="hidden" value="<?= $id ?>" />
+
+              <input type="hidden" name="ancien_nom" value="<?= $_QUIZZ["nom"] ?>" />
+              <input type="hidden" name="id" value="<?= $_QUIZZ["id"] ?>" />
+
               <input class="btn btn-success" value="Sauvegarder" type="submit" />
             </form>
 
@@ -169,6 +172,24 @@
     listeNoms = listeNoms.filter(function(value, index, arr){ return value != nameQuizz;})
 
     $(document).ready(function(){
+
+      $("#editGeneral").submit((e) => {
+
+        e.preventDefault();
+
+        var form = new FormData(document.getElementById("editGeneral"));
+        fetch("ajax/quizz-save-edit.php", {
+          method: "POST",
+          body: form
+        })
+        .then((response) => {
+          response.text()
+          .then((resp) => {
+            $("#editGeneral").text(resp);
+          })
+        });
+      });
+
       $("#editGeneral_Nom").keyup(() => {
         $("#titreGeneral").text("Edition de Quizz : "+ $("#editGeneral_Nom").val());
         if( listeNoms.includes( $("#editGeneral_Nom").val() ))
@@ -178,6 +199,7 @@
           $("#errorGeneral_Nom").css("visibility", "collapse");
         }
       });
+
     });
   </script>
 </body>

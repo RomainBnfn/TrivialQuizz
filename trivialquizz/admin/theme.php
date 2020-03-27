@@ -46,6 +46,7 @@
 
         <!-- DEBUT: Liste des Thèmes-->
         <div>
+          <p>Les six premiers thèmes ne sont qu'éditable, ce sont ceux présents sur la roue de l'accueil du site !</p>
           <?php
             foreach($_THEMES as $_THEME)
             {

@@ -30,11 +30,20 @@
   )
   {
     // On crée le quizz dans la bdd
-    $requete = $bdd -> prepare("INSERT INTO theme (th_id, th_nom, th_couleur, th_is_principal, th_description) VALUES ( 0 , ? , ? , 0 , ?)");
-    $requete -> execute(array($_POST["nom"], $_POST["couleur"], $_POST["desc"]));
+    $requete = $bdd -> prepare("INSERT INTO theme (th_id,
+                                                  th_nom,
+                                                  th_couleur,
+                                                  th_is_principal,
+                                                  th_description)
+                                                  VALUES ( 0 , ? , ? , 0 , ?)");
+    $requete -> execute(array($_POST["nom"],
+                              $_POST["couleur"], 
+                              $_POST["desc"]));
 
     // On redirige l'utilisateur vers la page d'edit
-    header("Location: index.php");
+    $requete = $bdd -> query("SELECT MAX(th_id) FROM theme");
+    $result = $requete -> fetch();
+    header("Location: theme-edit.php?id=".$result[0]);
     exit();
   }
 
