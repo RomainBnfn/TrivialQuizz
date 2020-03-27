@@ -65,7 +65,11 @@
       </article>
       <?php
 <<<<<<< HEAD
+<<<<<<< HEAD
       if(empty($th_custom)){
+=======
+      if(count($th_custom)!=0){
+>>>>>>> cb82c6a751e6b34dd4fa7c0c68fce412e722cc31
 =======
       if(count($th_custom)!=0){
 >>>>>>> cb82c6a751e6b34dd4fa7c0c68fce412e722cc31
