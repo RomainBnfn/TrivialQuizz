@@ -20,74 +20,24 @@
     }
   }
 
-
-  // -----------------------------------------------------------------------------
-  //  [ FONCTION UTILITAIRES (A ne pas utiliser directement)
-  // -----------------------------------------------------------------------------
-
-  /// Retourne le tableau des infos du Quizz à partir du tableau
-  /// de résultats de la requête SQL.
-  function loadQuizzFromSQLResult($result)
-  {
-    $_QUIZZ;
-    $_QUIZZ["id"] = $result["qui_id"];
-    $_QUIZZ["nom"] = $result["qui_nom"];
-    $_QUIZZ["desc"] = $result["qui_desc"];
-    $_QUIZZ["id_theme"] = $result["th_id"];
-    return $_QUIZZ;
-  }
-
-  /// Retourne le tableau des infos du Thème à partir du tableau
-  /// de résultats de la requête SQL.
-  function loadThemeFromSQLResult($result)
-  {
-    $_THEME;
-    $_THEME["id"] = $result["th_id"];
-    $_THEME["nom"] = $result["th_nom"];
-    $_THEME["desc"] = $result["th_description"];
-    $_THEME["couleur"] = $result["th_couleur"];
-    $_THEME["is_Principal"] = $result["th_is_principal"];
-    return $_THEME;
-  }
-
-  /// Récupère des données d'une requete sql, une fonction, et renvoie le tableau
-  /// où la fonction a été appliqué à toutes les cases de data.
-  function tabFormat($data, $fonction){
-    if(!is_null($data)) {
-
-      $_DATAS[] = [];
-      for($i = 0; $i<count($data); $i++)
-      {
-        $_DATAS[$i] = $fonction($data[$i]);
-      }
-
-      if (empty($_DATAS[0]))
-      {
-        return null;
-      }
-      return $_DATAS;
-    }else {
-      return null;
-    }
-  }
-
-
-// -----------------------------------------------------------------------------
-//  [ FONCTION POUR LES QUIZZ & THEMES & QUESTIONS ]
-// -----------------------------------------------------------------------------
-
-//  Obtenir les infos sur un seul élément :
-
   /// Essaie de charger un quizz, envoie null s'il n'existe pas.
   /// S'il existe, renvoie un tableau contenant toutes ses infos (id, nom,desc,id_theme).
   function tryLoadQuizz($bdd, $idQuizz)
   {
     $data = tryQueryBDD($bdd, "SELECT * FROM quiz WHERE qui_id = $idQuizz");
-    if($data[0] == null)
-    {
+
+    if(!is_null($data)){
+
+      $_QUIZZ;
+      $_QUIZZ["id"] = $idQuizz;
+      $_QUIZZ["nom"] = $data["qui_nom"];
+      $_QUIZZ["desc"] = $data["qui_desc"];
+      $_QUIZZ["id_theme"] = $data["th_id"];
+
+      return $_QUIZZ;
+    }else {
       return null;
     }
-    return loadQuizzFromSQLResult($data[0]);
   }
 
   /// Essaie de charger un theme, envoie null s'il n'existe pas.
@@ -95,73 +45,19 @@
   function tryLoadTheme($bdd, $idTheme)
   {
     $data = tryQueryBDD($bdd, "SELECT * FROM theme WHERE th_id = $idTheme");
-    if($data[0] == null)
-    {
+
+    if(!is_null($data)){
+
+      $_THEME;
+      $_THEME["id"] = $idTheme;
+      $_THEME["nom"] = $data["th_nom"];
+      $_THEME["couleur"] = $data["th_couleur"];
+
+      return $_THEME;
+    }else {
       return null;
     }
-    return loadThemeFromSQLResult($data[0]);
   }
-
-
-
-//  Obtenir les infos sur plusieurs éléments :
-
-  // (THEMES)
-
-        /// Essaie de charger tous les thèmes, puis renvoie une liste de listes
-        /// qui comportent les infos des thèmes. Renvoie null sinon.
-        ///   Renvoie $_THEMES[] qui comporte tous les $_THEME[] (id, nom, couleur, desc, is_Principal)
-        function getAllThemesInfos($bdd)
-        {
-          $data = tryQueryBDD($bdd, "SELECT * FROM theme");
-          return tabFormat($data, "loadThemeFromSQLResult");
-        }
-
-        /// Essaie de charger tous les thèmes principaux, puis renvoie une liste de listes
-        /// qui comportent les infos des thèmes. Renvoie null sinon.
-        ///   Renvoie $_THEMES[] qui comporte tous les $_THEME[] (id, nom, couleur, desc, is_Principal)
-        function getAllThemesPrincipauxInfos($bdd)
-        {
-          $data = tryQueryBDD($bdd, "SELECT * FROM theme WHERE th_is_principal = 1");
-          return tabFormat($data, "loadThemeFromSQLResult");
-        }
-
-        /// Essaie de charger tous les thèmes personalisés, puis renvoie une liste de listes
-        /// qui comportent les infos des thèmes. Renvoie null sinon.
-        ///   Renvoie $_THEMES[] qui comporte tous les $_THEME[] (id, nom, couleur, desc, is_Principal)
-        function getAllThemesPersoInfos($bdd)
-        {
-          $data = tryQueryBDD($bdd, "SELECT * FROM theme WHERE th_is_principal != 1");
-          return tabFormat($data, "loadThemeFromSQLResult");
-        }
-
-  // (QUIZZES)
-
-        /// Essaie de charger tous les quizzes, puis renvoie une liste de listes
-        /// qui comportent les infos des thèmes. Renvoie null sinon.
-        ///   Renvoie $_QUIZZES[] qui comporte tous les $_QUIZZ[] (id, nom, desc, id_theme)
-        function getAllQuizzesInfos($bdd)
-        {
-          $data = tryQueryBDD($bdd, "SELECT * FROM quiz ORDER BY th_id");
-          return tabFormat($data, "loadQuizzFromSQLResult");
-        }
-
-        ///
-        function getAllQuizzNames($bdd)
-        {
-          $data = tryQueryBDD($bdd, "SELECT qui_nom FROM quiz");
-
-          if(!is_null($data)){
-
-            $_NOMS[] = [];
-            for($i = 0; $i<count($data); $i++) {
-              $_NOMS[$i] = $data[$i]["qui_nom"];
-            }
-            return $_NOMS;
-          }else {
-            return null;
-          }
-        }
 
   /// Essaie de charger toutes les questions d'un quizz, puis renvoie une liste
   /// de liste qui comportent les infos des questions. Renvoie null sinon.
@@ -192,9 +88,91 @@
     }
   }
 
+  /// Essaie de charger tous les thèmes, puis renvoie une liste de listes
+  /// qui comportent les infos des thèmes. Renvoie null sinon.
+  ///   Renvoie $_THEMES[] qui comporte tous les $_THEME[] (id, nom, couleur, desc, is_Principal)
+  function getAllThemesInfos($bdd)
+  {
+    $data = tryQueryBDD($bdd, "SELECT * FROM theme");
+    return themeTabFormat($data);
+  }
 
+  /// Essaie de charger tous les thèmes principaux, puis renvoie une liste de listes
+  /// qui comportent les infos des thèmes. Renvoie null sinon.
+  ///   Renvoie $_THEMES[] qui comporte tous les $_THEME[] (id, nom, couleur, desc, is_Principal)
+  function getAllThemesPrincipauxInfos($bdd)
+  {
+    $data = tryQueryBDD($bdd, "SELECT * FROM theme WHERE th_is_principal IS NOT NULL");
+    return themeTabFormat($data);
+  }
 
-// Get Nb
+  /// Essaie de charger tous les thèmes personalisés, puis renvoie une liste de listes
+  /// qui comportent les infos des thèmes. Renvoie null sinon.
+  ///   Renvoie $_THEMES[] qui comporte tous les $_THEME[] (id, nom, couleur, desc, is_Principal)
+  function getAllThemesPersoInfos($bdd)
+  {
+    $data = tryQueryBDD($bdd, "SELECT * FROM theme WHERE th_is_principal IS NULL");
+    return themeTabFormat($data);
+  }
+
+  /// Récupère des données d'une requete sql sur la table theme et les met dans un tableau
+  ///   Renvoie $_THEMES[] qui comporte tous les $_THEME[] (id, nom, couleur, desc, is_Principal)
+  function themeTabFormat($data){
+    if(!is_null($data)) {
+
+      $_THEMES[] = [];
+      for($i = 0; $i<count($data); $i++){
+        $_THEMES[$i] = array("id" => $data[$i]["th_id"], "nom" => $data[$i]["th_nom"], "desc" => $data[$i]["th_description"], "couleur" => $data[$i]["th_couleur"], "is_Principal" => $data[$i][t]);
+      }
+      if (empty($_THEMES[0]))
+      {
+        return null;
+      }
+      return $_THEMES;
+    }else {
+      return null;
+    }
+  }
+
+  /// Essaie de charger tous les quizzes, puis renvoie une liste de listes
+  /// qui comportent les infos des thèmes. Renvoie null sinon.
+  ///   Renvoie $_QUIZZES[] qui comporte tous les $_QUIZZ[] (id, nom, desc, id_theme)
+  function getAllQuizzesInfos($bdd)
+  {
+    $data = tryQueryBDD($bdd, "SELECT * FROM quiz ORDER BY th_id");
+
+    if(!is_null($data)){
+
+      $_QUIZZES[] = [];
+      for($i = 0; $i<count($data); $i++) {
+        $_QUIZZES[$i] = array('id' => $data["qui_id"], 'nom' => $data["qui_nom"], 'desc' => $data["qui_desc"], 'id_theme' => $data["th_id"]);
+      }
+      if (empty($_QUIZZES[0]))
+      {
+        return null;
+      }
+      return $_QUIZZES;
+    }else {
+      return null;
+    }
+  }
+
+  function getAllQuizzNames($bdd)
+  {
+    $data = tryQueryBDD($bdd, "SELECT qui_nom FROM quiz");
+
+    if(!is_null($data)){
+
+      $_NOMS[] = [];
+      for($i = 0; $i<count($data); $i++) {
+        $_NOMS[$i] = $data["qui_nom"];
+      }
+      return $_NOMS;
+    }else {
+      return null;
+    }
+  }
+
   function getNbQuizz($bdd)
   {
     $requete = $bdd -> query("SELECT COUNT(*) FROM quiz");
@@ -209,7 +187,6 @@
     return $result[0];
   }
 
-// Exists
   function existQuizz($bdd, $id)
   {
     $requete = $bdd -> query("SELECT * FROM quiz WHERE qui_id = $id");
@@ -224,9 +201,10 @@
     return (!empty($result));
   }
 
-// -----------------------------------------------------------------------------
-//  Fonctions pour la construction du camembert des thèmes sur la page d'Accueil:
-// -----------------------------------------------------------------------------
+
+  // -------------------------------------------------------------------
+  //  fonctions pour la construction du camembert des thèmes sur la page d'Accueil:
+
 
   //renvoie les path svg du camembert tableau de dim 6 (6 parts)
   //$r marge entre les "part", $R rayon d'une "part", $c centre de la roue/"du gateau"
@@ -273,23 +251,6 @@
     );
   }
 
-//HEAD
-  function getAllThemesNames($bdd)
-  {
-    $requete = $bdd -> query("SELECT th_nom FROM theme");
-    $result = $requete -> fetchAll();
-
-    $listeNoms[] = [];
-    $i = 0;
-    foreach ($result as $info)
-    {
-      $listeNoms[$i] = $info["th_nom"];
-      $i++;
-    }
-    return $listeNoms;
-  }
-//=======
-//>>>>>>> 01c6d0109fa1704f7170b5425b27b78f5e216193
   // -----------------------------------------------------------------------------
   //  Autre :
 
