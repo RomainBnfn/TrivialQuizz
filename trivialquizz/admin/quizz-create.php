@@ -23,8 +23,14 @@
   require_once "../include/functions.php";
 
   // Si la page est rechargée après avoir envoyé le formulaire
-  if(!empty($_POST) && !empty($_POST["nom"]) && !empty($_POST["desc"]) && !empty($_POST["theme"]) && is_numeric($_POST["theme"]))
+  if(!empty($_POST) && !empty($_POST["nom"])
+    && !empty($_POST["desc"])
+    && !empty($_POST["theme"])
+    && is_numeric($_POST["theme"]))
   {
+
+    //TODO VERIF QUAND MEME TOUT ca
+
     // On crée le quizz dans la bdd
     $requete = $bdd -> prepare("INSERT INTO quiz (qui_id,
                                                   qui_desc,

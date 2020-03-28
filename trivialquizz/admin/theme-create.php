@@ -29,6 +29,8 @@
   && !empty($_POST["couleur"])
   )
   {
+    //TODO VERIF QUAND MEME TOUT ca
+
     // On crée le quizz dans la bdd
     $requete = $bdd -> prepare("INSERT INTO theme (th_id,
                                                   th_nom,
@@ -37,7 +39,7 @@
                                                   th_description)
                                                   VALUES ( 0 , ? , ? , 0 , ?)");
     $requete -> execute(array($_POST["nom"],
-                              $_POST["couleur"], 
+                              $_POST["couleur"],
                               $_POST["desc"]));
 
     // On redirige l'utilisateur vers la page d'edit

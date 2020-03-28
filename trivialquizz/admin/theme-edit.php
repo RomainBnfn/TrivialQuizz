@@ -22,22 +22,14 @@
     exit();
   }
   $id = $_GET['id'];
-  $requete = $bdd -> prepare("SELECT * FROM theme WHERE th_id = ?");
-  $requete -> execute(array($id));
-  $result = $requete -> fetch();
 
-  // Le thème n'existe pas.
-  if(empty($result))
+  $_THEME = tryLoadTheme($bdd, $id);
+  if(empty($_THEME))
   {
     header("Location: ".$index_location);
     exit();
   }
 
-  // Tout est ok, le thème existe
-  // On ajoute le prefix th car plus tard, "id" , "nom".. seront réutilisés.
-  $th_id = $id;
-  $th_nom = $result["th_nom"];
-  $th_description= $result["th_description"];
 ?>
 
 <!doctype html>
@@ -50,7 +42,7 @@
   <?php require_once "../include/navbar.php"?>
 
   <!-- TODO: Ajouter une couleur en fct de $couleur -->
-  <div class="bandeau-principal fond-bleu">Edition de Thème : <?= $th_nom ?></div>
+  <div class="bandeau-principal fond-bleu">Edition de Thème : <?= $_THEME["nom"] ?></div>
 
   <div class="cadre-global">
     <div class="cadre-central">
@@ -62,24 +54,34 @@
         <div class="titre1">
           <div>Paramètres Généraux</div>
         </div>
+
         <div>
+
           <form id="formGeneral" method="POST" onsubmit="">
             <div>
               <div id="errorGeneral_Nom"></div>
               <label name="nom">Nom : </label>
-              <input id="formGeneralNom" type="text" name="nom" value="<?= $th_nom ?>" required/>
+              <input id="formGeneralNom" type="text" name="nom" value="<?= $_THEME["nom"] ?>" required/>
             </div> <br/>
+
             <div>
               <div id="errorGeneral_Desc"></div>
               <label name="desc">Description : </label>
-              <textarea id="formGeneralDesc" type="text" name="desc" rows="5" draggable="false" required ><?= $th_description ?></textarea>
+              <textarea id="formGeneralDesc" type="text" name="desc" rows="5" draggable="false" required ><?= $_THEME["desc"] ?></textarea>
             </div> <br/>
+
             <div>
               <div id="errorGeneral_Couleur"></div>
-              <label>Couleur : </label>
-              <input id="formGeneralCouleur" />
+              <label name="couleur">Couleur : </label>
+              <input id="formGeneralCouleur" type="text" name="couleur" value="<?= $_THEME["couleur"] ?>" />
             </div>
-            <input type="submit" />
+
+            <input type="hidden" name="ancien_nom" value="<?= $_THEME["nom"] ?>" />
+            <input type="hidden" name="id" value="<?= $_THEME["id"] ?>" />
+
+            <input id="formGeneral_Button"  class="btn btn-success" value="Sauvegarder" type="submit" />
+            <span id="infoGeneral_Button" style="color: green; visibility: hidden;"> Les modifications ont été prises en compte !</span>
+
           </form>
         </div>
       </div>
@@ -91,25 +93,32 @@
       <div>
         <div class="titre1">
           <div>Les Quizz associés</div>
+          <div>
+            <a>
+              <!-- Pour en ajouter plusieurs en même temps -->
+              <button type="button" class="btn btn-success">Ajouter</button>
+            </a>
+          </div>
         </div>
 
         <div>
           <?php
-            $requete = $bdd -> query("SELECT * FROM quiz WHERE th_id = ".$th_id);
-            $result = $requete -> fetchAll();
-
-            if(empty($result))
+            $_QUIZZES = getAllQuizzesInfosOfTheme($bdd, $_THEME["id"]);
+            if(empty($_QUIZZES))
             {
               echo "Il parrait qu'aucun quizz n'a été associé à ce thème, c'est terrible !";
             }
             else
             {
-              foreach ($result as $infos_quizz)
+              foreach ($_QUIZZES as $_QUIZZ)
               {
-                $infos_quizz["n"]
                 ?>
                   <div>
-                    <?= $name ?>
+                    <?= $_QUIZZ["nom"] ?>
+                    <?php
+                    if ($_THEME["id"] != 6) { ?>
+                      <button type="button" class="btn btn-error">Dissocier</button>;
+                    <?php } ?>
                   </div>
                 <?php
               }
@@ -125,6 +134,29 @@
   <?php require_once "../include/script.html"?>
   <script>
     $(function(){
+      $("#formGeneral").submit((e) => {
+
+        e.preventDefault();
+
+        var form = new FormData(document.getElementById("formGeneral"));
+        fetch("ajax/theme-save-edit.php", {
+          method: "POST",
+          body: form
+        })
+        .then((response) => {
+          response.text()
+          .then((resp) => {
+            if(resp=="ok"){
+              $("#infoGeneral_Button").css("visibility", "visible");
+              setTimeout(() => {
+                $("#infoGeneral_Button").css("visibility", "collapse");
+              }, 5000);
+            }
+          })
+        });
+      });
+
+
       $("#formGeneralNom").on({
         blur : function(){
           if ($(this).val() == "")

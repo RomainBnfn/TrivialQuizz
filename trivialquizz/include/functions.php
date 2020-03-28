@@ -50,25 +50,34 @@
     return $_THEME;
   }
 
+  function loadQuestionFromSQLResult($result)
+  {
+    $_QUESTION;
+    $_QUESTIONS["id"] = $result["id"];
+    $_QUESTIONS["id_question"] =$result["que_id"];
+    $_QUESTIONS["lib"] =$result["que_lib"];
+    $_QUESTIONS["id_bonneRep"] = $result["re_id_bonnerep"];
+    return $_QUESTION;
+  }
+
   /// Récupère des données d'une requete sql, une fonction, et renvoie le tableau
   /// où la fonction a été appliqué à toutes les cases de data.
   function tabFormat($data, $fonction){
-    if(!is_null($data)) {
-
-      $_DATAS[] = [];
-      for($i = 0; $i<count($data); $i++)
-      {
-        $_DATAS[$i] = $fonction($data[$i]);
-      }
-
-      if (empty($_DATAS[0]))
-      {
-        return null;
-      }
-      return $_DATAS;
-    }else {
+    if(is_null($data)){
       return null;
     }
+
+    $_DATAS[] = [];
+    for($i = 0; $i<count($data); $i++)
+    {
+      $_DATAS[$i] = $fonction($data[$i]);
+    }
+
+    if (empty($_DATAS[0]))
+    {
+      return null;
+    }
+    return $_DATAS;
   }
 
 
@@ -135,6 +144,21 @@
           return tabFormat($data, "loadThemeFromSQLResult");
         }
 
+        function getNumbersOfQuizzesOfThemes($bdd)
+        {
+          $data = tryQueryBDD($bdd, "SELECT COUNT(*) AS NB, th_id FROM quiz GROUP BY th_id");
+          $_NUMBERS;
+          if ($data == null)
+          {
+              return null;
+          }
+          foreach ($data as $infos)
+          {
+            $_NUMBERS[$infos["th_id"]] = $infos["NB"];
+          }
+          return $_NUMBERS;
+        }
+
   // (QUIZZES)
 
         /// Essaie de charger tous les quizzes, puis renvoie une liste de listes
@@ -143,6 +167,15 @@
         function getAllQuizzesInfos($bdd)
         {
           $data = tryQueryBDD($bdd, "SELECT * FROM quiz ORDER BY th_id");
+          return tabFormat($data, "loadQuizzFromSQLResult");
+        }
+
+        /// Essaie de charger tous les quizzes d'un thème particulier,
+        /// puis renvoie une liste de listes qui comportent les infos des quizzes. Renvoie null sinon.
+        ///   Renvoie $_QUIZZES[] qui comporte tous les $_QUIZZ[] (id, nom, desc, id_theme)
+        function getAllQuizzesInfosOfTheme($bdd, $idTheme)
+        {
+          $data = tryQueryBDD($bdd, "SELECT * FROM quiz WHERE th_id = $idTheme");
           return tabFormat($data, "loadQuizzFromSQLResult");
         }
 
@@ -171,25 +204,8 @@
     if(!is_numeric($idQuizz)) {
       return null;
     }
-
     $data = tryQueryBDD($bdd, "SELECT * FROM question WHERE que_id IN ( SELECT qui_id FROM quiz_quest WHERE que_id = $idQuizz)");
-
-    if(!is_null($data)){
-
-      $_QUESTIONS[] = [];
-      for($i = 0; $i<count($data); $i++) {
-        $_QUESTIONS[$i] = array("id" => $data["que_id"], "lib" => $data["que_lib"], "id_bonneRep" => $data["re_id_bonnerep"]);
-      }
-
-      //TODO: test utilité
-      if (empty($_QUESTIONS[0]))
-      {
-        return null;
-      }
-      return $_QUESTIONS;
-    }else {
-      return null;
-    }
+    return tabFormat($data, "loadQuestionFromSQLResult");
   }
 
 

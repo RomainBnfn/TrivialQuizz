@@ -14,37 +14,31 @@
 
   require_once "../../include/liaisonbdd.php";
   require_once "../../include/functions.php";
-
+  
   // On regarde si l'id passé en méthode get est correct
   if(empty($_POST['id']) || !is_numeric($_POST['id'])
     || empty($_POST['nom'])
-    || empty($_POST['id_theme'])
     || empty($_POST['desc'])
-    || empty($_POST["ancien_nom"]))
+    || empty($_POST["couleur"]))
   {
     exit();
   }
 
-  $id = $_POST['id'];
 
+
+  $id = $_POST['id'];
 
   //Vérifications.
   // Le quizz n'existe pas !
-  if(!existQuizz($bdd, $id))
+  if(!existTheme($bdd, $id))
   {
     exit();
   }
 
   // Le nom existe déjà ! (Ou est vide)
-  $names = getAllQuizzNames($bdd);
+  $names = getAllThemesNames($bdd);
   if( ($_POST["ancien_nom"] != $_POST['nom'] && in_array($_POST['nom'], $names))
     || $_POST['nom'] == "")
-  {
-    exit();
-  }
-
-  // Le thème n'existe pas !
-  if(!existTheme($bdd, $_POST["id_theme"]))
   {
     exit();
   }
@@ -56,13 +50,13 @@
   }
 
   //Tout est ok : Modifications !
-  $requete = $bdd -> prepare("UPDATE QUIZ SET qui_nom = ? ,
-                                  qui_desc = ? ,
-                                  th_id = ?
-                                  WHERE qui_id = $id;");
+  $requete = $bdd -> prepare("UPDATE THEME SET th_nom = ? ,
+                                  th_description = ? ,
+                                  th_couleur = ?
+                                  WHERE th_id = $id;");
 
   $requete -> execute(array(escape($_POST['nom']) ,
                       escape($_POST['desc']),
-                      escape($_POST['id_theme'])));
+                      escape($_POST['couleur'])));
   echo "ok";
 ?>

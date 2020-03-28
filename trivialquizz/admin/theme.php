@@ -48,12 +48,15 @@
         <div>
           <p>Les six premiers thèmes ne sont qu'éditable, ce sont ceux présents sur la roue de l'accueil du site !</p>
           <?php
+            $_NBOFQUIZZ = getNumbersOfQuizzesOfThemes($bdd);
             foreach($_THEMES as $_THEME)
             {
               ?>
               <div id="themeN<?= $_THEME["id"]?>">
                 <div class="titre2">
+
                   <div class="cat-title"><?= $_THEME["nom"] ?></div>
+
                   <div class="edition">
                     <a href="theme-edit.php?id=<?= $_THEME["id"] ?>">
                       <button type="button" class="btn btn-warning">Edition</button>
@@ -63,8 +66,23 @@
                       <button id="suppressionThemeN<?= $_THEME["id"]?>" type="button" class="btn btn-danger">Supprimer</button>
                     <?php } ?>
                   </div>
+
                 </div>
+
+                <span><?php
+                if(!empty($_NBOFQUIZZ[$_THEME["id"]])){
+                  if($_NBOFQUIZZ[$_THEME["id"]]==1){
+                    echo '<span class="badge badge-pill badge-info">1</span> Quizz Associé !';
+                  }
+                  else {
+                    echo '<span class="badge badge-pill badge-info">'.$_NBOFQUIZZ[$_THEME["id"]].'</span> Quizzes associés à ce Thème !';
+                  }
+                }
+                else{
+                    echo '<span class="badge badge-pill badge-danger">0</span> Quizz Associé :(';
+                } ?></span>
                 <div><?= $_THEME["desc"] ?></div>
+
               </div>
             <?php
             }

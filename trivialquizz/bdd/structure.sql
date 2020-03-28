@@ -47,15 +47,14 @@ CREATE TABLE score
 CREATE TABLE question
 (
   que_id INTEGER NOT NULL PRIMARY KEY AUTO_INCREMENT,
-  que_lib VARCHAR(500) NOT NULL,
-  re_id_bonnerep INTEGER NOT NULL
-  FOREIGN KEY (re_id_bonnerep) REFERENCES reponse(re_id)
+  que_lib VARCHAR(500) NOT NULL
 ) engine=innodb character set utf8 collate utf8_unicode_ci;
 
 CREATE TABLE reponse
 (
   re_id INTEGER NOT NULL PRIMARY KEY AUTO_INCREMENT,
-  re_lib VARCHAR(200),
+  re_lib VARCHAR(200) NOT NULL,
+  re_isBonne BOOLEAN NOT NULL,
   que_id INTEGER NOT NULL,
   FOREIGN KEY (que_id) REFERENCES question(que_id)
   ON DELETE CASCADE
@@ -71,6 +70,3 @@ CREATE TABLE quiz_quest
   FOREIGN KEY (qui_id) REFERENCES quiz(qui_id),
   FOREIGN KEY (que_id) REFERENCES question(que_id)
 ) engine=innodb character set utf8 collate utf8_unicode_ci;
-
-ALTER TABLE question
-ADD FOREIGN KEY (re_id_bonnerep) REFERENCES reponse(re_id);

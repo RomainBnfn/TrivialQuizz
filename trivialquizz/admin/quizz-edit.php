@@ -47,7 +47,7 @@
 <body>
   <?php require_once "../include/navbar.php"?>
   <!-- TODO: Ajouter une couleur en fct de $couleur -->
-  <div id="titreGeneral" class="bandeau-principal">Edition de Quizz : <?= $_QUIZZ["nom"] ?></div>
+  <div id="titreGeneral" class="bandeau-principal fond-bleu">Edition de Quizz : <?= $_QUIZZ["nom"] ?></div>
 
   <div class="cadre-global">
     <div class="cadre-central">
@@ -60,7 +60,9 @@
           <div>Paramètres généraux</div>
           <div>
             <!-- Quand on appuie sur le bouton, on envoie une requête -->
-            <button type="button" class="btn btn-danger">Supprimer le quizz</button>
+            <a id="boutonSuppression" href="quizz.php">
+              <button type="button" class="btn btn-danger">Supprimer le quizz</button>
+            </a>
           </div>
         </h2>
         <div class="container">
@@ -108,7 +110,8 @@
               <input type="hidden" name="ancien_nom" value="<?= $_QUIZZ["nom"] ?>" />
               <input type="hidden" name="id" value="<?= $_QUIZZ["id"] ?>" />
 
-              <input class="btn btn-success" value="Sauvegarder" type="submit" />
+              <input id="formGeneral_Button"  class="btn btn-success" value="Sauvegarder" type="submit" />
+              <span id="infoGeneral_Button" style="color: green; visibility: hidden;"> Les modifications ont été prises en compte !</span>
             </form>
 
           </div>
@@ -144,7 +147,6 @@
             }
             else
             {
-              print_r($_QUESTIONS);
               foreach ($_QUESTIONS as $_QUESTION)
               { ?>
                 <form id="editQestionN<?= $_QUESTION["id"] ?>" method="" onsubmit="">
@@ -171,6 +173,7 @@
         nameQuizz = <?=json_encode($_QUIZZ["nom"])?>;
     listeNoms = listeNoms.filter(function(value, index, arr){ return value != nameQuizz;})
 
+    var idNewQuestion = 1;
     $(document).ready(function(){
 
       $("#editGeneral").submit((e) => {
@@ -185,9 +188,23 @@
         .then((response) => {
           response.text()
           .then((resp) => {
-            $("#editGeneral").text(resp);
+            if(resp=="ok"){
+              $("#infoGeneral_Button").css("visibility", "visible");
+              setTimeout(() => {
+                $("#infoGeneral_Button").css("visibility", "collapse");
+              }, 5000);
+            }
           })
         });
+      });
+
+      //Ajouter une Question ne fait rien tant que le Formulaire n'a pas été envoyé
+      $("#boutonAjouterQuestion").click(() => {
+
+      });
+
+      $("#boutonSuppression").click(() => {
+        fetch("ajax/quizz-delete.php?id=<?= $_QUIZZ["id"] ?>")
       });
 
       $("#editGeneral_Nom").keyup(() => {
