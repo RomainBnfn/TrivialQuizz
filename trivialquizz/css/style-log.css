@@ -1,0 +1,18 @@
+.form-padding
+{
+  padding: 5% 0 5% 0;
+}
+.msg-erreur
+{
+  width: 100%;
+  padding: 1.4% 5% 1.5% 5%;
+  background-color: rgba(255,0,0,0.1);
+  border: solid 2px rgba(255,0,0,0.6);
+  border-radius: 15px;
+  margin-bottom: -3%;
+}
+.msg-erreur p
+{
+  margin:0;
+  color: rgba(255,0,0,0.6);
+}

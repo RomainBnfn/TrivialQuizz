@@ -24,6 +24,8 @@
     $descTheme[$i] = $th_base[$i]["desc"];
   }
 
+  //variable qui permet de revenir à la page où était l'ut avant qu'il se connecte
+  $_SESSION["origin"] = "index.php";
 ?>
 <!doctype html>
 <html lang="fr">
@@ -33,7 +35,6 @@
   <link rel="stylesheet" type="text/css" href="css/style-index.css">
 </head>
 <body>
-
   <?php require_once "include/navbar.php"?>
   <section class="bandeau-principal fond-bleu">
     Accueil
