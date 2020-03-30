@@ -12,7 +12,9 @@
     <!-- Se connecter -->
     <div>
       <button type="button" class="btn btn-primary">Inscription</button>
-      <button type="button" class="btn btn-outline-primary">Connexion</button>
+      <a href="/trivial/trivialquizz/log.php">
+        <button type="button" class="btn btn-outline-primary">Connexion</button>
+      </a>
     </div>
   </div>
 </nav>
