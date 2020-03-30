@@ -4,6 +4,6 @@
 <a href="quizz.php">
   <button type="button" class="btn btn-outline-info">Quizz</button>
 </a>
-<a>
+<a href="question.php">
   <button type="button" class="btn btn-outline-info">Question</button>
 </a>

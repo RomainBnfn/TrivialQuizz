@@ -38,7 +38,7 @@
       <!-- DEBUT: Section des Thèmes-->
       <div>
         <div class="titre1">
-          <div>Thèmes</div>
+          <div>Les Thèmes</div>
           <a href="<?=$base_location?>/admin/theme-create.php">
             <button type="button" class="btn btn-success">Ajouter</button>
           </a>
@@ -75,7 +75,7 @@
                     echo '<span class="badge badge-pill badge-info">1</span> Quizz Associé !';
                   }
                   else {
-                    echo '<span class="badge badge-pill badge-info">'.$_NBOFQUIZZ[$_THEME["id"]].'</span> Quizzes associés à ce Thème !';
+                    echo '<span class="badge badge-pill badge-info">'.$_NBOFQUIZZ[$_THEME["id"]].'</span> Quizzes associés !';
                   }
                 }
                 else{
