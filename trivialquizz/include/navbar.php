@@ -1,4 +1,3 @@
-<nav class="navbar navbar-fixed-top" role="navigation">
 <?php
   //TODO: changer les liens
 
