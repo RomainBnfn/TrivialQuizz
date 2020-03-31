@@ -10,18 +10,18 @@
   //si première essai: first_try, si echec connexion: fail
   $connection = "first_try";
 
-  if(isset($_POST["uname"]) && isset($_POST["pswd"])){
-    $uname = $_POST["uname"];
+  if(isset($_POST["pseudo"]) && isset($_POST["pswd"])){
+    $pseudo = $_POST["pseudo"];
     $requete = $bdd -> prepare("SELECT pr_pseudo FROM profil WHERE pr_pseudo=? AND pr_password=?");
-    $requete -> execute(array($uname,$_POST["pswd"]));
+    $requete -> execute(array($pseudo,$_POST["pswd"]));
     if(empty($requete -> fetch())){
       // non connecté
       $connection = "fail";
     }else {
       // connecté
-      $_SESSION['uname'] = $uname;
+      $_SESSION['pseudo'] = $pseudo;
       $requete = $bdd -> prepare("SELECT pr_is_admin FROM profil WHERE pr_pseudo=?");
-      $requete -> execute(array($uname));
+      $requete -> execute(array($pseudo));
       if(($requete -> fetch())[0] == 1){
         $_SESSION['is_admin'] = true;
         header("Location: ".$admin_index_location);
@@ -62,8 +62,8 @@
           ?>
           <form class="form-padding" action="log.php" method="post">
             <div class="form-group">
-              <label for="uname">Pseudo:</label>
-              <input type="text" class="form-control" id="uname" placeholder="Entrer votre pseudo" name="uname" required>
+              <label for="pseudo">Pseudo:</label>
+              <input type="text" class="form-control" id="pseudo" placeholder="Entrer votre pseudo" name="pseudo" required>
             </div>
             <div class="form-group">
               <label for="pwd">Mot de passe:</label>
