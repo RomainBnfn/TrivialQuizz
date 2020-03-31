@@ -62,6 +62,7 @@ a
 nav {
 	box-shadow: 0px 4px 5px 1px rgba(0, 0, 0, .4);
 }
+<<<<<<< HEAD
 label
 {
 	display: block;
@@ -77,3 +78,5 @@ label
   display: flex;
   justify-content: right;
 }
+=======
+>>>>>>> 97a7cf0ddaad38dfc0660f14562390671c552980

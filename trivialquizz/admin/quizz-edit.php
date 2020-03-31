@@ -27,8 +27,6 @@
     exit();
   }
 
-
-
   $_THEME = tryLoadTheme($bdd, $_QUIZZ["id_theme"]);
   if(empty($_THEME))
   {
@@ -42,6 +40,7 @@
 <html lang="fr">
 <head>
   <title>Edition de Quizz</title>
+  <link rel="stylesheet" href="../css/modal.css" />
   <?php require_once "../include/header.html"?>
 </head>
 <body>
@@ -60,9 +59,7 @@
           <div>Paramètres généraux</div>
           <div>
             <!-- Quand on appuie sur le bouton, on envoie une requête -->
-            <a id="boutonSuppression" href="quizz.php">
-              <button type="button" class="btn btn-danger">Supprimer le quizz</button>
-            </a>
+            <button id="boutonSuppression" type="button" class="btn btn-danger">Supprimer le quizz</button>
           </div>
         </h2>
         <div class="container">
@@ -79,19 +76,23 @@
             Sauvegarder les modifications
           -->
             <form id="editGeneral" method="POST">
-              <div>
-                <!-- Le message est par défaut pas affiché-->
-                <div id="errorGeneral_Nom" style="color: red; visibility: hidden;"> Ce nom est déjà utilisé !</div>
-                <label name="nom">Nom : </label>
-                <input id="editGeneral_Nom" type="text" name="nom" value="<?= $_QUIZZ["nom"] ?>" required/>
-              </div>
-              <br/>
 
-              <div>
-                <div id="errorGeneral_Desc"></div>
-                <label name="desc">Description : </label>
-                <textarea id="formGeneralDesc" type="text" name="desc" rows="5" draggable="false" required ><?= $_QUIZZ["desc"] ?></textarea>
-              </div> <br/>
+              <div class="form-group row">
+                <label for="editGeneral_Nom" class="col-sm-2 col-form-label">
+                  Nom:
+                </label>
+                <input id="editGeneral_Nom" type="text" class="col form-control" name="nom" placeholder="Entrez le nom de la Question !" value="<?= $_QUIZZ["nom"] ?>" required/>
+                <div id="errorGeneral_Nom" class="invalid-feedback">
+                  Ce nom est déjà utilisé !
+                </div>
+              </div>
+
+              <div class="form-group row">
+                <label for="editGeneral_Desc" class="col-sm-2 col-form-label">
+                  Description:
+                </label>
+                <textarea id="editGeneral_Desc" type="text" class="col form-control" name="desc" placeholder="Entrez le nom de la Question !" required><?= $_QUIZZ["desc"] ?></textarea>
+              </div>
 
               <div>
                 <label name="id_theme">Thème :</label>
@@ -133,8 +134,15 @@
         <h2 class="titre1">
           <div>Les questions</div>
           <div>
-            <button type="button" class="btn btn-success">Ajouter</button>
-            <button type="button" class="btn btn-success">Importer</button>
+            <button id="boutonAjouterQuestion" type="button" class="btn btn-success" data-toggle="modal" data-target="#modalCreationQuestion">
+              Ajouter
+            </button>
+            <button id="boutonImporterQuestion" type="button" class="btn btn-info" data-toggle="modal" data-target="#modalImportationQuestion">
+              Importer
+            </button>
+            <button id="boutonViderQuestions" type="button" class="btn btn-danger" data-toggle="modal" data-target="#modalViderQuestions">
+              Vider le Quizz
+            </button>
           </div>
         </h2>
 
@@ -167,8 +175,119 @@
     </div>
   </div>
 
+  <!-- Les modals (Pop-up)-->
+  <div class="modal fade" id="modalCreationQuestion" tabindex="-1" role="dialog" aria-labelledby="modalCreationQuestion" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+      <div class="modal-content">
+
+        <div class="green-modal-header modal-header">
+          <h5 class="modal-title" id="exampleModalLongTitle">Création de Question</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <form id="creationQuestion" method="POST">
+
+          <div class="modal-body" style="padding-bottom: 0 !important;">
+
+            <div class="form-group row">
+              <label for="typeQuestion" class="col-sm-3 col-form-label">Type de la Question :</label>
+
+              <div class="form-check col-sm-3 custom-radio">
+                <input id="choix_repLibre" class="form-check-input" type="radio" name="typeQuestion" value="repLibre" checked>
+                <label class="form-check-label" for="choix_repLibre">
+                  Réponse Libre
+                </label>
+              </div>
+
+              <div class="form-check col-sm-4 custom-radio">
+                <input id="choix_QCM" class="form-check-input" type="radio" name="typeQuestion" value="QCM"/>
+                <label class="form-check-label" for="choix_QCM">
+                  QCM
+                </label>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="exampleInputEmail1">
+                <i class="far fa-question-circle" style="color: #339af0;"></i>
+                Intitulé de la question :
+              </label>
+              <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Entrez l'intitulé de la Question !" required/>
+            </div>
+
+            <hr/> <!-- ======================================================= -->
+
+            <div id="reponse_TypeLibre" class="form-group">
+              <label for="exampleInputEmail1">
+                <i class="far fa-check-circle" style="color: #51cf66;"></i>
+                Réponse correcte :
+              </label>
+              <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Entrez cette fameuse réponse !" required/>
+              <small id="emailHelp" class="form-text text-muted">Cette réponse devra être indiquée à la lettre près.</small>
+            </div>
+
+            <div id="reponse_TypeQCM" class="form-group">
+              <label>
+                <i class="fas fa-th-list" style="color: #ff922b;"></i>
+                Liste des réponse :
+                <br/>
+                <i>Listez toutes les réponses qui seront proposées, et cochez celles qui sont justes.</i>
+              </label>
+
+              <ul class="list-group list-group-flush">
+
+                <li class="list-group-item" style="padding-bottom: 0 !important;">
+
+                    <div class="row">
+                      <div class="col-sm-1 form-group" style="text-align: center; vertical-align: middle;">
+                        <input class="form-check-input" type="checkbox" value="" id="defaultCheck1"/>
+                      </div>
+                      <input class="col-sm-10 form-control" type="text"  id="inputAddress" placeholder="La bonne réponse de la question libre." required>
+                      <div class="col-sm-1 form-group">
+                        <button class="btn btn-danger" type="button">
+                            <i class="fas fa-trash-alt" style="color: #ffffff;"></i>
+                        </button>
+                      </div>
+
+                    </div>
+                </li>
+                <li class="list-group-item" style="padding-bottom: 0 !important;">
+
+                    <div class="row">
+                      <div class="col-sm-1 form-group" style="text-align: center; vertical-align: middle;">
+                        <input class="form-check-input" type="checkbox" value="" id="defaultCheck1"/>
+                      </div>
+                      <input class="col-sm-10 form-control" type="text"  id="inputAddress" placeholder="La bonne réponse de la question libre." required>
+                      <div class="col-sm-1 form-group">
+                        <button class="btn btn-danger" type="button">
+                            <i class="fas fa-trash-alt" style="color: #ffffff;"></i>
+                        </button>
+                      </div>
+
+                    </div>
+
+                </li>
+
+              </ul>
+            </div>
+
+          </div>
+
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
+            <input id="formCreation_Button"  class="btn btn-success" value="Ajouter" type="submit" />
+          </div>
+
+        </form>
+
+      </div>
+    </div>
+  </div>
+
   <?php require_once "../include/script.html"?>
   <script>
+
     var listeNoms = <?=json_encode(getAllQuizzNames($bdd))?>,
         nameQuizz = <?=json_encode($_QUIZZ["nom"])?>;
     listeNoms = listeNoms.filter(function(value, index, arr){ return value != nameQuizz;})
@@ -198,13 +317,12 @@
         });
       });
 
-      //Ajouter une Question ne fait rien tant que le Formulaire n'a pas été envoyé
-      $("#boutonAjouterQuestion").click(() => {
-
-      });
-
-      $("#boutonSuppression").click(() => {
+      $("#boutonSuppression").click( () => {
+        $(this).text("Suppression...");
         fetch("ajax/quizz-delete.php?id=<?= $_QUIZZ["id"] ?>")
+        .then(()=>{
+          document.location.href="quizz.php";
+        });
       });
 
       $("#editGeneral_Nom").keyup(() => {
@@ -217,6 +335,25 @@
         }
       });
 
+      //-- Modal --
+      var _save_htmlLibre = $("#reponse_TypeLibre").html(),
+          htmlLibre = _save_htmlLibre;
+          _save_htmlQCM = $("#reponse_TypeQCM").html(),
+          htmlQCM = _save_htmlQCM;
+      $("#reponse_TypeQCM").html("");
+
+      $("#choix_repLibre").click(()=>{
+        htmlQCM = $("#reponse_TypeQCM").html();
+        $("#reponse_TypeQCM").html("");
+        $("#reponse_TypeLibre").html(htmlLibre);
+      });
+
+      $("#choix_QCM").click(()=>{
+        htmlLibre = $("#reponse_TypeLibre").html();
+        $("#reponse_TypeLibre").html("");
+        console.log(htmlQCM);
+        $("#reponse_TypeQCM").html(htmlQCM);
+      });
     });
   </script>
 </body>
