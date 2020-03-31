@@ -11,7 +11,9 @@
 
     <!-- Se connecter -->
     <div>
-      <button type="button" class="btn btn-primary">Inscription</button>
+      <a href="/trivial/trivialquizz/register.php"
+        <button type="button" class="btn btn-primary">Inscription</button>
+      </a>
       <a href="/trivial/trivialquizz/log.php">
         <button type="button" class="btn btn-outline-primary">Connexion</button>
       </a>

@@ -68,3 +68,12 @@ label
 	width: 100px;
 	float: left;
 }
+.form-padding
+{
+  padding: 5% 0 5% 0;
+}
+.redirection-log-register
+{
+  display: flex;
+  justify-content: right;
+}

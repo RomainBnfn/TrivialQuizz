@@ -71,6 +71,9 @@
             </div>
             <button type="submit" class="btn btn-primary">Se connecter</button>
           </form>
+          <div class="redirection-log-register">
+            Si vous n'êtes pas inscrit&nbsp<a href="register.php">inscrivez vous</a>
+          </div>
       </div>
     </section>
   </body>
