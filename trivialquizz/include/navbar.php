@@ -9,7 +9,6 @@
     exit();
   }
   $logo_link = "/trivial/trivialquizz/index.php";
-  $hello_txt = "Bonjour, ".$_SESSION['pseudo'];
   if(isset($_SESSION['is_admin'])){
     if($_SESSION['is_admin']=="true"){
       $logo_link = "/trivial/trivialquizz/admin/index.php";
@@ -32,6 +31,7 @@
     <?php
       if(isset($_SESSION['pseudo'])){
         if($_SESSION['pseudo'] != ''){
+          $hello_txt = "Bonjour, ".$_SESSION['pseudo'];
     ?>
       <div id="hello-navbar">
         <p><?=$hello_txt?></p>
