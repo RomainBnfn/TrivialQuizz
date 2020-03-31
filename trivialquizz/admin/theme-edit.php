@@ -58,17 +58,23 @@
         <div>
 
           <form id="formGeneral" method="POST" onsubmit="">
-            <div>
-              <div id="errorGeneral_Nom"></div>
-              <label name="nom">Nom : </label>
-              <input id="formGeneralNom" type="text" name="nom" value="<?= $_THEME["nom"] ?>" required/>
-            </div> <br/>
 
-            <div>
-              <div id="errorGeneral_Desc"></div>
-              <label name="desc">Description : </label>
-              <textarea id="formGeneralDesc" type="text" name="desc" rows="5" draggable="false" required ><?= $_THEME["desc"] ?></textarea>
-            </div> <br/>
+            <div class="form-group row">
+              <label for="formGeneralNom" class="col-sm-2 col-form-label">
+                Nom:
+              </label>
+              <input id="formGeneralNom" type="text" class="col form-control" name="nom" value="<?= $_THEME["nom"] ?>" placeholder="Entrez le nom de votre Thème !" value="<?= $_QUIZZ["nom"] ?>" required/>
+              <div id="errorGeneral_Nom" class="invalid-feedback">
+                Ce nom est déjà utilisé !
+              </div>
+            </div>
+
+            <div class="form-group row">
+              <label for="editGeneral_Desc" class="col-sm-2 col-form-label">
+                Description:
+              </label>
+              <textarea id="editGeneral_Desc" type="text" class="col form-control" name="desc" rows="5" placeholder="Entrez la description de votre Thème !" required><?= $_THEME["desc"] ?></textarea>
+            </div>
 
             <div>
               <div id="errorGeneral_Couleur"></div>

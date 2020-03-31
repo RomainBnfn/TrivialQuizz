@@ -15,7 +15,7 @@
   require_once "../../include/liaisonbdd.php";
   require_once "../../include/functions.php";
 
-  // On regarde si l'id passé en méthode get est correct
+
   if(empty($_POST['id']) || !is_numeric($_POST['id'])
     || empty($_POST['nom'])
     || empty($_POST['id_theme'])

@@ -22,6 +22,7 @@
 <head>
   <title>Panel d'Admin</title>
   <?php require_once "../include/header.html"?>
+  <link rel="stylesheet" href="../css/cards.css" />
 </head>
 <body>
   <?php require_once "../include/navbar.php"?>
@@ -47,46 +48,56 @@
         <!-- DEBUT: Liste des Thèmes-->
         <div>
           <p>Les six premiers thèmes ne sont qu'éditable, ce sont ceux présents sur la roue de l'accueil du site !</p>
+
+
+        <div class="card-container">
           <?php
             $_NBOFQUIZZ = getNumbersOfQuizzesOfThemes($bdd);
             foreach($_THEMES as $_THEME)
             {
               ?>
-              <div id="themeN<?= $_THEME["id"]?>">
-                <div class="titre2">
-
-                  <div class="cat-title"><?= $_THEME["nom"] ?></div>
-
-                  <div class="edition">
-                    <a href="theme-edit.php?id=<?= $_THEME["id"] ?>">
-                      <button type="button" class="btn btn-warning">Edition</button>
-                    </a>
-                    <?php if($_THEME["is_Principal"] == 0){
-                      // On ne met que le boutton de suppression pour les Thèmes non principaux?>
-                      <button id="suppressionThemeN<?= $_THEME["id"]?>" type="button" class="btn btn-danger">Supprimer</button>
-                    <?php } ?>
-                  </div>
-
+              <div id="themeN<?= $_THEME["id"]?>" class="card">
+                <div class="card-header" style="background: <?= $_THEME['couleur'] ?>;">
+                </div>
+                <div class="card-body">
+                  <h5 class="card-title b"><?= $_THEME["nom"] ?></h5>
+                  <span><?php
+                  if(!empty($_NBOFQUIZZ[$_THEME["id"]])){
+                    if($_NBOFQUIZZ[$_THEME["id"]]==1){
+                      echo '<span class="badge badge-pill badge-info">1</span> Quizz Associé !';
+                    }
+                    else {
+                      echo '<span class="badge badge-pill badge-info">'.$_NBOFQUIZZ[$_THEME["id"]].'</span> Quizzes associés !';
+                    }
+                  }
+                  else{
+                      echo '<span class="badge badge-pill badge-danger">0</span> Quizz Associé :(';
+                  } ?></span>
+                  <p class="card-text"><?= $_THEME["desc"] ?></p>
                 </div>
 
-                <span><?php
-                if(!empty($_NBOFQUIZZ[$_THEME["id"]])){
-                  if($_NBOFQUIZZ[$_THEME["id"]]==1){
-                    echo '<span class="badge badge-pill badge-info">1</span> Quizz Associé !';
-                  }
-                  else {
-                    echo '<span class="badge badge-pill badge-info">'.$_NBOFQUIZZ[$_THEME["id"]].'</span> Quizzes associés !';
-                  }
-                }
-                else{
-                    echo '<span class="badge badge-pill badge-danger">0</span> Quizz Associé :(';
-                } ?></span>
-                <div><?= $_THEME["desc"] ?></div>
 
+                <div class="card-footer">
+                  <a href="theme-edit.php?id=<?= $_THEME["id"] ?>">
+                    <button type="button" class="btn btn-warning">
+                      <i class="far fa-edit"></i>
+                      Edition
+                    </button>
+                  </a>
+                  <?php if($_THEME["is_Principal"] == 0){
+                    // On ne met que le boutton de suppression pour les Thèmes non principaux?>
+                    <button id="suppressionThemeN<?= $_THEME["id"]?>" type="button" class="btn btn-danger">
+                      <i class="fas fa-trash-alt" style="color: #ffffff;"></i>
+                      Supprimer
+                    </button>
+                  <?php } ?>
+                </div>
               </div>
             <?php
             }
           ?>
+          </div>
+
         </div>
           <!-- FIN: Liste des Thèmes-->
       </div>
@@ -105,6 +116,7 @@
             fetch("ajax/theme-delete.php?id=<?= $_THEME["id"] ?>")
               .then((response) => {
                 $("#themeN<?= $_THEME["id"] ?>").text("");
+                $("#themeN<?= $_THEME["id"] ?>").css("display", "none");
                 // Pas besoin de voir s'il reste encore des thèmes,
                 // il y aura toujours les principaux.
               })

@@ -43,9 +43,8 @@
                               $_POST["desc"]));
 
     // On redirige l'utilisateur vers la page d'edit
-    $requete = $bdd -> query("SELECT MAX(th_id) FROM theme");
-    $result = $requete -> fetch();
-    header("Location: theme-edit.php?id=".$result[0]);
+    $id = $bdd->lastInsertId();
+    header("Location: theme-edit.php?id=".$id);
     exit();
   }
 
@@ -80,20 +79,22 @@
         <div>
           <form id="formGeneral" method="POST" onsubmit="">
 
+            <div class="form-group row">
+              <label for="editGeneral_Nom" class="col-sm-2 col-form-label">
+                Nom:
+              </label>
+              <input id="formGeneral_Nom" type="text" class="col form-control" name="nom" placeholder="Entrez le nom de votre Thème !" required/>
+              <div id="errorGeneral_Nom" class="invalid-feedback">
+                Ce nom est déjà utilisé !
+              </div>
+            </div>
 
-            <div>
-              <div id="errorGeneral_Nom" style="display: none; color: 'red';">Ce nom de Quiz existe déjà...</div>
-              <label name="nom">Nom : </label>
-              <input id="formGeneral_Nom" type="text" name="nom" required/>
-            </div> <br/>
-
-
-            <div>
-              <div id="errorGeneral_Desc"></div>
-              <label name="desc">Description : </label>
-              <textarea id="formGeneral_Desc" type="text" name="desc" rows="5" draggable="false" required ></textarea>
-            </div> <br/>
-
+            <div class="form-group row">
+              <label for="formGeneral_Desc" class="col-sm-2 col-form-label">
+                Description:
+              </label>
+              <textarea id="formGeneral_Desc" type="text" class="col form-control" name="desc" rows="5" placeholder="Entrez la description de votre Thème !" required></textarea>
+            </div>
 
             <div>
               <div id="errorGeneral_Couleur"></div>
@@ -101,6 +102,12 @@
               <input id="formGeneral_Nom" type="text" name="couleur" required/>
             </div> <br/>
 
+            <div class="card bg-color">
+              <div class="card-body text-center d-flex justify-content-center align-items-center flex-column">
+                <p>My background color will be changed</p>
+                <button id="color-picker-3" class="btn btn-outline-primary btn-sm">Color Picker</button>
+              </div>
+            </div>
 
             <input type="submit" />
 
@@ -117,6 +124,33 @@
   <?php require_once "../include/script.html"?>
 <script>
   <?php //Condition sur le nom : in_array("TESTTT", $listeNoms)?>
+  $(document).ready(function(){
+    const pickr3 = new Pickr({
+    el: '#color-picker-3',
+    useAsButton: true,
+    default: "303030",
+    components: {
+      preview: true,
+      opacity: true,
+      hue: true,
+
+      interaction: {
+        hex: true,
+        rgba: true,
+        hsla: true,
+        hsva: true,
+        cmyk: true,
+        input: true,
+        clear: true,
+        save: true
+      }
+    },
+
+    onChange(hsva, instance) {
+      $('.bg-color').css('background-color', hsva.toRGBA().toString());
+    }
+  });
+});
 </script>
 </body>
 </html>

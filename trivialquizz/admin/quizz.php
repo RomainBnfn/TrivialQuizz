@@ -43,9 +43,9 @@
         <div class="titre1">
           <div>Les Quizz</div>
           <div>
-            <a href="<?=$base_location?>/admin/quizz-create.php">
-              <button type="button" class="btn btn-success">Ajouter</button>
-            </a>
+            <button id="boutonCreerQuizz" type="button" class="btn btn-success" data-toggle="modal" data-target="#modalCreationQuizz">
+              Créer un Quizz !
+            </button>
           </div>
         </div>
 
@@ -86,35 +86,38 @@
 
     </div>
   </div>
-
   <?php require_once "../include/script.html"?>
+  <?php require_once "modals/quizz-create.php"?>
   <script>
       $(document).ready(function(){
         <?php
-          foreach ($_QUIZZES as $_QUIZZ)
+          if(!empty($_QUIZZES))
           {
-            if (empty($_QUIZZ["id"])) break;
-          ?>
-          $("#suppressionQuizzN<?= $_QUIZZ["id"] ?>").click(function(){
-            fetch("ajax/quizz-delete.php?id=<?= $_QUIZZ["id"] ?>")
-              .then((response) => {
-                response.text()
-                .then((resp) => {
-                  if (resp != 0)
-                  {
-                    $("#quizzN<?= $_QUIZZ["id"] ?>").text("");
-                  }
-                  else
-                  {
-                    $("#containerListQuizz").text("<?= $messagePasDeQuizz ?>");
-                  }
+            foreach ($_QUIZZES as $_QUIZZ)
+            {
+              if (empty($_QUIZZ["id"])) break;
+            ?>
+            $("#suppressionQuizzN<?= $_QUIZZ["id"] ?>").click(function(){
+              fetch("ajax/quizz-delete.php?id=<?= $_QUIZZ["id"] ?>")
+                .then((response) => {
+                  response.text()
+                  .then((resp) => {
+                    if (resp != 0)
+                    {
+                      $("#quizzN<?= $_QUIZZ["id"] ?>").text("");
+                    }
+                    else
+                    {
+                      $("#containerListQuizz").text("<?= $messagePasDeQuizz ?>");
+                    }
+                  })
                 })
-              })
-              /* A voir si on met un message d'erreur
-              .catch(() => {
-              });*/
-          });
-          <?php
+                /* A voir si on met un message d'erreur
+                .catch(() => {
+                });*/
+            });
+            <?php
+            }
           }
         ?>
       });
