@@ -17,6 +17,28 @@ a
   height: 80px;
 	width: auto;
 }
+#hello-navbar p
+{
+  font-size: 1.2rem;
+  font-family: "CaviarDreams";
+  font-weight: bold;
+  line-height: 35px;
+  margin: 0 35px 0 0;
+  overflow: hidden;
+}
+#hello-navbar
+{
+  display: flex;
+  justify-content: center;
+  height: 35px;
+  width: max-content;
+}
+#hello-navbar a
+{
+  height: auto;
+  display: flex;
+  justify-content: center;
+}
 .bandeau-principal{
 	height: 65px;
 	text-align: center;
@@ -62,7 +84,6 @@ a
 nav {
 	box-shadow: 0px 4px 5px 1px rgba(0, 0, 0, .4);
 }
-<<<<<<< HEAD
 label
 {
 	display: block;
@@ -78,5 +99,3 @@ label
   display: flex;
   justify-content: right;
 }
-=======
->>>>>>> 97a7cf0ddaad38dfc0660f14562390671c552980
