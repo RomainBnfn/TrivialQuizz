@@ -88,37 +88,37 @@
   </div>
 
   <?php require_once "../include/script.html"?>
-  <script>
-      $(document).ready(function(){
-        <?php
-          foreach ($_QUIZZES as $_QUIZZ)
-          {
-            if (empty($_QUIZZ["id"])) break;
-          ?>
-          $("#suppressionQuizzN<?= $_QUIZZ["id"] ?>").click(function(){
-            fetch("ajax/quizz-delete.php?id=<?= $_QUIZZ["id"] ?>")
-              .then((response) => {
-                response.text()
-                .then((resp) => {
-                  if (resp != 0)
-                  {
-                    $("#quizzN<?= $_QUIZZ["id"] ?>").text("");
-                  }
-                  else
-                  {
-                    $("#containerListQuizz").text("<?= $messagePasDeQuizz ?>");
-                  }
-                })
-              })
-              /* A voir si on met un message d'erreur
-              .catch(() => {
-              });*/
-          });
-          <?php
-          }
-        ?>
+<script>
+  $(document).ready(function(){
+    <?php
+      foreach ($_QUIZZES as $_QUIZZ)
+      {
+        if (empty($_QUIZZ["id"])) break;
+      ?>
+      $("#suppressionQuizzN<?= $_QUIZZ["id"] ?>").click(function(){
+        fetch("ajax/quizz-delete.php?id=<?= $_QUIZZ["id"] ?>")
+          .then((response) => {
+            response.text()
+            .then((resp) => {
+              if (resp != 0)
+              {
+                $("#quizzN<?= $_QUIZZ["id"] ?>").text("");
+              }
+              else
+              {
+                $("#containerListQuizz").text("<?= $messagePasDeQuizz ?>");
+              }
+            })
+          })
+          /* A voir si on met un message d'erreur
+          .catch(() => {
+          });*/
       });
-  </script>
+      <?php
+      }
+    ?>
+  });
+</script>
 
 </body>
 </html>

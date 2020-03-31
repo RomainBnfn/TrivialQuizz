@@ -1,4 +1,4 @@
-<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+<nav class="navbar navbar-fixed-top" role="navigation">
   <div class="container">
     <!-- Logo pour aller à la page d'accueil -->
     <div>

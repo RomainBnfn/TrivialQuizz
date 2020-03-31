@@ -59,6 +59,14 @@ a
 .titre2{
 	font-size: 20px;
 }
+.titre3{
+  font-size: 2em;
+  padding-bottom: 10px;
+  margin-bottom: 20px !important;
+}
+.titre-shadow{
+	box-shadow: 0px 7px 4px -7px rgba(0,0,0,.4);
+}
 nav {
 	box-shadow: 0px 4px 5px 1px rgba(0, 0, 0, .4);
 }

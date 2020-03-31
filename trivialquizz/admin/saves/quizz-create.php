@@ -37,14 +37,13 @@
                                                   th_id,
                                                   qui_nom)
                                                   VALUES ( 0 , ? , ? , ?)");
-    $requete -> execute(array($_POST["desc"],
+    $result = $requete -> execute(array($_POST["desc"],
                               $_POST["theme"],
                               $_POST["nom"]));
-    // On redirige l'utilisateur vers la page d'edit
 
-    $requete = $bdd -> query("SELECT MAX(qui_id) FROM quiz");
-    $result = $requete -> fetch();
-    header("Location: quizz-edit.php?id=".$result[0]);
+    // On redirige l'utilisateur vers la page d'edit
+    $id = $bdd->lastInsertId();
+    header("Location: quizz-edit.php?id=". $id);
     exit();
   }
 
@@ -89,21 +88,26 @@
         <div>
           <form id="formGeneral" method="POST" onsubmit="">
 
-            <div>
-              <div id="errorGeneral_Nom" style="color: red; visibility: hidden;"> Ce nom est déjà utilisé !</div>
-              <label name="nom">Nom : </label>
-              <input id="formGeneral_Nom" type="text" name="nom" required/>
-            </div> <br/>
+            <div class="form-group row">
+              <label for="editGeneral_Nom" class="col-sm-2 col-form-label">
+                Nom:
+              </label>
+              <input id="formGeneral_Nom" type="text" class="col form-control" name="nom" placeholder="Entrez le nom de votre Quizz !" required/>
+              <div id="errorGeneral_Nom" class="invalid-feedback">
+                Ce nom est déjà utilisé !
+              </div>
+            </div>
 
-            <div>
-              <div id="errorGeneral_Desc"></div>
-              <label name="desc">Description : </label>
-              <textarea id="formGeneral_Desc" type="text" name="desc" rows="5" draggable="false" required ></textarea>
-            </div> <br/>
+            <div class="form-group row">
+              <label for="formGeneral_Desc" class="col-sm-2 col-form-label">
+                Description:
+              </label>
+              <textarea id="formGeneral_Desc" type="text" class="col form-control" name="desc" rows="5" placeholder="Entrez la description de votre Quizz !" required></textarea>
+            </div>
 
-            <div>
-              <label name="theme">Thème :</label>
-              <select name="theme" size="1">
+            <div class="form-group row">
+              <label for="formGeneral_Theme" name="theme" class="col-sm-2 col-form-label">Thème :</label>
+              <select class="col form-control" id="formGeneral_Theme" name="theme">
                 <?php
                 foreach ($_THEMES as $_THEME)
                 {
@@ -113,9 +117,9 @@
                 }
                 ?>
               </select>
-            </div> <br/>
+            </div>
 
-            <input type="submit" />
+            <input class="btn btn-success float-right" value="Créer le Quizz !" type="submit" />
           </form>
 
         </div>

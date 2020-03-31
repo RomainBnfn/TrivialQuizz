@@ -19,8 +19,7 @@
       return null;
     }
   }
-
-
+  
   // -----------------------------------------------------------------------------
   //  [ FONCTION UTILITAIRES (A ne pas utiliser directement)
   // -----------------------------------------------------------------------------
@@ -53,10 +52,14 @@
   function loadQuestionFromSQLResult($result)
   {
     $_QUESTION;
-    $_QUESTIONS["id"] = $result["id"];
-    $_QUESTIONS["id_question"] =$result["que_id"];
-    $_QUESTIONS["lib"] =$result["que_lib"];
-    $_QUESTIONS["id_bonneRep"] = $result["re_id_bonnerep"];
+    $_QUESTION["id"] = $result["que_id"];
+    $_QUESTION["lib"] =$result["que_lib"];
+    $_QUESTION["type"] =$result["que_type"];
+    if($_QUESTION["type"] == 1) //réponse Libre
+    {
+      $_QUESTION["rep_id"] = $result["re_id"];
+      $_QUESTION["rep"] = $result["re_lib"];
+    }
     return $_QUESTION;
   }
 
@@ -204,7 +207,7 @@
     if(!is_numeric($idQuizz)) {
       return null;
     }
-    $data = tryQueryBDD($bdd, "SELECT * FROM question WHERE que_id IN ( SELECT qui_id FROM quiz_quest WHERE que_id = $idQuizz)");
+    $data = tryQueryBDD($bdd, "SELECT * FROM question, reponse WHERE question.que_id IN ( SELECT que_id FROM quiz_quest WHERE qui_id = $idQuizz) AND question.que_id = reponse.que_id");
     return tabFormat($data, "loadQuestionFromSQLResult");
   }
 
