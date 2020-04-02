@@ -9,12 +9,30 @@
     exit();
   }
   $logo_link = "/trivial/trivialquizz/index.php";
-  $hello_txt = "Bonjour, ".$_SESSION['pseudo'];
   if(isset($_SESSION['is_admin'])){
     if($_SESSION['is_admin']=="true"){
       $logo_link = "/trivial/trivialquizz/admin/index.php";
-      $hello_txt = "Bonjour, ".$_SESSION['pseudo']." (admin)";
+      $admin = true;
+    }else{
+      $admin = false;
     }
+  }else{
+    $admin = false;
+  }
+
+  if(isset($_SESSION['pseudo'])){
+    if(empty($_SESSION['pseudo'])){
+      $connected = false;
+    }else{
+      $connected = true;
+      if($admin){
+        $hello_txt = "Bonjour, ".$_SESSION['pseudo']." (admin)";
+      }else{
+        $hello_txt = "Bonjour, ".$_SESSION['pseudo'];
+      }
+    }
+  }else{
+    $connected = false;
   }
 ?>
 <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -30,12 +48,11 @@
 
     <!-- Se connecter -->
     <?php
-      if(isset($_SESSION['pseudo'])){
-        if($_SESSION['pseudo'] != ''){
+      if($connected){
     ?>
       <div id="hello-navbar">
         <p><?=$hello_txt?></p>
-        <a href="?unlog=true">
+        <a class="center" href="?unlog=true">
           <button type="button" class="btn btn-outline-primary" name="unlog">Déconnexion</button>
         </a>
       </div>
@@ -51,7 +68,6 @@
       </a>
     </div>
     <?php
-        }
       }
     ?>
   </div>

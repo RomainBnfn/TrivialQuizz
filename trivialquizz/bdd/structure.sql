@@ -1,6 +1,6 @@
 DROP TABLE IF EXISTS quiz_quest;
-DROP TABLE IF EXISTS question;
 DROP TABLE IF EXISTS reponse;
+DROP TABLE IF EXISTS question;
 DROP TABLE IF EXISTS score;
 DROP TABLE IF EXISTS quiz;
 DROP TABLE IF EXISTS theme;
@@ -19,7 +19,7 @@ CREATE TABLE theme
   th_id INTEGER NOT NULL PRIMARY KEY AUTO_INCREMENT,
   th_nom VARCHAR(50) NOT NULL,
   th_couleur VARCHAR(7) NOT NULL,
-  th_description VARCHAR(1000),
+  th_description VARCHAR(500),
   th_is_principal BIT(1)
 ) engine=innodb character set utf8 collate utf8_unicode_ci;
 
