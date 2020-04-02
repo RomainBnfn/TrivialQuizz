@@ -51,7 +51,9 @@
               ?>
                 <path class="theme<?=$i?>" d="<?=$pathUnfocus[$i]?>" fill="<?=$th_base[$i]["couleur"]?>"/>
                 <text id="th-text<?=$i?>" fill="#fff" x="<?=$coordTextUnfocus[$i][0]?>" y="<?=$coordTextUnfocus[$i][1]?>"><?=$th_base[$i]["nom"]?></text>
-                <path class="bt-theme theme<?=$i?>" d="<?=$pathUnfocus[$i]?>" fill="#ffffff00" stroke="#000000" stroke-width="1"/>
+                <a href="quizz-choice.php?theme=<?=$th_base[$i]["id"]?>">
+                  <path class="bt-theme theme<?=$i?>" d="<?=$pathUnfocus[$i]?>" fill="#ffffff00" stroke="#000000" stroke-width="1"/>
+                </a>
               <?php
                 $i = $i + 1;
               }
@@ -61,16 +63,16 @@
           <p id="th-desc"></p>
       </article>
       <?php
-      if(empty($th_custom)){
+        if(!empty($th_custom)){
       ?>
       <article class="container">
         <h1 class="titre1">Thèmes personnalisés</h1>
         <div id="container-th-custom-btn">
         <?php
-          for($i=0;$i<5;$i=$i+1){ //$i<count($th_custom)
+          for($i=0;$i<count($th_custom);$i=$i+1){ //$i<count($th_custom)
             ?>
-            <a href="#" class="th-custom-btn center" style="background-color: #22448844" >
-              <p class="center">Theme custom stylé</p>
+            <a href="quizz-choice.php?theme=<?=$th_custom[$i]['id']?>" class="th-custom-btn center" style="background-color: <?=$th_custom[$i]['couleur']?>" >
+              <p class="center"><?=$th_custom[$i]['nom']?></p>
             </a>
             <?php
           }
@@ -78,7 +80,7 @@
         </div>
       </article>
       <?php
-      }
+        }
       ?>
     </div>
   </section>

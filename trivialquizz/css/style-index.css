@@ -52,6 +52,7 @@ text
   font-family: "CaviarDreams";
   font-weight: bold;
   font-size: 1.5vw;
+  transform: translateY(25%);
 }
 .th-custom-btn:hover
 {

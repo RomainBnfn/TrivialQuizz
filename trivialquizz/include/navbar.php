@@ -15,6 +15,17 @@
       $hello_txt = "Bonjour, ".$_SESSION['pseudo']." (admin)";
     }
   }
+
+  if(isset($_SESSION['pseudo'])){
+    if(empty($_SESSION['pseudo'])){
+      $connected = false;
+    }else{
+      $connected = true;
+      $hello_txt = "Bonjour, ".$_SESSION['pseudo'];
+    }
+  }else{
+    $connected = false;
+  }
 ?>
 <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -29,9 +40,7 @@
 
     <!-- Se connecter -->
     <?php
-      if(isset($_SESSION['pseudo'])){
-        if($_SESSION['pseudo'] != ''){
-          $hello_txt = "Bonjour, ".$_SESSION['pseudo'];
+      if($connected){
     ?>
       <div id="hello-navbar">
         <p><?=$hello_txt?></p>
@@ -51,7 +60,6 @@
       </a>
     </div>
     <?php
-        }
       }
     ?>
   </div>
