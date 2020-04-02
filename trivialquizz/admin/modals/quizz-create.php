@@ -57,11 +57,12 @@
               ?>
             </select>
           </div>
-
-          <div class="form-check">
-            <input type="checkbox" class="form-check-input" id="passerAEdition" checked />
-            <label class="form-check-label" for="passerAEdition">Je veux éditer mon quizz après sa création</label>
+          <div>
+            Test
           </div>
+
+
+
 
         </div>
 
@@ -70,6 +71,7 @@
           <input id="formCreation_Button"  class="btn btn-success" value="Créer le Quizz !" type="submit" />
         </div>
       </form>
+
     </div>
   </div>
 </div>

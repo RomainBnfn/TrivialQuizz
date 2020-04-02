@@ -60,7 +60,7 @@
                 <div class="card-header" style="background: <?= $_THEME['couleur'] ?>;">
                 </div>
                 <div class="card-body">
-                  <h5 class="card-title b"><?= $_THEME["nom"] ?></h5>
+                  <h5 class="card-title c"><?= $_THEME["nom"] ?></h5>
                   <span><?php
                   if(!empty($_NBOFQUIZZ[$_THEME["id"]])){
                     if($_NBOFQUIZZ[$_THEME["id"]]==1){

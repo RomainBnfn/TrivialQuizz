@@ -12,6 +12,6 @@
   background-color: blue;
 }
 .b{
-  a;
+   @include .a;
   color: white;
 }

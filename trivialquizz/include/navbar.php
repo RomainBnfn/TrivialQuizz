@@ -1,10 +1,7 @@
-<<<<<<< HEAD
-<nav class="navbar navbar-fixed-top" role="navigation">
-=======
 <?php
   //TODO: changer les liens
 
-
+  $_SESSION['pseudo']="";
   if(isset($_GET['unlog'])){
     $_SESSION['pseudo']="";
     $_SESSION['is_admin']="false";
@@ -21,7 +18,6 @@
   }
 ?>
 <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
->>>>>>> 1fe99e4ace5896102d22a1b3f53b5d25b7b13678
   <div class="container">
     <!-- Logo pour aller à la page d'accueil -->
     <div>

@@ -1,6 +1,6 @@
 /* Modal Header */
 .green-modal-header {
- padding: 2px 16px;
+ padding: 2px 16px !important;
  background-color: #5cb85c !important;
  color: white !important;
 }
