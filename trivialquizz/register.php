@@ -23,6 +23,7 @@
       $requete = $bdd -> prepare("INSERT INTO profil (pr_pseudo, pr_password) VALUES (?,?)");
       $isRegisterValid = $requete -> execute(array($_POST['pseudo'],$_POST['pswd']));
       $_SESSION['pseudo'] = $_POST['pseudo'];
+      $_SESSION['is_admin'] = false;
     }
   }
 ?>

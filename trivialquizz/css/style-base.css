@@ -57,6 +57,16 @@ a
 	width: auto;
 	justify-content: center;
 }
+@media (max-width: 800px) {
+  .cadre-central{
+    width: 100% !important;
+  }
+}
+@media (min-width: 801px) and (max-width: 1200px) {
+  .cadre-central{
+    width: 80% !important;
+  }
+}
 .cadre-central{
 	box-shadow: 2px 5px 6px 3px rgba(0, 0, 0, .2), -2px 5px 6px 3px rgba(0, 0, 0, .2);
 	width: 60%;

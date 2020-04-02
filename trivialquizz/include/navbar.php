@@ -12,8 +12,12 @@
   if(isset($_SESSION['is_admin'])){
     if($_SESSION['is_admin']=="true"){
       $logo_link = "/trivial/trivialquizz/admin/index.php";
-      $hello_txt = "Bonjour, ".$_SESSION['pseudo']." (admin)";
+      $admin = true;
+    }else{
+      $admin = false;
     }
+  }else{
+    $admin = false;
   }
 
   if(isset($_SESSION['pseudo'])){
@@ -21,7 +25,11 @@
       $connected = false;
     }else{
       $connected = true;
-      $hello_txt = "Bonjour, ".$_SESSION['pseudo'];
+      if($admin){
+        $hello_txt = "Bonjour, ".$_SESSION['pseudo']." (admin)";
+      }else{
+        $hello_txt = "Bonjour, ".$_SESSION['pseudo'];
+      }
     }
   }else{
     $connected = false;
