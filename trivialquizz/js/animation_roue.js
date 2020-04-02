@@ -75,13 +75,11 @@ function focusTheme(themeNumber){
 function displayDescTheme(description){
   var paragraphe = document.getElementById("th-desc");
   paragraphe.textContent = description;
-  paragraphe.style.height = "50px";
 }
 
 function undisplayDescTheme(){
   var paragraphe = document.getElementById("th-desc");
   paragraphe.textContent = "";
-  paragraphe.style.height = "0px";
 }
 
 function displayButtonTheme(themeNumber){

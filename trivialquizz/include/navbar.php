@@ -52,7 +52,7 @@
     ?>
       <div id="hello-navbar">
         <p><?=$hello_txt?></p>
-        <a href="?unlog=true">
+        <a class="center" href="?unlog=true">
           <button type="button" class="btn btn-outline-primary" name="unlog">Déconnexion</button>
         </a>
       </div>

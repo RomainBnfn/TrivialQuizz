@@ -1,3 +1,9 @@
+:root
+{
+    --line-height-card: 20px;
+}
+
+/*** partie thème de base ***/
 .bt-theme
 {
   cursor: pointer;
@@ -11,15 +17,9 @@
 {
   #roue-theme-classique
   {
-    height: 70vw;
-    width: 70vw;
+    height: 80vw;
+    width: 80vw;
   }
-}
-.center
-{
-  display: flex;
-  justify-content: center;
-  align-items: center;
 }
 text
 {
@@ -28,41 +28,7 @@ text
 }
 #th-desc
 {
-  height: 0;
-  transition: 0.6s;
-  overflow: hidden;
-  font-size: 17px;
-}
-#container-th-custom-btn
-{
-  padding: 2vw;
-  display: flex;
-  justify-content: space-around;
-  flex-wrap: wrap;
-}
-.th-custom-btn
-{
-  margin-top: 2vw;
-  border-radius: 12px;
-  height: 13vw;
-  width: 20vw;
-  box-shadow: 3px 4px 5px rgba(20,20,20,.5);
-}
-.th-custom-btn:link
-{
-  text-decoration: none;
-}
-.th-custom-btn > p
-{
-  color: white;
-  font-family: "CaviarDreams";
-  font-weight: bold;
-  font-size: 1.5vw;
-  transform: translateY(25%);
-}
-.th-custom-btn:hover
-{
-  box-shadow: 2px 2px 5px rgba(20,20,20,.5);
+  height: 100%;
 }
 #btn-quizz-smartphone
 {
@@ -72,4 +38,38 @@ text
   font-family: "CaviarDreams";
   font-weight: bold;
   transition: 0.5s;
+}
+
+/** partie thème custom ***/
+.card
+{
+  box-shadow: 3px 4px 5px rgba(20,20,20,.4);
+  max-height: 250px;
+}
+.card:hover
+{
+  box-shadow: 2px 2px 5px rgba(20,20,20,.4);
+}
+.card:link
+{
+  text-decoration: none;
+}
+.card p
+{
+  color: white;
+  font-family: "CaviarDreams";
+  overflow: hidden;
+  max-height: calc(var(--line-height-card)*9);
+  line-height: var(--line-height-card);
+}
+@media (max-width: 575px) {
+    .card p
+    {
+      max-height: calc(var(--line-height-card)*7);
+    }
+}
+.card-text:first-child
+{
+  font-weight: bold;
+  font-size: 1.4rem;
 }

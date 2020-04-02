@@ -82,13 +82,16 @@
       ?>
       <article class="container">
         <h1 class="titre1">Thèmes personnalisés</h1>
-        <div id="container-th-custom-btn">
+        <div class="card-columns">
         <?php
           for($i=0;$i<count($th_custom);$i=$i+1){
             ?>
-            <a href="quizz-choice.php?theme=<?=$th_custom[$i]['id']?>" class="th-custom-btn center" style="background-color: <?=$th_custom[$i]['couleur']?>" >
-              <p class="center"><?=$th_custom[$i]['nom']?></p>
-            </a>
+              <a class="card" href="quizz-choice.php?theme=<?=$th_custom[$i]['id']?>" style="background-color: <?=$th_custom[$i]['couleur']?>">
+                <div class="card-body text-center">
+                  <p class="card-text"><?=$th_custom[$i]['nom']?></p>
+                  <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.<?=$th_custom[$i]['desc']?></p>
+                </div>
+              </a>
             <?php
           }
         ?>
