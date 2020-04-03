@@ -80,9 +80,7 @@ nav {
 .titre1{
 	font-size: 2.5rem;
 	box-shadow: 0px 7px 4px -7px rgba(0,0,0,.4);
-	height: auto;
 	margin-bottom: 15px;
-  height: 60px;
 }
 .titre2{
 	font-size: 20px;
@@ -94,6 +92,9 @@ nav {
 }
 .titre-shadow{
 	box-shadow: 0px 7px 4px -7px rgba(0,0,0,.4);
+}
+.button-open-modal{
+  height: 2.5em;
 }
 label
 {
@@ -108,7 +109,6 @@ label
   }
   .titre1{
     font-size: 2rem;
-    height: 45px;
   }
 }
 /* small screen */
@@ -118,7 +118,6 @@ label
   }
   .titre1{
     font-size: 1.7rem;
-    height: 35px;
   }
 }
 

@@ -17,7 +17,7 @@
   <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
     <div class="modal-content">
 
-      <div class="green-modal-header modal-header" style="background-color: #48f; color: white;">
+      <div class="modal-header" style="background-color: #48f; color: white;">
         <h5 class="modal-title" id="modalTitle">Création d'un Quizz</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
@@ -25,13 +25,13 @@
       </div>
 
       <form id="creationQuizz" method="POST">
-        <div class="modal-body" style="padding-bottom: 0 !important; margin-right: 15px;">
+        <div class="modal-body" style="padding-bottom: 0 !important; margin-bottom: 15px; margin-right: 15px;">
 
           <div class="form-group row">
             <label for="editGeneral_Nom" class="col-sm-2 col-form-label">
               Nom:
             </label>
-            <input id="formGeneral_Nom" type="text" class="col form-control" name="nom" placeholder="Entrez le nom de votre Quizz !" required/>
+            <input id="formGeneral_Nom" type="text" class="col form-control" name="nom" placeholder="Entrez le nom de votre Quizz !" autocomplete="off" required/>
             <div id="errorGeneral_Nom" class="invalid-feedback">
               Ce nom est déjà utilisé !
             </div>
@@ -57,12 +57,13 @@
               ?>
             </select>
           </div>
-          <div>
-            Test
+          <div class="form-check">
+            <input type="checkbox" class="form-check-input" id="passerAEdition" checked>
+
+            <label class="col form-check-label" for="passerAEdition">
+              Je directement Editer mon quizz après sa Création !
+            </label>
           </div>
-
-
-
 
         </div>
 

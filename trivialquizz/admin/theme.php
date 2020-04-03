@@ -38,11 +38,12 @@
 
       <!-- DEBUT: Section des Thèmes-->
       <div>
+
         <div class="titre1">
-          <div>Les Thèmes</div>
-          <a href="<?=$base_location?>/admin/theme-create.php">
-            <button type="button" class="btn btn-success">Ajouter</button>
-          </a>
+          <h1>Les Thèmes</h1>
+          <button id="boutonCreerTheme" type="button" class="btn btn-success button-open-modal"  data-toggle="modal" data-target="#modalCreationTheme">
+            Créer un Thème !
+          </button>
         </div>
 
         <!-- DEBUT: Liste des Thèmes-->
@@ -50,18 +51,20 @@
           <p>Les six premiers thèmes ne sont qu'éditable, ce sont ceux présents sur la roue de l'accueil du site !</p>
 
 
-        <div class="card-container">
+        <div class="card-columns">
           <?php
             $_NBOFQUIZZ = getNumbersOfQuizzesOfThemes($bdd);
             foreach($_THEMES as $_THEME)
             {
               ?>
               <div id="themeN<?= $_THEME["id"]?>" class="card">
-                <div class="card-header" style="background: <?= $_THEME['couleur'] ?>;">
+
+                <div class="card-header" style="background-color: <?= $_THEME['couleur'] ?>;">
                 </div>
-                <div class="card-body">
-                  <h5 class="card-title c"><?= $_THEME["nom"] ?></h5>
-                  <span><?php
+
+                <div class="card-body" style="background: <?= $_THEME['couleur'] ?>20;">
+                  <h5><?= $_THEME["nom"] ?></h5>
+                  <div class="card-text"><?php
                   if(!empty($_NBOFQUIZZ[$_THEME["id"]])){
                     if($_NBOFQUIZZ[$_THEME["id"]]==1){
                       echo '<span class="badge badge-pill badge-info">1</span> Quizz Associé !';
@@ -72,12 +75,13 @@
                   }
                   else{
                       echo '<span class="badge badge-pill badge-danger">0</span> Quizz Associé :(';
-                  } ?></span>
+                  } ?></div>
+                  <br/>
                   <p class="card-text"><?= $_THEME["desc"] ?></p>
                 </div>
 
 
-                <div class="card-footer">
+                <div class="card-footer" style="background: <?= $_THEME['couleur'] ?>50;">
                   <a href="theme-edit.php?id=<?= $_THEME["id"] ?>">
                     <button type="button" class="btn btn-warning">
                       <i class="far fa-edit"></i>
@@ -104,6 +108,7 @@
       <!-- FIN: Section des Thèmes -->
 
   <?php require_once "../include/script.html"?>
+  <?php require_once "modals/theme-create.php"?>
   <script>
       $(document).ready(function(){
         <?php

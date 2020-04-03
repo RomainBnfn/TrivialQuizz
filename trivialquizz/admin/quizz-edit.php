@@ -1,7 +1,7 @@
 <?php
   session_start();
   //TODO: Changer la location
-  $index_location = "/trivial/trivialquizz/admin/index.php";
+  $index_location = "/trivial/trivialquizz/admin/quizz.php";
 
   //TODO: Changer àa
   $_SESSION["is_admin"] = true;
@@ -56,8 +56,8 @@
 
       <!-- DEBUT : Cadre des options générales -->
       <div>
-        <div class="titre1 jumbotron jumbotron-fluid" style="padding-top: 0; padding-bottom: 0; background-color: white;">
-          <h1>Edition générale</h1>
+        <div class="titre1 titre-shadow">
+          <h1>Général</h1>
           <!-- Quand on appuie sur le bouton, on envoie une requête -->
           <button id="boutonSuppression" type="button" class="btn btn-danger" style="height: 2.5em;">Supprimer le quizz</button>
         </div>
@@ -73,7 +73,9 @@
             A chaque niveau de difficulté : -5% à -10% (Afficher : 1e : 100% (5min) 5e : 60% (3 min))
             Sauvegarder les modifications
             -->
-            <div class="titre-shadow"><h3 class="titre3">Paramètre globaux</h3></div>
+            <div class="titre-shadow">
+              <h3 class="titre3">Édition globale</h3>
+            </div>
 
             <form id="editGeneral" method="POST">
 
@@ -137,10 +139,11 @@
 
       <!-- DEBUT : Cadre de la liste des Questions -->
       <div>
-        <h2 class="titre1">
-          <div>Les questions</div>
-          <div>
-            <button id="boutonAjouterQuestion" type="button" class="btn btn-success" data-toggle="modal" data-target="#modalCreationQuestion">
+        <div class="titre1 titre-shadow">
+          <h1>Les questions</h1>
+          <!-- Quand on appuie sur le bouton, on envoie une requête -->
+          <div >
+            <button id="boutonAjouterQuestion" type="button" class="btn btn-success button-open-modal" data-toggle="modal" data-target="#modalCreationQuestion">
               Ajouter
             </button>
             <button id="boutonImporterQuestion" type="button" class="btn btn-info" data-toggle="modal" data-target="#modalImportationQuestion">
@@ -150,7 +153,8 @@
               Vider le Quizz
             </button>
           </div>
-        </h2>
+        </div>
+
 
         <div id="containerQuestions">
           <?php
@@ -163,23 +167,31 @@
               foreach ($_QUESTIONS as $_QUESTION)
               { ?>
                 <form id="editQestionN<?= $_QUESTION["id"] ?>" method="" onsubmit="">
-                  <div class="jumbotron jumbotron-vert reduced-div row" style="padding-bottom:10px; margin-bottom:15px;">
+                  <div class="jumbotron jumbotron-vert reduced-div row" style="padding-bottom:0px !important; margin-bottom: 15px">
 
                       <div class="col-sm-1">
                         <div>UP</div>
                         1
                         <div>DOWN</div>
                       </div>
-                      <div class="col-sm-10">
 
-                        <div id="errorQuestion_LibelleN<?= $_QUESTION["id"] ?>" style="color: red; display: none;">Vous ne pouvez pas laisser de libelle vide..</div>
-                        <label name="libelle">Libelle : </label>
-                        <input id="editQuestion_LibelleN<?= $_QUESTION["id"] ?>" type="text" name="libelle" value="<?= $_QUESTION["lib"] ?>" required/>
-                        Réponse : <?= $_QUESTION["rep"]  ?>
+                      <div class="col-sm-9">
+                        <div class="form-group row">
+                          <label for="libelle" class="col-sm-2 col-form-label">
+                            Libellé:
+                          </label>
+                          <input id="editQuestion_LibelleN<?= $_QUESTION["id"] ?>" name="libelle" type="text" class="col form-control" name="nom" placeholder="Entrez le nom de votre Quizz !" autocomplete="off" value="<?= $_QUESTION["lib"] ?>" required/>
+                        </div>
+                        <div class="form-group row">
+                          <label for="libelle" class="col-sm-2 col-form-label">
+                            Réponse:
+                          </label>
+                          <input id="editQuestion_ReponseN<?= $_QUESTION["id"] ?>" name="reponse" type="text" class="col form-control" name="nom" placeholder="Entrez le nom de votre Quizz !" autocomplete="off" value="<?= $_QUESTION["rep"] ?>" required/>
+                        </div>
                       </div>
-                      <div class="col-sm-1 container-fluid">
-                        <button class="btn btn-success float-right"><i class="far fa-edit"></i></button>
-                        <br/><br/>
+
+                      <div class="col-sm-2">
+                        <button class="btn btn-success float-right" style="margin-left:5px;"><i class="far fa-edit"></i></button>
                         <button class="btn btn-danger float-right"><i class="far fa-trash-alt"></i></i></button>
                       </div>
 

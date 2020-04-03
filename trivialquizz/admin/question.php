@@ -49,38 +49,7 @@
           </div>
         </div>
 
-        <!-- DEBUT: Liste des Quizz-->
-        <div id="containerListQuizz">
-          <?php
-            if ($_QUIZZES == null) // Pas de quizz
-            {
-              echo $messagePasDeQuizz;
-            }
-            else // Il y a au moins un quizz
-            {
-              foreach ($_QUIZZES as $_QUIZZ)
-              {
-                ?>
-                <div id="quizzN<?= $_QUIZZ["id"] ?>"> <!-- L'id sert pour identifier les différents div des quizz-->
-                  <div class="titre2">
-                    <div class="cat-title"><?= $_QUIZZ["nom"] ?></div>
-                    <div class="edition">
-                      <a href="quizz-edit.php?id=<?= $_QUIZZ["id"] ?>">
-                        <button type="button" class="btn btn-warning">Edition</button>
-                      </a>
-                      <button id="suppressionQuizzN<?= $_QUIZZ["id"] ?>" type="button" class="btn btn-danger">Supprimer</button>
-                    </div>
-                  </div>
-                  <div>Description: <?= $_QUIZZ["desc"] ?></div>
-                  <div>Thème: <?= loadThemeFromTab($_THEMES, $_QUIZZ["id_theme"])["nom"] ?></div>
-                </div>
-
-              <?php
-              }
-            }
-          ?>
-        </div>
-          <!-- FIN: Liste des Quizz-->
+        
       </div>
       <!-- FIN: Section des Quizz -->
 

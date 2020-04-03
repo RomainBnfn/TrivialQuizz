@@ -41,12 +41,10 @@
       <!-- DEBUT: Section des Quizz-->
       <div>
         <div class="titre1">
-          <div>Les Quizz</div>
-          <div>
-            <button id="boutonCreerQuizz" type="button" class="btn btn-success" data-toggle="modal" data-target="#modalCreationQuizz">
-              Créer un Quizz !
-            </button>
-          </div>
+          <h1>Les Quizz</h1>
+          <button id="boutonCreerQuizz" type="button" class="btn btn-success button-open-modal" data-toggle="modal" data-target="#modalCreationQuizz">
+            Créer un Quizz !
+          </button>
         </div>
 
         <!-- DEBUT: Liste des Quizz-->

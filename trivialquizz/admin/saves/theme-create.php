@@ -60,6 +60,7 @@
 <head>
   <title>Création de Thème</title>
   <?php require_once "../include/header.html"?>
+  <link rel="stylesheet" href="https://unpkg.com/huebee@1/dist/huebee.min.css">
 </head>
 <body>
   <?php require_once "../include/navbar.php"?>
@@ -76,7 +77,7 @@
           <div>Options générales</div>
         </div>
 
-        <div>
+        <div style="padding-right: 15px;">
           <form id="formGeneral" method="POST" onsubmit="">
 
             <div class="form-group row">
@@ -96,18 +97,13 @@
               <textarea id="formGeneral_Desc" type="text" class="col form-control" name="desc" rows="5" placeholder="Entrez la description de votre Thème !" required></textarea>
             </div>
 
-            <div>
-              <div id="errorGeneral_Couleur"></div>
-              <label name="couleur">Couleur : </label>
-              <input id="formGeneral_Nom" type="text" name="couleur" required/>
-            </div> <br/>
+            <div class="form-group row">
+              <label for="editGeneral_Nom" class="col-sm-2 col-form-label">
+                Couleur:
+              </label>
+              <input id="couleur" type="text" class="color-input col form-control" name="couleur" placeholder="Cliquez pour choisir la couleur !" autocomplete="off" data-huebee required/>
 
-            <div class="card bg-color">
-              <div class="card-body text-center d-flex justify-content-center align-items-center flex-column">
-                <p>My background color will be changed</p>
-                <button id="color-picker-3" class="btn">Color Picker</button>
-              </div>
-            </div>
+            </div> <br/>
 
             <input type="submit" />
 
@@ -122,35 +118,12 @@
   </div>
 
   <?php require_once "../include/script.html"?>
-<script>
-  <?php //Condition sur le nom : in_array("TESTTT", $listeNoms)?>
-  $(document).ready(function(){
-    const pickr3 = new Pickr({
-    el: '#color-picker-3',
-    useAsButton: true,
-    default: "303030",
-    components: {
-      preview: true,
-      opacity: true,
-      hue: true,
-
-      interaction: {
-        hex: true,
-        rgba: true,
-        hsla: true,
-        hsva: true,
-        cmyk: true,
-        input: true,
-        clear: true,
-        save: true
-      }
-    },
-
-    onChange(hsva, instance) {
-      $('.bg-color').css('background-color', hsva.toRGBA().toString());
-    }
-  });
-});
-</script>
+  <script src="https://unpkg.com/huebee@1/dist/huebee.pkgd.min.js">
+    var hueb = new Huebee( '.color-input', {
+      // options
+      notation: 'hex',
+      saturations: 2,
+    });
+  </script>
 </body>
 </html>

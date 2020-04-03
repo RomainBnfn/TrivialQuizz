@@ -3,7 +3,7 @@
   <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
     <div class="modal-content">
 
-      <div class="green-modal-header modal-header">
+      <div class="modal-header" style="background-color: #64ae64; color: white;">
         <h5 class="modal-title" id="exampleModalLongTitle">Création de Question</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
