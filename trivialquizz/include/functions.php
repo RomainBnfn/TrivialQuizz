@@ -69,17 +69,13 @@
     if(is_null($data)){
       return null;
     }
-    if(count($data)==1){
-      $_DATA = $fonction($data[0]);
-    } else {
-      $_DATA[] = [];
-      for($i = 0; $i<count($data); $i++)
-      {
-        $_DATA[$i] = $fonction($data[$i]);
-      }
-      if (empty($_DATA[0])){
-        return null;
-      }
+    $_DATA[] = [];
+    for($i = 0; $i<count($data); $i++)
+    {
+      $_DATA[$i] = $fonction($data[$i]);
+    }
+    if (empty($_DATA[0])){
+      return null;
     }
     return $_DATA;
   }

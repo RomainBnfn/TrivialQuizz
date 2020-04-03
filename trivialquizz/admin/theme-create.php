@@ -105,7 +105,7 @@
             <div class="card bg-color">
               <div class="card-body text-center d-flex justify-content-center align-items-center flex-column">
                 <p>My background color will be changed</p>
-                <button id="color-picker-3" class="btn btn-outline-primary btn-sm">Color Picker</button>
+                <button id="color-picker-3" class="btn">Color Picker</button>
               </div>
             </div>
 
