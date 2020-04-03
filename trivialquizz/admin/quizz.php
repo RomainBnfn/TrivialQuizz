@@ -25,6 +25,7 @@
 <head>
   <title>Panel d'Admin</title>
   <?php require_once "../include/header.html"?>
+  <link rel="stylesheet" href="../css/cards.css" />
 </head>
 <body>
   <?php require_once "../include/navbar.php"?>
@@ -56,21 +57,50 @@
             }
             else // Il y a au moins un quizz
             {
+              $id_previousTheme = -1;
               foreach ($_QUIZZES as $_QUIZZ)
               {
+                if($_QUIZZ['id_theme'] != $id_previousTheme){
+                  if($id_previousTheme != -1){ //Si c'est pas le premier
+                    echo "</div></div></div>";
+                  }
+                  $id_previousTheme = $_QUIZZ['id_theme'];
+                  ?>
+                    <div class="card">
+                      <?php $color = $_THEMES["$id_previousTheme"]["couleur"]; ?>
+                      <div class="card-header" style="background-color: <?= $color ?>;">
+                        <h4><?= $_THEMES["$id_previousTheme"]["nom"] ?></h4>
+                      </div>
+
+                      <div class="card-body" style="background: <?= $color?>20;">
+                        <div class="card-columns card-columns-sm">
+                  <?php
+                }
                 ?>
-                <div id="quizzN<?= $_QUIZZ["id"] ?>"> <!-- L'id sert pour identifier les différents div des quizz-->
-                  <div class="titre2">
-                    <div class="cat-title"><?= $_QUIZZ["nom"] ?></div>
-                    <div class="edition">
-                      <a href="quizz-edit.php?id=<?= $_QUIZZ["id"] ?>">
-                        <button type="button" class="btn btn-warning">Edition</button>
-                      </a>
-                      <button id="suppressionQuizzN<?= $_QUIZZ["id"] ?>" type="button" class="btn btn-danger">Supprimer</button>
+                <div class="card" id="quizzN<?= $_QUIZZ["id"] ?>" style="background-color: <?= $color ?>20"> <!-- L'id sert pour identifier les différents div des quizz-->
+                  <div class="card-header" style="background-color: <?= $color ?>50">
+                    <div class="card-title">
+                      <h5><?= $_QUIZZ["nom"] ?></h5>
                     </div>
                   </div>
-                  <div>Description: <?= $_QUIZZ["desc"] ?></div>
-                  <div>Thème: <?= loadThemeFromTab($_THEMES, $_QUIZZ["id_theme"])["nom"] ?></div>
+
+                  <div class="card-body">
+                    <div>Description: <?= $_QUIZZ["desc"] ?></div>
+                  </div>
+
+                  <div class="card-footer d-flex justify-content-around">
+                    <a href="quizz-edit.php?id=<?= $_QUIZZ["id"] ?>">
+                      <button type="button" class="btn btn-warning">
+                        <i class="far fa-edit"></i>
+                        Édition
+                      </button>
+                    </a>
+                    <button id="suppressionQuizzN<?= $_QUIZZ["id"] ?>" type="button" class="btn btn-danger">
+                      <i class="fas fa-trash-alt" style="color: #ffffff;"></i>
+                      Supprimer
+                    </button>
+                  </div>
+
                 </div>
 
               <?php
@@ -100,14 +130,7 @@
                 .then((response) => {
                   response.text()
                   .then((resp) => {
-                    if (resp != 0)
-                    {
-                      $("#quizzN<?= $_QUIZZ["id"] ?>").text("");
-                    }
-                    else
-                    {
-                      $("#containerListQuizz").text("<?= $messagePasDeQuizz ?>");
-                    }
+                    document.location.reload(true);
                   })
                 })
                 /* A voir si on met un message d'erreur

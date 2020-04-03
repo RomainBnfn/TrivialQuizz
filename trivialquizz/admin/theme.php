@@ -50,7 +50,6 @@
         <div>
           <p>Les six premiers thèmes ne sont qu'éditable, ce sont ceux présents sur la roue de l'accueil du site !</p>
 
-
         <div class="card-columns">
           <?php
             $_NBOFQUIZZ = getNumbersOfQuizzesOfThemes($bdd);
@@ -81,16 +80,16 @@
                 </div>
 
 
-                <div class="card-footer" style="background: <?= $_THEME['couleur'] ?>50;">
+                <div class="card-footer d-flex justify-content-around" style="background: <?= $_THEME['couleur'] ?>60;">
                   <a href="theme-edit.php?id=<?= $_THEME["id"] ?>">
-                    <button type="button" class="btn btn-warning">
+                    <button type="button" class="btn btn-warning btn-border-blanc">
                       <i class="far fa-edit"></i>
                       Edition
                     </button>
                   </a>
                   <?php if($_THEME["is_Principal"] == 0){
                     // On ne met que le boutton de suppression pour les Thèmes non principaux?>
-                    <button id="suppressionThemeN<?= $_THEME["id"]?>" type="button" class="btn btn-danger">
+                    <button id="suppressionThemeN<?= $_THEME["id"]?>" type="button" class="btn btn-danger btn-border-blanc">
                       <i class="fas fa-trash-alt" style="color: #ffffff;"></i>
                       Supprimer
                     </button>

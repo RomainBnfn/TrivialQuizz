@@ -170,9 +170,9 @@
                   <div class="jumbotron jumbotron-vert reduced-div row" style="padding-bottom:0px !important; margin-bottom: 15px">
 
                       <div class="col-sm-1">
-                        <div>UP</div>
-                        1
-                        <div>DOWN</div>
+                        <div><i class="fas fa-arrow-up"></i></div>
+                        <span class="badge  badge-info">0</span>
+                        <div><i class="fas fa-arrow-down"></i></div>
                       </div>
 
                       <div class="col-sm-9">

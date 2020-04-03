@@ -36,7 +36,7 @@
 
           <!-- =============================== NOM DE QUESTION ===============================-->
           <div class="form-group">
-            <label for="intituleQuestion">
+            <label for="intituleQuestion" class="col">
               <i class="far fa-question-circle" style="color: #339af0;"></i>
               Intitulé de la question :
             </label>
@@ -47,8 +47,8 @@
 
 
           <!-- =============================== REPONSE LIBRE a la QUESTION ===============================-->
-          <div id="reponse_TypeLibre" class="form-group">
-            <label for="reponseLibre_correcte">
+          <div id="reponse_TypeLibre" class=" form-group">
+            <label for="reponseLibre_correcte" class="col">
               <i class="far fa-check-circle" style="color: #51cf66;"></i>
               Réponse correcte :
             </label>
@@ -59,7 +59,7 @@
 
           <!-- =============================== REPONSE QCM a la QUESTION =============================== -->
           <div id="reponse_TypeQCM" class="form-group">
-            <label>
+            <label class="col">
               <i class="fas fa-th-list" style="color: #ff922b;"></i>
               Liste des réponses :
               <br/>

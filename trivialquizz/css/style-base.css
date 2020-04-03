@@ -96,11 +96,21 @@ nav {
 .button-open-modal{
   height: 2.5em;
 }
+.btn-border-blanc{
+  border-color: white !important;
+  border-width: thick;
+}
 label
 {
 	display: block;
 	width: 100px;
 	float: left;
+}
+a{
+  text-decoration: none !important;
+}
+a:hover{
+  text-decoration: none !important;
 }
 /* medium screen */
 @media (min-width: 801px) and (max-width: 1200px) {

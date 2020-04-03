@@ -69,12 +69,14 @@
     if(is_null($data)){
       return null;
     }
-    $_DATA[] = [];
+    $_DATA;
     for($i = 0; $i<count($data); $i++)
     {
-      $_DATA[$i] = $fonction($data[$i]);
+      $temp = $fonction($data[$i]);
+      $id = $temp["id"];
+      $_DATA["$id"] = $temp;
     }
-    if (empty($_DATA[0])){
+    if (empty($_DATA)){
       return null;
     }
     return $_DATA;

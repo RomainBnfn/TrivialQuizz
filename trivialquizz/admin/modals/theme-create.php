@@ -37,8 +37,8 @@
               Couleur:
             </label>
             <input id="couleur" type="text" class="color-input col form-control" name="couleur" placeholder="Cliquez pour choisir la couleur !" autocomplete="off" data-huebee='{ "notation": "hex" }' required/>
-
           </div>
+
           <div class="form-check">
             <input type="checkbox" class="form-check-input" id="passerAEdition" checked>
 
