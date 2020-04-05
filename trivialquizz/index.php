@@ -22,15 +22,6 @@
 
   $themesPrincipaux = getAllThemesPrincipauxInfos($bdd);
   $themesCustoms = getAllThemesPersoInfos($bdd);
-  /*$i=0;
-  foreach ($themesPrincipaux as $id => $theme) {
-    $themesPrincipaux[$id]['pathFocus'] = $pathFocus[$i];
-    $themesPrincipaux[$id]['pathUnfocus'] = $pathUnfocus[$i];
-    $themesPrincipaux[$id] = $coordTextFocus[$i];
-    $themesPrincipaux[$id] = $coordTextUnfocus[$i++];
-  }
-  echo $themesPrincipaux['2']['pathFocus'];
-  echo $themesPrincipaux['2']['pathTextUnfocus'];*/
 
   $colorTheme = array();
   $descTheme = array();
@@ -66,14 +57,8 @@
               $i = 0;
               $numberIdThemeRelation = array();
               foreach ($themesPrincipaux as $theme) {
-
-              //while ($i < count($th_base) || $i < 6) {
-              $numberIdThemeRelation[$i] = $theme['id']; //array($i -> $id) $i: position dans le cammenbert / $id: clé primaire dans la bdd
+                $numberIdThemeRelation[$i] = $theme['id']; //array($i -> $id) $i: position dans le cammenbert / $id: clé primaire dans la bdd
               ?>
-                <!--<path class="theme<?=$i?>" d="<?=$pathUnfocus[$i]?>" fill="<?=$th_base[$i]["couleur"]?>"/>
-                <text id="th-text<?=$i?>" fill="#fff" x="<?=$coordTextUnfocus[$i][0]?>" y="<?=$coordTextUnfocus[$i][1]?>"><?=$th_base[$i]["nom"]?></text>
-                <path class="bt-theme theme<?=$i?>" d="<?=$pathUnfocus[$i]?>" fill="#ffffff00" stroke="#000000" stroke-width="1"/>
-                -->
                 <path class="theme<?=$i?>" d="<?=$pathUnfocus[$i]?>" fill="<?=$theme["couleur"]?>"/>
                 <text id="th-text<?=$i?>" fill="#fff" x="<?=$coordTextUnfocus[$i][0]?>" y="<?=$coordTextUnfocus[$i][1]?>"><?=$theme["nom"]?></text>
                 <path class="bt-theme theme<?=$i?>" d="<?=$pathUnfocus[$i++]?>" fill="#ffffff00" stroke="#000000" stroke-width="1"/>
