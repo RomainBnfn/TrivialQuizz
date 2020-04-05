@@ -130,6 +130,34 @@ a:hover{
     font-size: 1.7rem;
   }
 }
+/* effet animation */
+.rippleContainer
+{
+  overflow: hidden;
+}
+.ripple
+{
+  width: 0;
+  height: 0;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.7);
+  transform: scale(0);
+  position: absolute;
+  opacity: 1;
+}
+.rippleAnim
+{
+  animation: rippleEffect 0.5s linear;
+  animation-fill-mode: forwards;
+}
+@keyframes rippleEffect {
+
+  100%
+  {
+    transform: scale(2.4);
+    opacity: 0;
+  }
+}
 
 /*** utilisé dans log et register ***/
 .form-padding

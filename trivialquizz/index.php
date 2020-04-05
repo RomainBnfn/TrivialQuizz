@@ -82,7 +82,7 @@
         <?php
           foreach ($themesCustoms as $theme) {
         ?>
-          <a class="card" href="quizz-choice.php?theme=<?=$theme['id']?>" style="background-color: <?=$theme['couleur']?>">
+          <a class="card rippleContainer"  href="quizz-choice.php?theme=<?=$theme['id']?>" style="background-color: <?=$theme['couleur']?>">
             <div class="card-body text-center">
               <div class="card-border">
                 <p class="card-text"><?=$theme['nom']?></p>
@@ -104,16 +104,35 @@
   <?php require_once "include/script.html"?>
   <script type="text/javascript" src="js/animation_roue.js"></script>
   <script type="text/javascript">
-    var pathFocus = <?=json_encode($pathFocus)?>;
-    var pathUnfocus = <?=json_encode($pathUnfocus)?>;
-    var coordTextFocus = <?=json_encode($coordTextFocus)?>;
-    var coordTextUnfocus = <?=json_encode($coordTextUnfocus)?>;
-    var numberIdThemeRelation = <?=json_encode($numberIdThemeRelation)?>;
-    var colorTheme = <?=json_encode($colorTheme)?>;
-    var descTheme = <?=json_encode($descTheme)?>;
-    var nomTheme = <?=json_encode($nomTheme)?>;
-    var fontSizeTextFocus = <?=$fontSizeTextFocus?>;
-    var fontSizeTextUnfocus = <?=$fontSizeTextUnfocus?>;
+    $(document).ready(function(){
+      $('.rippleContainer').on('mousedown', function(event){
+        console.log('touch');
+        var buttonWidth = $(this).width(),
+          buttonHeight = $(this).height();
+        var radius = Math.max(buttonWidth,buttonHeight);
+        var x = event.pageX - $(this).offset().left - radius/2 ,
+          y = event.pageY - $(this).offset().top - radius/2;
+
+        $('.ripple').remove();
+        $(this).prepend("<span class='ripple'></span>");
+        $(".ripple").css({
+          width: radius + 'px',
+          height: radius + 'px',
+          top: y + 'px',
+          left: x + 'px'
+        }).addClass("rippleAnim");
+      });
+    });
+    var pathFocus = <?=json_encode($pathFocus)?>,
+      pathUnfocus = <?=json_encode($pathUnfocus)?>,
+      coordTextFocus = <?=json_encode($coordTextFocus)?>,
+      coordTextUnfocus = <?=json_encode($coordTextUnfocus)?>,
+      numberIdThemeRelation = <?=json_encode($numberIdThemeRelation)?>,
+      colorTheme = <?=json_encode($colorTheme)?>,
+      descTheme = <?=json_encode($descTheme)?>,
+      nomTheme = <?=json_encode($nomTheme)?>,
+      fontSizeTextFocus = <?=$fontSizeTextFocus?>,
+      fontSizeTextUnfocus = <?=$fontSizeTextUnfocus?>;
   </script>
   <?php require_once "js/script.html"?>
 </body>
