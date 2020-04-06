@@ -49,18 +49,33 @@
     return $_THEME;
   }
 
-  function loadQuestionFromSQLResult($result)
+  /// Retourne le tableau des infos de TOUTES les questions & réponses
+  /// associées. Le $data en entré est TOUTE le resultat SQL et non juste
+  /// une ligne, comme dans les fonctions précédentes. (Plusieurs réponses)
+  function loadQuestionReponseFromSQLResult($data)
   {
-    $_QUESTION;
-    $_QUESTION["id"] = $result["que_id"];
-    $_QUESTION["lib"] =$result["que_lib"];
-    $_QUESTION["type"] =$result["que_type"];
-    if($_QUESTION["type"] == 1) //réponse Libre
-    {
-      $_QUESTION["rep_id"] = $result["re_id"];
-      $_QUESTION["rep"] = $result["re_lib"];
+    $_QUESTIONS;
+    foreach ($data as $result) {
+
+      $id = $result["que_id"];
+      if(!isset($_QUESTIONS["$id"])){
+        $_QUESTION;
+        $_QUESTION["id"] = $result["que_id"];
+        $_QUESTION["lib"] = $result["que_lib"];
+        $_QUESTION["type"] = $result["que_type"];
+        $_QUESTION["order"] = $result["qq_order"];
+        $_QUESTION["reponses"] = [];
+        $_QUESTIONS["$id"] = $_QUESTION;
+      }
+
+      $_REPONSE;
+      $_REPONSE["id"] = $result["re_id"]; $idRep = $_REPONSE["id"];
+      $_REPONSE["lib"] = $result["re_lib"];
+      $_REPONSE["isBonne"] = $result["re_isBonne"];
+      //
+      $_QUESTIONS["$id"]["reponses"]["$idRep"] = $_REPONSE;
     }
-    return $_QUESTION;
+    return $_QUESTIONS;
   }
 
   /// Récupère des données d'une requete sql, une fonction, et renvoie le tableau
@@ -220,8 +235,11 @@
     if(!is_numeric($idQuizz)) {
       return null;
     }
-    $data = tryQueryBDD($bdd, "SELECT * FROM question, reponse WHERE question.que_id IN ( SELECT que_id FROM quiz_quest WHERE qui_id = $idQuizz) AND question.que_id = reponse.que_id");
-    return tabFormat($data, "loadQuestionFromSQLResult");
+    $data = tryQueryBDD($bdd, "SELECT DISTINCT * FROM question, reponse, quiz_quest WHERE question.que_id IN ( SELECT que_id FROM quiz_quest WHERE qui_id = $idQuizz) AND question.que_id = reponse.que_id AND question.que_id = quiz_quest.que_id;");
+    if(empty($data)){
+      return null;
+    }
+    return loadQuestionReponseFromSQLResult($data);
   }
 
 
@@ -252,6 +270,13 @@
   function existTheme($bdd, $id)
   {
     $requete = $bdd -> query("SELECT * FROM theme WHERE th_id = $id");
+    $result = $requete -> fetch();
+    return (!empty($result));
+  }
+
+  function existQuestion($bdd, $id)
+  {
+    $requete = $bdd -> query("SELECT * FROM question WHERE que_id = $id");
     $result = $requete -> fetch();
     return (!empty($result));
   }

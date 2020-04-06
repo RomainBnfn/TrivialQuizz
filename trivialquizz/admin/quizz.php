@@ -60,7 +60,7 @@
               $id_previousTheme = -1;
               foreach ($_QUIZZES as $_QUIZZ)
               {
-                if($_QUIZZ['id_theme'] != $id_previousTheme){
+                if($_QUIZZ['id_theme'] != $id_previousTheme){ // Si c'est pas le premier changement de Thème : On ferme la "Card".
                   if($id_previousTheme != -1){ //Si c'est pas le premier
                     echo "</div></div></div>";
                   }
@@ -73,7 +73,7 @@
                       </div>
 
                       <div class="card-body" style="background: <?= $color?>20;">
-                        <div class="card-columns card-columns-sm">
+                        <div class="card-columns-sm card-columns">
                   <?php
                 }
                 ?>

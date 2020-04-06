@@ -166,32 +166,54 @@
             {
               foreach ($_QUESTIONS as $_QUESTION)
               { ?>
-                <form id="editQestionN<?= $_QUESTION["id"] ?>" method="" onsubmit="">
+                <form id="editQuestionN<?= $_QUESTION["id"] ?>" method="POST" onsubmit="saveQuestionReponse(<?= $_QUESTION["id"] ?>); return false;">
                   <div class="jumbotron jumbotron-vert reduced-div row" style="padding-bottom:0px !important; margin-bottom: 15px">
+                    <input id="editQuestion_IdN<?= $_QUESTION["id"] ?>" name="id" type="hidden" value="<?= $_QUESTION["id"] ?>" required/>
 
-                      <div class="col-sm-1">
-                        <div><i class="fas fa-arrow-up"></i></div>
-                        <span class="badge  badge-info">0</span>
-                        <div><i class="fas fa-arrow-down"></i></div>
+                      <div class="col-sm-1 d-flex align-items-center">
+                        <div>
+                          <div><i class="fas fa-arrow-up"></i></div>
+                          <span class="badge  badge-info">
+                            <?= $_QUESTION["order"] ?>
+                          </span>
+                          <div><i class="fas fa-arrow-down"></i></div>
+                        </div>
                       </div>
 
                       <div class="col-sm-9">
-                        <div class="form-group row">
-                          <label for="libelle" class="col-sm-2 col-form-label">
+                        <div class="form-group">
+                          <label for="libelle" class="col form-label">
                             Libellé:
                           </label>
-                          <input id="editQuestion_LibelleN<?= $_QUESTION["id"] ?>" name="libelle" type="text" class="col form-control" name="nom" placeholder="Entrez le nom de votre Quizz !" autocomplete="off" value="<?= $_QUESTION["lib"] ?>" required/>
+                          <input id="editQuestion_LibelleN<?= $_QUESTION["id"] ?>" name="libelle" type="text" class="form-control" name="nom" placeholder="Entrez le nom de votre Quizz !" autocomplete="off" value="<?= $_QUESTION["lib"] ?>" required/>
                         </div>
-                        <div class="form-group row">
-                          <label for="libelle" class="col-sm-2 col-form-label">
-                            Réponse:
-                          </label>
-                          <input id="editQuestion_ReponseN<?= $_QUESTION["id"] ?>" name="reponse" type="text" class="col form-control" name="nom" placeholder="Entrez le nom de votre Quizz !" autocomplete="off" value="<?= $_QUESTION["rep"] ?>" required/>
-                        </div>
-                      </div>
+                        <div ><!-- REPONSES -->
+                          <?php
+                            if($_QUESTION["type"] == 1){
+                              $idRep = array_key_first ($_QUESTION["reponses"]);
+                              $_REPONSE = $_QUESTION["reponses"][$idRep];
+                              ?>
+                              <div class="form-group">
+                                <label for="libelle" class="col form-label">
+                                  Réponse exacte:
+                                </label>
+                                <input id="editQuestion_ReponseN<?= $_REPONSE["id"] ?>" name="reponse" type="text" class="form-control" name="nom" placeholder="Entrez le nom de votre Quizz !" autocomplete="off" value="<?= $_REPONSE["lib"] ?>" required/>
+                              </div>
+                              <?php
+                            }
+                            else if ($_QUESTION["type"] == 2){
+                              ?>
+                              Mais c'est un QCM :O
+                              <?php
+                            }
+                          ?>
 
+                        </div>
+                      </div >
                       <div class="col-sm-2">
-                        <button class="btn btn-success float-right" style="margin-left:5px;"><i class="far fa-edit"></i></button>
+                        <button id="editQuestion_BtnN<?= $_QUESTION["id"] ?>" type="submit"  class="btn btn-success float-right" style="margin-left:5px;">
+                          <i id="editQuestion_BtnCtnN<?= $_QUESTION["id"] ?>" class="far fa-edit"></i>
+                        </button>
                         <button class="btn btn-danger float-right"><i class="far fa-trash-alt"></i></i></button>
                       </div>
 
@@ -216,6 +238,30 @@
     var listeNoms = <?=json_encode(getAllQuizzNames($bdd))?>,
         nameQuizz = <?=json_encode($_QUIZZ["nom"])?>;
     listeNoms = listeNoms.filter(function(value, index, arr){ return value != nameQuizz;})
+
+    function saveQuestionReponse(id)
+    {
+      var form = new FormData(document.getElementById("editQuestionN"+id));
+      fetch("ajax/question-save-edit.php", {
+        method: "POST",
+        body: form
+      })
+      .then((response) => {
+        response.text()
+        .then((resp) => {
+          if(resp=="ok"){
+            var btnCtn = document.getElementById("editQuestion_BtnCtnN"+id),
+                btn = document.getElementById("editQuestion_BtnN"+id);
+            btn.className = "btn btn-outline-primary float-right";
+            btnCtn.className = 'fas fa-check';
+            setTimeout(() => {
+              btn.className = "btn btn-success float-right";
+              btnCtn.className = 'far fa-edit';
+            }, 3000);
+          }
+        })
+      });
+    }
 
     var idNewQuestion = 1;
     $(document).ready(function(){

@@ -41,12 +41,17 @@
           exit();
         }
 
+
         // On crée la question dans la bdd
         $requete = $bdd -> prepare("INSERT INTO QUESTION (que_lib,
                                                           que_type)
                                                         VALUES ( ? , 1)");
         $requete -> execute(array(escape($_POST['intituleQuestion'])));
         $id_quest = $bdd->lastInsertId();
+
+        $requete = $bdd -> query("SELECT MAX(qq_order) FROM quiz_quest WHERE qui_id = $id_quizz");
+        $result = $requete -> fetch();
+        $max = $result[0];
 
         // On crée la réponse dans la bdd
         $requete = $bdd -> prepare("INSERT INTO reponse (re_lib,
@@ -60,7 +65,7 @@
         $bdd -> query("INSERT INTO quiz_quest (qui_id,
            	                                        que_id,
                                                     qq_order)
-                                                  VALUES ( $id_quizz , $id_quest , 1)");
+                                                  VALUES ( $id_quizz , $id_quest , $max+1)");
         echo "ok";
 
         break;
