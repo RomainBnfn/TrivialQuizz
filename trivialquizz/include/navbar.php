@@ -1,7 +1,5 @@
 <?php
   //TODO: changer les liens
-
-  $_SESSION['pseudo']="";
   if(isset($_GET['unlog'])){
     $_SESSION['pseudo']="";
     $_SESSION['is_admin']="false";
@@ -12,12 +10,8 @@
   if(isset($_SESSION['is_admin'])){
     if($_SESSION['is_admin']=="true"){
       $logo_link = "/trivial/trivialquizz/admin/index.php";
-      $admin = true;
-    }else{
-      $admin = false;
+      $hello_txt = "Bonjour, ".$_SESSION['pseudo']." (admin)";
     }
-  }else{
-    $admin = false;
   }
 
   if(isset($_SESSION['pseudo'])){
@@ -25,11 +19,7 @@
       $connected = false;
     }else{
       $connected = true;
-      if($admin){
-        $hello_txt = "Bonjour, ".$_SESSION['pseudo']." (admin)";
-      }else{
-        $hello_txt = "Bonjour, ".$_SESSION['pseudo'];
-      }
+      $hello_txt = "Bonjour, ".$_SESSION['pseudo'];
     }
   }else{
     $connected = false;
@@ -48,6 +38,7 @@
 
     <!-- Se connecter -->
     <?php
+    echo $connected;
       if($connected){
     ?>
       <div id="hello-navbar">

@@ -11,6 +11,8 @@
   $G = 1.2; // grandissement focus/unfocus
   $L = 2*($r+$G*$R); // hauteur/largeur de la viewBox
   $c = $L/2; // centre de la viewBox
+  $fontSizeTextUnfocus = $R/13;
+  $fontSizeTextFocus = $R/11;
 
   $pathFocus = generatePath($r, $G*$R, $c);
   $pathUnfocus = generatePath($r, $R, $c);
@@ -18,12 +20,18 @@
   $coordTextFocus = generateCoordText($r, $G*$R, $c);
   $coordTextUnfocus = generateCoordText($r, $R, $c);
 
-  $descTheme = array();
-  for($i=0;$i<count($th_base);$i=$i+1)
-  {
-    $descTheme[$i] = $th_base[$i]["desc"];
-  }
+  $themesPrincipaux = getAllThemesPrincipauxInfos($bdd);
+  $themesCustoms = getAllThemesPersoInfos($bdd);
 
+  $colorTheme = array();
+  $descTheme = array();
+  $nomTheme = array();
+  $i=0;
+  foreach ($themesPrincipaux as $theme) {
+    $colorTheme[$i] = $theme['couleur'];
+    $descTheme[$i] = $theme['desc'];
+    $nomTheme[$i++] = $theme['nom'];
+  }
   //variable qui permet de revenir à la page où était l'ut avant qu'il se connecte
   $_SESSION["origin"] = "index.php";
 ?>
@@ -47,32 +55,42 @@
             <svg id="roue-theme-classique" viewBox="0 0 <?="$L $L"?>">
               <?php
               $i = 0;
-              while ($i < count($th_base) || $i < 6) {
+              $numberIdThemeRelation = array();
+              foreach ($themesPrincipaux as $theme) {
+                $numberIdThemeRelation[$i] = $theme['id']; //array($i -> $id) $i: position dans le cammenbert / $id: clé primaire dans la bdd
               ?>
-                <path class="theme<?=$i?>" d="<?=$pathUnfocus[$i]?>" fill="<?=$th_base[$i]["couleur"]?>"/>
-                <text id="th-text<?=$i?>" fill="#fff" x="<?=$coordTextUnfocus[$i][0]?>" y="<?=$coordTextUnfocus[$i][1]?>"><?=$th_base[$i]["nom"]?></text>
-                <path class="bt-theme theme<?=$i?>" d="<?=$pathUnfocus[$i]?>" fill="#ffffff00" stroke="#000000" stroke-width="1"/>
+                <path class="theme<?=$i?>" d="<?=$pathUnfocus[$i]?>" fill="<?=$theme["couleur"]?>"/>
+                <text id="th-text<?=$i?>" fill="#fff" x="<?=$coordTextUnfocus[$i][0]?>" y="<?=$coordTextUnfocus[$i][1]?>"><?=$theme["nom"]?></text>
+                <path class="bt-theme theme<?=$i?>" d="<?=$pathUnfocus[$i++]?>" fill="#ffffff00" stroke="#000000" stroke-width="1"/>
+
               <?php
-                $i = $i + 1;
               }
               ?>
               </svg>
           </div>
           <p id="th-desc"></p>
+          <a href="">
+            <button type="button" name="button" class="btn btn-primary btn-block" id="btn-quizz-smartphone">Voir les quizz</button>
+          </a>
       </article>
       <?php
-      if(empty($th_custom)){
+      if(!empty($themesCustoms)){
       ?>
       <article class="container">
         <h1 class="titre1">Thèmes personnalisés</h1>
-        <div id="container-th-custom-btn">
+        <div class="card-columns">
         <?php
-          for($i=0;$i<5;$i=$i+1){ //$i<count($th_custom)
-            ?>
-            <a href="#" class="th-custom-btn center" style="background-color: #22448844" >
-              <p class="center">Theme custom stylé</p>
-            </a>
-            <?php
+          foreach ($themesCustoms as $theme) {
+        ?>
+          <a class="card rippleContainer"  href="quizz-choice.php?theme=<?=$theme['id']?>" style="background-color: <?=$theme['couleur']?>">
+            <div class="card-body text-center">
+              <div class="card-border">
+                <p class="card-text"><?=$theme['nom']?></p>
+                <p class="card-text"><?=$theme['desc']?></p>
+              </div>
+            </div>
+          </a>
+        <?php
           }
         ?>
         </div>
@@ -86,11 +104,35 @@
   <?php require_once "include/script.html"?>
   <script type="text/javascript" src="js/animation_roue.js"></script>
   <script type="text/javascript">
-    var pathFocus = <?=json_encode($pathFocus)?>;
-    var pathUnfocus = <?=json_encode($pathUnfocus)?>;
-    var coordTextFocus = <?=json_encode($coordTextFocus)?>;
-    var coordTextUnfocus = <?=json_encode($coordTextUnfocus)?>;
-    var descTheme = <?=json_encode($descTheme)?>;
+    $(document).ready(function(){
+      $('.rippleContainer').on('mousedown', function(event){
+        console.log('touch');
+        var buttonWidth = $(this).width(),
+          buttonHeight = $(this).height();
+        var radius = Math.max(buttonWidth,buttonHeight);
+        var x = event.pageX - $(this).offset().left - radius/2 ,
+          y = event.pageY - $(this).offset().top - radius/2;
+
+        $('.ripple').remove();
+        $(this).prepend("<span class='ripple'></span>");
+        $(".ripple").css({
+          width: radius + 'px',
+          height: radius + 'px',
+          top: y + 'px',
+          left: x + 'px'
+        }).addClass("rippleAnim");
+      });
+    });
+    var pathFocus = <?=json_encode($pathFocus)?>,
+      pathUnfocus = <?=json_encode($pathUnfocus)?>,
+      coordTextFocus = <?=json_encode($coordTextFocus)?>,
+      coordTextUnfocus = <?=json_encode($coordTextUnfocus)?>,
+      numberIdThemeRelation = <?=json_encode($numberIdThemeRelation)?>,
+      colorTheme = <?=json_encode($colorTheme)?>,
+      descTheme = <?=json_encode($descTheme)?>,
+      nomTheme = <?=json_encode($nomTheme)?>,
+      fontSizeTextFocus = <?=$fontSizeTextFocus?>,
+      fontSizeTextUnfocus = <?=$fontSizeTextUnfocus?>;
   </script>
   <?php require_once "js/script.html"?>
 </body>

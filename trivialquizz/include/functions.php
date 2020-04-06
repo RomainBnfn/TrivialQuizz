@@ -134,13 +134,6 @@
 
   // (THEMES)
 
-        /// Essaie de charger le theme d'id $id
-        /// un tableau: (id, nom, couleur, desc, is_Principal)
-        function getTheme($bdd,$id)
-        {
-            $data = tryQueryBDD($bdd,"SELECT * FROM theme WHERE th_id=$id");
-            return tabFormat($data, "loadThemeFromSQLResult");
-        }
         /// Essaie de charger tous les thèmes, puis renvoie une liste de listes
         /// qui comportent les infos des thèmes. Renvoie null sinon.
         ///   Renvoie $_THEMES[] qui comporte tous les $_THEME[] (id, nom, couleur, desc, is_Principal)
@@ -185,13 +178,6 @@
 
   // (QUIZZES)
 
-        /// Essaie de charger le theme d'id $id
-        /// un tableau: (id, nom, couleur, desc, is_Principal)
-        function getQuizz($bdd,$id)
-        {
-          $data = tryQueryBDD($bdd, "SELECT * FROM quiz WHERE qui_id=$id");
-          return tabFormat($data, "loadQuizzFromSQLResult");
-        }
         /// Essaie de charger tous les quizzes, puis renvoie une liste de listes
         /// qui comportent les infos des thèmes. Renvoie null sinon.
         ///   Renvoie $_QUIZZES[] qui comporte tous les $_QUIZZ[] (id, nom, desc, id_theme)

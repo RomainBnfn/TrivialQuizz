@@ -24,7 +24,7 @@ $(document).ready(function(){
       }
       focusTheme(themeNumber);
       displayDescTheme(descTheme[themeNumber]);
-      displayButtonTheme(numberIdThemeRelation[themeNumber]);
+      displayButtonTheme(themeNumber);
       themeFocused=themeNumber;
     }
     isTouched = true;
@@ -33,7 +33,7 @@ $(document).ready(function(){
   $(".bt-theme").on('click',function(){
     var themeNumber = getThemeNumber($(this));
     if(!isTouched){
-      document.location.href="quizz-choice.php?theme="+numberIdThemeRelation[themeNumber];
+      //document.location.href="quizz-choice.php?theme="+numberIdThemeRelation[themeNumber];
     }else{
     }
     isTouched = false;
@@ -83,10 +83,11 @@ function undisplayDescTheme(){
 }
 
 function displayButtonTheme(themeNumber){
+  console.log(themeNumber);
   $("#btn-quizz-smartphone").css("display","block");
-  $("#btn-quizz-smartphone").css("background-color",colorTheme[themeNumber-1]);
-  $('#btn-quizz-smartphone').parent().attr('href','quizz-choice.php?theme='+numberIdThemeRelation[themeNumber-1]);
-  $('#btn-quizz-smartphone')[0].textContent = "Voir les quizzes: "+nomTheme[themeNumber-1];
+  $("#btn-quizz-smartphone").css("background-color",colorTheme[themeNumber]);
+  $('#btn-quizz-smartphone').parent().attr('href','quizz-choice.php?theme='+numberIdThemeRelation[themeNumber]);
+  $('#btn-quizz-smartphone')[0].textContent = "Voir les quizzes: "+nomTheme[themeNumber];
 }
 
 function unDisplayButtonTheme(themeNumber){

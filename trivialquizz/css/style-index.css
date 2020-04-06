@@ -43,12 +43,12 @@ text
 /** partie thème custom ***/
 .card
 {
-  box-shadow: 3px 4px 5px rgba(20,20,20,.4);
+  box-shadow: 3px 4px 5px rgba(20,20,20,.5);
   max-height: 250px;
 }
 .card:hover
 {
-  box-shadow: 2px 2px 5px rgba(20,20,20,.4);
+  box-shadow: 2px 2px 5px rgba(20,20,20,.5);
 }
 .card:link
 {
@@ -72,4 +72,12 @@ text
 {
   font-weight: bold;
   font-size: 1.4rem;
+}
+.card-border
+{
+  border-radius: 5px;
+  border: solid 1px #fff;
+  background-color: rgba(255,255,255,0.1);
+  padding: 10px;
+  margin: -12px -8px -8px -8px;
 }
