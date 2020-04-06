@@ -12,7 +12,7 @@
   require_once "include/functions.php";
   require_once "include/liaisonbdd.php";
   //récupération du themes
-  $quizz = getQuizz($bdd,$_GET["quizz"]);
+  $quizz = tryLoadQuizz($bdd,$_GET["quizz"]);
   //récupération des quizzes associés au thème
   $quest = tryLoadQuizzQuestion($bdd,$_GET["quizz"]);
 

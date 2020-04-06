@@ -33,7 +33,7 @@ $(document).ready(function(){
   $(".bt-theme").on('click',function(){
     var themeNumber = getThemeNumber($(this));
     if(!isTouched){
-      //document.location.href="quizz-choice.php?theme="+numberIdThemeRelation[themeNumber];
+      document.location.href="quizz-choice.php?theme="+numberIdThemeRelation[themeNumber];
     }else{
     }
     isTouched = false;

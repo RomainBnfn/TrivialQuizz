@@ -38,7 +38,6 @@
 
     <!-- Se connecter -->
     <?php
-    echo $connected;
       if($connected){
     ?>
       <div id="hello-navbar">
