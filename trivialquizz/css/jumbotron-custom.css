@@ -3,6 +3,10 @@
   padding-top: 15px !important;
   padding-bottom: 30px !important;
 }
+.jumbotron{
+  background-color: rgb(80,80,80) !important;
+  color: white !important;
+}
 .reduced-div
 {
   margin-left: 15px !important;
