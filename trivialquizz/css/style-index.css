@@ -29,6 +29,7 @@ text
 #th-desc
 {
   height: 100%;
+  transition: 0.5s;
 }
 #btn-quizz-smartphone
 {

@@ -31,6 +31,13 @@
     </section>
     <section class="cadre-global">
       <div class="cadre-central">
+        <article class="center">
+          <p><?=$theme['desc']?></p>
+        </article>
+        <article class="">
+          <h2>Les quizzes</h2>
+          
+        </article>
       </div>
     </section>
 

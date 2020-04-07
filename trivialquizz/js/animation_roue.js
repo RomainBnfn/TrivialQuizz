@@ -1,3 +1,4 @@
+// TODO: travaillé sur les id directement au lieu de passer par themeNumber
 var themeFocused = -1;
 var isTouched = false;
 $(document).ready(function(){
@@ -28,7 +29,6 @@ $(document).ready(function(){
       themeFocused=themeNumber;
     }
     isTouched = true;
-    console.log("touch");
   });
   $(".bt-theme").on('click',function(){
     var themeNumber = getThemeNumber($(this));
@@ -83,7 +83,6 @@ function undisplayDescTheme(){
 }
 
 function displayButtonTheme(themeNumber){
-  console.log(themeNumber);
   $("#btn-quizz-smartphone").css("display","block");
   $("#btn-quizz-smartphone").css("background-color",colorTheme[themeNumber]);
   $('#btn-quizz-smartphone').parent().attr('href','quizz-choice.php?theme='+numberIdThemeRelation[themeNumber]);
