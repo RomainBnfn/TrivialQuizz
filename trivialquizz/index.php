@@ -61,7 +61,7 @@
               ?>
                 <path class="theme<?=$i?>" d="<?=$pathUnfocus[$i]?>" fill="<?=$theme["couleur"]?>"/>
                 <text id="th-text<?=$i?>" fill="#fff" x="<?=$coordTextUnfocus[$i][0]?>" y="<?=$coordTextUnfocus[$i][1]?>"><?=$theme["nom"]?></text>
-                <path class="bt-theme theme<?=$i?>" d="<?=$pathUnfocus[$i++]?>" fill="#ffffff00" stroke="#000000" stroke-width="1"/>
+                <path class="bt-theme theme<?=$i?>" d="<?=$pathUnfocus[$i++]?>" fill="#ffffff00" stroke="#ffffff" stroke-width="1" onClick="clicka(<?=$theme['id']?>)"/>
 
               <?php
               }
@@ -103,26 +103,8 @@
 
   <?php require_once "include/script.html"?>
   <script type="text/javascript" src="js/animation_roue.js"></script>
+  <script type="text/javascript" src="js/ripple.js"></script>
   <script type="text/javascript">
-    $(document).ready(function(){
-      $('.rippleContainer').on('mousedown', function(event){
-        console.log('touch');
-        var buttonWidth = $(this).width(),
-          buttonHeight = $(this).height();
-        var radius = Math.max(buttonWidth,buttonHeight);
-        var x = event.pageX - $(this).offset().left - radius/2 ,
-          y = event.pageY - $(this).offset().top - radius/2;
-
-        $('.ripple').remove();
-        $(this).prepend("<span class='ripple'></span>");
-        $(".ripple").css({
-          width: radius + 'px',
-          height: radius + 'px',
-          top: y + 'px',
-          left: x + 'px'
-        }).addClass("rippleAnim");
-      });
-    });
     var pathFocus = <?=json_encode($pathFocus)?>,
       pathUnfocus = <?=json_encode($pathUnfocus)?>,
       coordTextFocus = <?=json_encode($coordTextFocus)?>,
