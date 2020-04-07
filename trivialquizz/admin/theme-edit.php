@@ -38,6 +38,7 @@
   <title>Edition de Theme</title>
   <?php require_once "../include/header.html"?>
   <link rel="stylesheet" href="../css/jumbotron-custom.css" />
+  <link rel="stylesheet" href="../css/modal.css" />
   <link rel="stylesheet" href="https://unpkg.com/huebee@1/dist/huebee.min.css">
 </head>
 <body>
@@ -55,8 +56,10 @@
       <div>
         <div class="titre1 titre-shadow">
           <h1>Général</h1>
-          <!-- Quand on appuie sur le bouton, on envoie une requête -->
-          <button id="boutonSuppression" type="button" class="btn btn-danger" style="height: 2.5em;">Supprimer le quizz</button>
+          <?php if($_THEME["is_Principal"] == 0){?>
+            <!-- Quand on appuie sur le bouton, on envoie une requête -->
+            <button id="boutonSuppression" type="button" class="btn btn-danger button-open-modal">Supprimer le quizz</button>
+          <?php }?>
         </div>
         <div class="row reduced-div" style="justify-content: space-between;">
 
@@ -201,7 +204,6 @@
         });
       });
 
-
       $("#formGeneralNom").on({
         blur : function(){
           if ($(this).val() == "")
@@ -226,6 +228,13 @@
             });
           }
         }
+      });
+
+      $("#boutonSuppression").click(()=>{
+        fetch("ajax/theme-delete.php?id=<?= $_THEME["id"] ?>")
+          .then((response) => {
+            document.location.href="theme.php";
+          })
       });
     });
   </script>

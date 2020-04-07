@@ -192,7 +192,18 @@
                           </div>
                         </div>
 
-                        <div class="col-sm-9">
+                        <div class="col-sm-11">
+
+                          <div class="form-group">
+                            <label for="editGene" name="id_theme" class="col form-label">
+                              Type de la Question:
+                            </label>
+                            <select class="form-control" id="editGene" name="id_theme">
+                            <option value="e">Réponse Libre</option>
+                              <option value="t">QCM</option>
+                            </select>
+                          </div>
+
                           <div class="form-group">
                             <label for="libelle" class="col form-label">
                               Libellé:
@@ -222,12 +233,19 @@
 
                           </div>
                         </div >
-                        <div class="col-sm-2">
-                          <button id="editQuestion_BtnN<?= $_QUESTION["id"] ?>" type="submit"  class="btn btn-success float-right" style="margin-left:5px;">
-                            <i id="editQuestion_BtnCtnN<?= $_QUESTION["id"] ?>" class="far fa-edit"></i>
-                          </button>
-                          <button class="btn btn-danger float-right"><i class="far fa-trash-alt"></i></i></button>
-                        </div>
+
+                      </div>
+
+                      <div class="col">
+                        <button class="btn btn-danger float-right" style="margin-left:5px;">
+                          <i class="far fa-trash-alt"></i></i>
+                        </button>
+                        <button class="btn btn-info float-right" style="margin-left:5px;">
+                          <i class="fas fa-unlink"></i>
+                        </button>
+                        <button id="editQuestion_BtnN<?= $_QUESTION["id"] ?>" type="submit"  class="btn btn-success float-right" style="margin-left:5px;">
+                          <i id="editQuestion_BtnCtnN<?= $_QUESTION["id"] ?>" class="far fa-edit"></i>
+                        </button>
                       </div>
                     </form>
                   </div>
