@@ -25,7 +25,11 @@
     $connected = false;
   }
 ?>
+<<<<<<< HEAD
 <nav class="navbar navbar-default fixed-top" role="navigation">
+=======
+<nav class="navbar fixed-top" role="navigation">
+>>>>>>> 60ca1e9f76fc4811b8a7d10df7d40aad1aa9643f
   <div class="container">
     <!-- Logo pour aller à la page d'accueil -->
     <div>

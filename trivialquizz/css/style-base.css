@@ -11,7 +11,7 @@
 
 :root
 {
-    --navbar-height: 95px;
+    --navbar-height: 90px;
 }
 
 /*** navbar ***/
@@ -41,12 +41,13 @@
   text-decoration: none;
 }
 nav {
-  box-shadow: 0px 4px 5px 1px rgba(0, 0, 0, .4);
-  background: white;
-  min-height: var(--navbar-height);
+  box-shadow: 0px 4px 5px 1px rgba(0, 0, 0, .55);
+  background-color: rgb(70,70,70) !important;
+  height: var(--navbar-height);
 }
-
-
+html{
+  margin-top: var(--navbar-height);
+}
 /*** Multi usage ***/
 .center
 {
@@ -68,17 +69,22 @@ nav {
 	color: white;
 }
 .cadre-global{
-	box-shadow: 0px -4px 5px 1px rgba(0, 0, 0, .4);
+	box-shadow: 0px -4px 5px 1px rgba(0, 0, 0, .55);
 	display: flex;
 	width: auto;
 	justify-content: center;
+  background-color: rgb(50,50,50);
+}
+body{
+  background-color: rgb(50,50,50) !important;
 }
 .cadre-central{
 	box-shadow: 2px 5px 6px 3px rgba(0, 0, 0, .2), -2px 5px 6px 3px rgba(0, 0, 0, .2);
 	width: 60%;
 	height: 100%;
 	padding: 10px 20px 15px 20px;
-  background-color: rgb(230,230,230);
+  background-color: rgb(70,70,70);
+  color: white;
 }
 .titre1, .titre2{
 	display: flex;
@@ -119,6 +125,16 @@ a{
 }
 a:hover{
   text-decoration: none !important;
+}
+.questionContainer{
+  padding-bottom:0px !important;
+  margin-bottom: 15px;
+  width: 100% !important;
+}
+.containerQuestions{
+  display: flex;
+  flex-flow: row;
+  flex-wrap: wrap;
 }
 /* medium screen */
 @media (min-width: 801px) and (max-width: 1200px) {

@@ -156,7 +156,7 @@
         </div>
 
 
-        <div id="containerQuestions">
+        <div class="containerQuestions" id="containerQuestions">
           <?php
             if (empty($_QUESTIONS) || $_QUESTIONS == null )
             {
@@ -164,61 +164,74 @@
             }
             else
             {
+              $nbQuestions = count($_QUESTIONS);
+              $tableauQuestionOrder;
               foreach ($_QUESTIONS as $_QUESTION)
-              { ?>
-                <form id="editQuestionN<?= $_QUESTION["id"] ?>" method="POST" onsubmit="saveQuestionReponse(<?= $_QUESTION["id"] ?>); return false;">
-                  <div class="jumbotron jumbotron-vert reduced-div row" style="padding-bottom:0px !important; margin-bottom: 15px">
-                    <input id="editQuestion_IdN<?= $_QUESTION["id"] ?>" name="id" type="hidden" value="<?= $_QUESTION["id"] ?>" required/>
+              {
+                $indice = $_QUESTION['order'];
+                $tableauQuestionOrder["$indice"] = $_QUESTION["id"];
+                ?>
+                  <div id="containerQuestionN<?= $_QUESTION["id"] ?>" class="jumbotron jumbotron-vert questionContainer" style="order: <?= $_QUESTION['order'] ?>;">
+                    <form id="editQuestionN<?= $_QUESTION["id"] ?>" method="POST" onsubmit="saveQuestionReponse(<?= $_QUESTION["id"] ?>); return false;">
+                      <div class="reduced-div row">
+                        <input id="editQuestion_IdN<?= $_QUESTION["id"] ?>" name="id" type="hidden" value="<?= $_QUESTION["id"] ?>" required/>
 
-                      <div class="col-sm-1 d-flex align-items-center">
-                        <div>
-                          <div><i class="fas fa-arrow-up"></i></div>
-                          <span class="badge  badge-info">
-                            <?= $_QUESTION["order"] ?>
-                          </span>
-                          <div><i class="fas fa-arrow-down"></i></div>
+                        <div class="col-sm-1 d-flex align-items-center">
+                          <div>
+                            <div id="questionUpN<?= $_QUESTION["id"] ?>" onclick="moveQuestion(-1, <?= $_QUIZZ["id"] ?>, <?= $_QUESTION["id"] ?>, <?= $_QUESTION["order"] ?>); return false;" <?php if( $_QUESTION["order"] <= 1){ echo "style='display: none'";}?>>
+                              <i class="fas fa-arrow-up"></i>
+                            </div>
+
+                            <span id="badgeQuestionN<?= $_QUESTION["id"] ?>" class="badge badge-info">
+                              <?= $_QUESTION["order"] ?>
+                            </span>
+
+                            <div id="questionDownN<?= $_QUESTION["id"] ?>"onclick="moveQuestion(1, <?= $_QUIZZ["id"] ?>, <?= $_QUESTION["id"] ?>, <?= $_QUESTION["order"] ?>); return false;" <?php if( $_QUESTION["order"] >= $nbQuestions){ echo "style='display: none'";}?>>
+                              <i class="fas fa-arrow-down"></i>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="col-sm-9">
+                          <div class="form-group">
+                            <label for="libelle" class="col form-label">
+                              Libellé:
+                            </label>
+                            <input id="editQuestion_LibelleN<?= $_QUESTION["id"] ?>" name="libelle" type="text" class="form-control" name="nom" placeholder="Entrez le nom de votre Quizz !" autocomplete="off" value="<?= $_QUESTION["lib"] ?>" required/>
+                          </div>
+                          <div ><!-- REPONSES -->
+                            <?php
+                              if($_QUESTION["type"] == 1){
+                                $idRep = array_key_first ($_QUESTION["reponses"]);
+                                $_REPONSE = $_QUESTION["reponses"][$idRep];
+                                ?>
+                                <div class="form-group">
+                                  <label for="libelle" class="col form-label">
+                                    Réponse exacte:
+                                  </label>
+                                  <input id="editQuestion_ReponseN<?= $_REPONSE["id"] ?>" name="reponse" type="text" class="form-control" name="nom" placeholder="Entrez le nom de votre Quizz !" autocomplete="off" value="<?= $_REPONSE["lib"] ?>" required/>
+                                </div>
+                                <?php
+                              }
+                              else if ($_QUESTION["type"] == 2){
+                                ?>
+                                Mais c'est un QCM :O
+                                <?php
+                              }
+                            ?>
+
+                          </div>
+                        </div >
+                        <div class="col-sm-2">
+                          <button id="editQuestion_BtnN<?= $_QUESTION["id"] ?>" type="submit"  class="btn btn-success float-right" style="margin-left:5px;">
+                            <i id="editQuestion_BtnCtnN<?= $_QUESTION["id"] ?>" class="far fa-edit"></i>
+                          </button>
+                          <button class="btn btn-danger float-right"><i class="far fa-trash-alt"></i></i></button>
                         </div>
                       </div>
-
-                      <div class="col-sm-9">
-                        <div class="form-group">
-                          <label for="libelle" class="col form-label">
-                            Libellé:
-                          </label>
-                          <input id="editQuestion_LibelleN<?= $_QUESTION["id"] ?>" name="libelle" type="text" class="form-control" name="nom" placeholder="Entrez le nom de votre Quizz !" autocomplete="off" value="<?= $_QUESTION["lib"] ?>" required/>
-                        </div>
-                        <div ><!-- REPONSES -->
-                          <?php
-                            if($_QUESTION["type"] == 1){
-                              $idRep = array_key_first ($_QUESTION["reponses"]);
-                              $_REPONSE = $_QUESTION["reponses"][$idRep];
-                              ?>
-                              <div class="form-group">
-                                <label for="libelle" class="col form-label">
-                                  Réponse exacte:
-                                </label>
-                                <input id="editQuestion_ReponseN<?= $_REPONSE["id"] ?>" name="reponse" type="text" class="form-control" name="nom" placeholder="Entrez le nom de votre Quizz !" autocomplete="off" value="<?= $_REPONSE["lib"] ?>" required/>
-                              </div>
-                              <?php
-                            }
-                            else if ($_QUESTION["type"] == 2){
-                              ?>
-                              Mais c'est un QCM :O
-                              <?php
-                            }
-                          ?>
-
-                        </div>
-                      </div >
-                      <div class="col-sm-2">
-                        <button id="editQuestion_BtnN<?= $_QUESTION["id"] ?>" type="submit"  class="btn btn-success float-right" style="margin-left:5px;">
-                          <i id="editQuestion_BtnCtnN<?= $_QUESTION["id"] ?>" class="far fa-edit"></i>
-                        </button>
-                        <button class="btn btn-danger float-right"><i class="far fa-trash-alt"></i></i></button>
-                      </div>
-
+                    </form>
                   </div>
-                </form>
+
                 <?php
               }
             }
@@ -236,8 +249,64 @@
   <script>
 
     var listeNoms = <?=json_encode(getAllQuizzNames($bdd))?>,
-        nameQuizz = <?=json_encode($_QUIZZ["nom"])?>;
-    listeNoms = listeNoms.filter(function(value, index, arr){ return value != nameQuizz;})
+        nameQuizz = <?=json_encode($_QUIZZ["nom"])?>,
+        tableauQuestionOrder = <?= json_encode($tableauQuestionOrder) ?>,
+        nbQuestions = <?= $nbQuestions ?>;
+
+    listeNoms = listeNoms.filter(function(value, index, arr){ return value != nameQuizz;});
+
+    function editFleches(pos, id, idQuizz){
+      var flecheUp = document.getElementById("questionUpN"+id),
+          flecheDown = document.getElementById("questionDownN"+id);
+      flecheUp.onclick = () => {
+        moveQuestion(-1, idQuizz, id, pos);
+        return false
+      };
+      flecheDown.onclick = () => {
+        moveQuestion(1, idQuizz, id, pos);
+        return false
+      };
+      if(pos == 1)
+      {
+        flecheUp.style.display = "none";
+        flecheDown.style.display = "block";
+      }
+      if (pos == nbQuestions)
+      {
+        flecheDown.style.display = "none";
+      }
+      else if(pos != 1) {
+        flecheUp.style.display = "block";
+        flecheDown.style.display = "block";
+      }
+    }
+
+    function moveQuestion(direction, idQuizz, idQuestion, posQuestion){
+      if(posQuestion+direction<=0 || posQuestion+direction>nbQuestions){
+        return;
+      }
+      fetch("ajax/question-move-order.php?idQuizz="+idQuizz+"&idQuestion="+idQuestion+"&oldPos="+posQuestion+"&direction="+direction)
+      .then((response)=>{
+        response.text()
+        .then((resp) =>{
+          if (resp == "ok"){
+            var idCible = tableauQuestionOrder[posQuestion+direction];
+            //Tableau edit
+            tableauQuestionOrder[posQuestion+direction] = idQuestion;
+            tableauQuestionOrder[posQuestion] = idCible;
+            //order edit
+            document.getElementById("containerQuestionN"+idQuestion).style.order = posQuestion+direction;
+            document.getElementById("containerQuestionN"+idCible).style.order = posQuestion;
+            //badgeQuestion edit
+            document.getElementById("badgeQuestionN"+idQuestion).innerHTML = posQuestion+direction;
+            document.getElementById("badgeQuestionN"+idCible).innerHTML = posQuestion;
+            //fleches edit
+            editFleches(posQuestion+direction, idQuestion, idQuizz);
+            editFleches(posQuestion, idCible, idQuizz);
+          }
+        });
+      });
+    }
 
     function saveQuestionReponse(id)
     {
