@@ -28,6 +28,7 @@
   line-height: 35px;
   margin: 0 35px 0 0;
   overflow: hidden;
+  color: white;
 }
 #hello-navbar
 {
@@ -41,7 +42,7 @@
   text-decoration: none;
 }
 nav {
-  box-shadow: 0px 4px 5px 1px rgba(0, 0, 0, .55);
+  box-shadow: 0px 1px 5px 1px rgba(0, 0, 0, .55);
   background-color: rgb(70,70,70) !important;
   height: var(--navbar-height);
 }
@@ -56,7 +57,6 @@ html{
   align-items: center;
 }
 .bandeau-principal{
-  margin-top: var(--navbar-height);
 	height: 65px;
 	text-align: center;
 	justify-content: center;
@@ -69,7 +69,7 @@ html{
 	color: white;
 }
 .cadre-global{
-	box-shadow: 0px -4px 5px 1px rgba(0, 0, 0, .55);
+	box-shadow: 0px 0px 5px 1px rgba(0, 0, 0, .55);
 	display: flex;
 	width: auto;
 	justify-content: center;
