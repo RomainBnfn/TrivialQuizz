@@ -7,8 +7,8 @@
   $th_custom = getAllThemesPersoInfos($bdd);
 
   $R = 200; //rayon
-  $r = 5; // petite marge
-  $G = 1.2; // grandissement focus/unfocus
+  $r = 0; // petite marge
+  $G = 1.3; // grandissement focus/unfocus
   $L = 2*($r+$G*$R); // hauteur/largeur de la viewBox
   $c = $L/2; // centre de la viewBox
   $fontSizeTextUnfocus = $R/13;
@@ -62,7 +62,6 @@
                 <path class="theme<?=$i?>" d="<?=$pathUnfocus[$i]?>" fill="<?=$theme["couleur"]?>"/>
                 <text id="th-text<?=$i?>" fill="#fff" x="<?=$coordTextUnfocus[$i][0]?>" y="<?=$coordTextUnfocus[$i][1]?>"><?=$theme["nom"]?></text>
                 <path class="bt-theme theme<?=$i?>" d="<?=$pathUnfocus[$i++]?>" fill="#ffffff00" stroke="#ffffff" stroke-width="1" onClick="clicka(<?=$theme['id']?>)"/>
-
               <?php
               }
               ?>
@@ -100,7 +99,6 @@
       ?>
     </div>
   </section>
-
   <?php require_once "include/script.html"?>
   <script type="text/javascript" src="js/animation_roue.js"></script>
   <script type="text/javascript" src="js/ripple.js"></script>

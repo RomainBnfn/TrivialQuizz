@@ -14,7 +14,7 @@
   //récupération du themes
   $theme = tryLoadTheme($bdd,$_GET["theme"]);
   //récupération des quizzes associés au thème
-  $quizz = getAllQuizzesInfosOfTheme($bdd,$theme['id']);
+  $quizzes = getAllQuizzesInfosOfTheme($bdd,$theme['id']);
 
 ?>
 <!DOCTYPE html>
@@ -22,6 +22,7 @@
   <head>
     <meta charset="utf-8">
     <?php require_once "include/header.html"?>
+    <link rel="stylesheet" type="text/css" href="css/style-quizz.css">
     <title>Choix du quizz - Trivial Quizz</title>
   </head>
   <body>
@@ -31,16 +32,43 @@
     </section>
     <section class="cadre-global">
       <div class="cadre-central">
-        <article class="center">
+        <article id="quizz-description" class="center ">
           <p><?=$theme['desc']?></p>
         </article>
-        <article class="">
-          <h2>Les quizzes</h2>
-          
+        <article>
+          <h1 class="titre1">Les quizzes</h1>
+          <?php
+          if(!empty($quizzes))
+          {
+            ?>
+            <div class="card-columns">
+              <?php
+              foreach ($quizzes as $quizz) {
+                ?>
+                <div class="card trianglify-background rippleContainer">
+                  <div class="card-body">
+                    <h3><?=$quizz['nom']?></h3>
+                    <p><?=$quizz['desc']?></p>
+                  </div>
+                </div>
+                <?php
+              }
+              ?>
+            </div>
+            <?php
+          }else{
+            ?>
+            <p>Il n'y a pas encore de quizzes dans ce thème...</p>
+            <?php
+          }
+          ?>
         </article>
       </div>
     </section>
 
     <?php require_once "include/script.html" ?>
+    <?php require_once "js/trianglify.html" ?>
+    <script type="text/javascript" src="js/ripple.js"></script>
+    </script>
   </body>
 </html>
