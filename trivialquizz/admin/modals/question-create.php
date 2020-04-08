@@ -1,7 +1,7 @@
 <!-- Les modals (Pop-up)-->
 <div class="modal fade" id="modalCreationQuestion" tabindex="-1" role="dialog" aria-labelledby="modalCreationQuestion" aria-hidden="true">
   <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
-    <div class="modal-content">
+    <div class="modal-content modal-dark">
 
       <div class="modal-header" style="background-color: #64ae64; color: white;">
         <h5 class="modal-title" id="exampleModalLongTitle">Création de Question</h5>
@@ -40,7 +40,7 @@
               <i class="far fa-question-circle" style="color: #339af0;"></i>
               Intitulé de la question :
             </label>
-            <input type="text" class="form-control" name="intituleQuestion" id="intituleQuestion" placeholder="Entrez l'intitulé de la Question !" required/>
+            <input type="text" class="input-dark form-control" name="intituleQuestion" id="intituleQuestion" autocomplete="off" placeholder="Entrez l'intitulé de la Question !" required/>
           </div>
 
           <hr/> <!-- ======================================================= -->
@@ -52,7 +52,7 @@
               <i class="far fa-check-circle" style="color: #51cf66;"></i>
               Réponse correcte :
             </label>
-            <input type="text" class="form-control" name="reponseLibre_correcte" id="reponseLibre_correcte" placeholder="Entrez cette fameuse réponse !" required/>
+            <input type="text" class="input-dark form-control" name="reponseLibre_correcte" id="reponseLibre_correcte" autocomplete="off" placeholder="Entrez cette fameuse réponse !" required/>
             <small id="reponseLibre_correcte_help" class="form-text text-muted">Cette réponse devra être indiquée à la lettre près.</small>
           </div>
 

@@ -83,7 +83,7 @@
                 <label for="formGeneralNom" class="form-label">
                   Nom:
                 </label>
-                <input id="formGeneralNom" type="text" class="col form-control" name="nom" value="<?= $_THEME["nom"] ?>" placeholder="Entrez le nom de votre Thème !" value="<?= $_QUIZZ["nom"] ?>" required/>
+                <input id="formGeneralNom" type="text" class="input-dark col form-control" name="nom" value="<?= $_THEME["nom"] ?>" placeholder="Entrez le nom de votre Thème !" value="<?= $_QUIZZ["nom"] ?>" required/>
                 <div id="errorGeneral_Nom" class="invalid-feedback">
                   Ce nom est déjà utilisé !
                 </div>
@@ -93,7 +93,7 @@
                 <label for="editGeneral_Desc" class="form-label">
                   Description:
                 </label>
-                <textarea id="editGeneral_Desc" type="text" class="col form-control" name="desc" rows="5" placeholder="Entrez la description de votre Thème !" required><?= $_THEME["desc"] ?></textarea>
+                <textarea id="editGeneral_Desc" type="text" class="input-dark col form-control" name="desc" rows="5" placeholder="Entrez la description de votre Thème !" required><?= $_THEME["desc"] ?></textarea>
               </div>
 
               <div class="form-group">
@@ -107,7 +107,7 @@
               <input type="hidden" name="id" value="<?= $_THEME["id"] ?>" />
 
               <input id="formGeneral_Button"  class="btn btn-success float-right" value="Sauvegarder" type="submit" />
-              <span id="succedGeneral_Message" style="color: green; visibility: hidden;"> Les modifications ont été prises en compte !</span>
+              <span id="succedGeneral_Message" style="color: #55FF55; visibility: hidden;"> Les modifications ont été prises en compte !</span>
             </form>
 
           </div>

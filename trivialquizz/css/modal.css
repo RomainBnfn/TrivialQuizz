@@ -4,3 +4,10 @@
  background-color: #5cb85c !important;
  color: white !important;
 }
+.modal-dark{
+  color: white !important;
+  background-color: rgb(70,70,70) !important;
+}
+.modal-custom{
+
+}

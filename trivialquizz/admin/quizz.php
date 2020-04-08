@@ -26,6 +26,7 @@
   <title>Panel d'Admin</title>
   <?php require_once "../include/header.html"?>
   <link rel="stylesheet" href="../css/cards.css" />
+  <link rel="stylesheet" href="../css/modal.css" />
 </head>
 <body>
   <?php require_once "../include/navbar.php"?>
@@ -68,11 +69,12 @@
                   ?>
                     <div class="card">
                       <?php $color = $_THEMES["$id_previousTheme"]["couleur"]; ?>
-                      <div class="card-header" style="background-color: <?= $color ?>;">
+                      <div onclick="collapseOrShow(<?= $id_previousTheme ?>)" class="d-flex justify-content-between card-header" style="background-color: <?= $color ?>;">
                         <h4><?= $_THEMES["$id_previousTheme"]["nom"] ?></h4>
+                        <i id="cardQuizzSymbolN<?= $id_previousTheme ?>" class="fas fa-angle-double-up"></i>
                       </div>
 
-                      <div class="card-body" style="background: <?= $color?>20;">
+                      <div id="cardQuizzOfThemeN<?= $id_previousTheme ?>" class="card-body" style="background: <?= $color?>40;">
                         <div class="card-columns-sm card-columns">
                   <?php
                 }
@@ -117,31 +119,43 @@
   <?php require_once "../include/script.html"?>
   <?php require_once "modals/quizz-create.php"?>
   <script>
-      $(document).ready(function(){
-        <?php
-          if(!empty($_QUIZZES))
+    function collapseOrShow(id){
+      var el = document.getElementById("cardQuizzOfThemeN"+id),
+          symb = document.getElementById("cardQuizzSymbolN"+id);
+      if (el.style.display == "none")
+      {
+        el.style.display = "block";
+        symb.className = "fas fa-angle-double-up";
+        return;
+      }
+      el.style.display = "none";
+      symb.className = "fas fa-angle-double-down";
+    }
+    $(document).ready(function(){
+      <?php
+        if(!empty($_QUIZZES))
+        {
+          foreach ($_QUIZZES as $_QUIZZ)
           {
-            foreach ($_QUIZZES as $_QUIZZ)
-            {
-              if (empty($_QUIZZ["id"])) break;
-            ?>
-            $("#suppressionQuizzN<?= $_QUIZZ["id"] ?>").click(function(){
-              fetch("ajax/quizz-delete.php?id=<?= $_QUIZZ["id"] ?>")
-                .then((response) => {
-                  response.text()
-                  .then((resp) => {
-                    document.location.reload(true);
-                  })
+            if (empty($_QUIZZ["id"])) break;
+          ?>
+          $("#suppressionQuizzN<?= $_QUIZZ["id"] ?>").click(function(){
+            fetch("ajax/quizz-delete.php?id=<?= $_QUIZZ["id"] ?>")
+              .then((response) => {
+                response.text()
+                .then((resp) => {
+                  document.location.reload(true);
                 })
-                /* A voir si on met un message d'erreur
-                .catch(() => {
-                });*/
-            });
-            <?php
-            }
+              })
+              /* A voir si on met un message d'erreur
+              .catch(() => {
+              });*/
+          });
+          <?php
           }
-        ?>
-      });
+        }
+      ?>
+    });
   </script>
 
 </body>

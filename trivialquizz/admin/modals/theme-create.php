@@ -2,24 +2,25 @@
 <!-- Les modals (Pop-up)-->
 <div class="modal fade" id="modalCreationTheme" tabindex="-1" role="dialog" aria-labelledby="modalCreationTheme" aria-hidden="true">
   <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
-    <div class="modal-content">
+    <div class="modal-content modal-dark">
 
-      <div class="modal-header" style="background-color: #FA5; color: white;">
+      <div class="modal-header" style="background-color: #FF8000; color: white;">
         <h5 class="modal-title" id="exampleModalLongTitle">Création de Thème</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
+
       <form id="formCreationTheme" method="POST">
 
         <input type="hidden" name="id_Quizz" value="<?= $_QUIZZ["id"] ?>" />
 
-        <div class="modal-body" style="margin-left: 5px; margin-right: 15px; padding-bottom: 0;">
+        <div class="modal-body modal-custom" style="margin-left: 5px; margin-right: 15px; padding-bottom: 0;">
           <div class="form-group row">
             <label for="editGeneral_Nom" class="col-sm-2 col-form-label">
               Nom:
             </label>
-            <input id="formGeneral_Nom" type="text" class="col form-control" name="nom" placeholder="Entrez le nom de votre Thème !" autocomplete="off" required/>
+            <input id="formGeneral_Nom" type="text" class="input-dark col form-control" name="nom" placeholder="Entrez le nom de votre Thème !" autocomplete="off" required/>
             <div id="errorGeneral_Nom" class="invalid-feedback">
               Ce nom est déjà utilisé !
             </div>
@@ -29,7 +30,7 @@
             <label for="formGeneral_Desc" class="col-sm-2 col-form-label">
               Description:
             </label>
-            <textarea id="formGeneral_Desc" type="text" class="col form-control" name="desc" rows="5" placeholder="Entrez la description de votre Thème !" required></textarea>
+            <textarea id="formGeneral_Desc" type="text" class="input-dark col form-control" name="desc" rows="5" placeholder="Entrez la description de votre Thème !" required></textarea>
           </div>
 
           <div class="form-group row">
@@ -46,6 +47,9 @@
               Je directement Editer mon thème après sa Création !
             </label>
           </div>
+
+          <br/>
+          <br/>
 
         </div>
 

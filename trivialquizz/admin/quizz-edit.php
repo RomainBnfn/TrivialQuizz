@@ -83,7 +83,7 @@
                 <label for="editGeneral_Nom" class="form-label">
                   Nom:
                 </label>
-                <input id="editGeneral_Nom" type="text" class="form-control" name="nom" placeholder="Entrez le nom de la Question !" value="<?= $_QUIZZ["nom"] ?>" required/>
+                <input id="editGeneral_Nom" type="text" class="input-dark form-control" name="nom" placeholder="Entrez le nom de la Question !" value="<?= $_QUIZZ["nom"] ?>" required/>
                 <div id="errorGeneral_Nom" class="invalid-feedback">
                   Ce nom est déjà utilisé !
                 </div>
@@ -93,17 +93,17 @@
                 <label for="editGeneral_Desc" class="form-label">
                   Description:
                 </label>
-                <textarea id="editGeneral_Desc" type="text" class="form-control" name="desc" placeholder="Entrez le nom de la Question !" required><?= $_QUIZZ["desc"] ?></textarea>
+                <textarea id="editGeneral_Desc" type="text" class="input-dark form-control" name="desc" placeholder="Entrez le nom de la Question !" required><?= $_QUIZZ["desc"] ?></textarea>
               </div>
 
               <div class="form-group">
                 <label for="editGeneral_Theme" name="id_theme" class="form-label">Thème :</label>
-                <select class="form-control" id="editGeneral_Theme" name="id_theme">
+                <select class="input-dark form-control" id="editGeneral_Theme" name="id_theme">
                   <?php
                   foreach (getAllThemesInfos($bdd) as $_THEME)
                   {
                   ?>
-                    <option value="<?= $_THEME["id"] ?>"><?= $_THEME["nom"] ?></option>
+                    <option value="<?= $_THEME["id"] ?>" <?php if($_THEME["id"] == $_QUIZZ["id_theme"]) {echo"selected"; }?>><?= $_THEME["nom"] ?></option>
                   <?php
                   }
                   ?>
@@ -114,7 +114,7 @@
               <input type="hidden" name="id" value="<?= $_QUIZZ["id"] ?>" />
 
               <input id="formGeneral_Button"  class="btn btn-success float-right" value="Sauvegarder" type="submit" />
-              <span id="infoGeneral_Button" style="color: green; visibility: hidden;"> Les modifications ont été prises en compte !</span>
+              <span id="infoGeneral_Button" style="color: #55FF55; visibility: hidden;"> Les modifications ont été prises en compte !</span>
             </form>
 
           </div>
@@ -160,6 +160,7 @@
           <?php
             if (empty($_QUESTIONS) || $_QUESTIONS == null )
             {
+              $nbQuestions = 0;
               echo "Ce quizz n'a aucune question ! Pensez à en rajouter !";
             }
             else
@@ -198,7 +199,7 @@
                             <label for="editGene" name="id_theme" class="col form-label">
                               Type de la Question:
                             </label>
-                            <select class="form-control" id="editGene" name="id_theme">
+                            <select class="input-dark form-control" id="editGene" name="id_theme">
                             <option value="e">Réponse Libre</option>
                               <option value="t">QCM</option>
                             </select>
@@ -208,7 +209,7 @@
                             <label for="libelle" class="col form-label">
                               Libellé:
                             </label>
-                            <input id="editQuestion_LibelleN<?= $_QUESTION["id"] ?>" name="libelle" type="text" class="form-control" name="nom" placeholder="Entrez le nom de votre Quizz !" autocomplete="off" value="<?= $_QUESTION["lib"] ?>" required/>
+                            <input id="editQuestion_LibelleN<?= $_QUESTION["id"] ?>" name="libelle" type="text" class="input-dark form-control" name="nom" placeholder="Entrez le nom de votre Quizz !" autocomplete="off" value="<?= $_QUESTION["lib"] ?>" required/>
                           </div>
                           <div ><!-- REPONSES -->
                             <?php
@@ -220,7 +221,7 @@
                                   <label for="libelle" class="col form-label">
                                     Réponse exacte:
                                   </label>
-                                  <input id="editQuestion_ReponseN<?= $_REPONSE["id"] ?>" name="reponse" type="text" class="form-control" name="nom" placeholder="Entrez le nom de votre Quizz !" autocomplete="off" value="<?= $_REPONSE["lib"] ?>" required/>
+                                  <input id="editQuestion_ReponseN<?= $_REPONSE["id"] ?>" name="reponse" type="text" class="input-dark form-control" name="nom" placeholder="Entrez le nom de votre Quizz !" autocomplete="off" value="<?= $_REPONSE["lib"] ?>" required/>
                                 </div>
                                 <?php
                               }
@@ -263,12 +264,14 @@
 
   <?php require_once "../include/script.html"?>
   <?php require_once "modals/question-create.php"?>
-
+  
   <script>
 
     var listeNoms = <?=json_encode(getAllQuizzNames($bdd))?>,
         nameQuizz = <?=json_encode($_QUIZZ["nom"])?>,
-        tableauQuestionOrder = <?= json_encode($tableauQuestionOrder) ?>,
+        <?php if($nbQuestions>0){?>
+          tableauQuestionOrder = <?=json_encode($tableauQuestionOrder)?>,
+        <?php }?>
         nbQuestions = <?= $nbQuestions ?>;
 
     listeNoms = listeNoms.filter(function(value, index, arr){ return value != nameQuizz;});
@@ -284,18 +287,15 @@
         moveQuestion(1, idQuizz, id, pos);
         return false
       };
+      flecheUp.style.display = "block";
+      flecheDown.style.display = "block";
       if(pos == 1)
       {
         flecheUp.style.display = "none";
-        flecheDown.style.display = "block";
       }
       if (pos == nbQuestions)
       {
         flecheDown.style.display = "none";
-      }
-      else if(pos != 1) {
-        flecheUp.style.display = "block";
-        flecheDown.style.display = "block";
       }
     }
 
