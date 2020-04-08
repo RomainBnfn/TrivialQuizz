@@ -41,13 +41,14 @@
 {
   text-decoration: none;
 }
-nav {
-  box-shadow: 0px 1px 5px 1px rgba(0, 0, 0, .55);
-  background-color: rgb(70,70,70) !important;
-  height: var(--navbar-height);
+/* INPUTS */
+.input-dark{
+  background-color: rgb(100,100,100) !important;
+  color: white !important;
 }
-html{
-  margin-top: var(--navbar-height);
+.input-dark::placeholder {
+  color: rgb(210,210,210) !important;
+  opacity: 1 !important;
 }
 /*** Multi usage ***/
 .center
@@ -68,12 +69,21 @@ html{
 	background-color: #48f;
 	color: white;
 }
+nav {
+  box-shadow: 0px 1px 5px 1px rgba(0, 0, 0, .55);
+  background-color: rgb(50,50,50) !important;
+  height: var(--navbar-height);
+}
+html{
+  margin-top: var(--navbar-height);
+}
 .cadre-global{
 	box-shadow: 0px 0px 5px 1px rgba(0, 0, 0, .55);
 	display: flex;
 	width: auto;
 	justify-content: center;
   background-color: rgb(50,50,50);
+  min-height: calc(100vh - 1.7*var(--navbar-height));
 }
 body{
   background-color: rgb(50,50,50) !important;
@@ -85,6 +95,7 @@ body{
 	padding: 10px 20px 15px 20px;
   background-color: rgb(70,70,70);
   color: white;
+  min-height: calc(100vh - 1.7*var(--navbar-height));
 }
 .titre1, .titre2{
 	display: flex;
@@ -127,7 +138,7 @@ a:hover{
   text-decoration: none !important;
 }
 .questionContainer{
-  padding-bottom:0px !important;
+  padding-bottom:10px !important;
   margin-bottom: 15px;
   width: 100% !important;
 }

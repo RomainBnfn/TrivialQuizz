@@ -41,15 +41,13 @@
       <!-- DEBUT: Section des Quizz-->
       <div>
         <div class="titre1">
-          <div>Les Questions</div>
-          <div>
-            <a href="<?=$base_location?>/admin/quizz-create.php">
-              <button type="button" class="btn btn-success">Ajouter</button>
-            </a>
-          </div>
+          <h1>Les Questions</h1>
+          <button id="boutonCreerQuizz" type="button" class="btn btn-success button-open-modal" data-toggle="modal" data-target="#modalCreationQuizz">
+            Créer un Quizz !
+          </button>
         </div>
 
-        
+
       </div>
       <!-- FIN: Section des Quizz -->
 
@@ -57,6 +55,7 @@
   </div>
 
   <?php require_once "../include/script.html"?>
+
 <script>
   $(document).ready(function(){
     <?php

@@ -15,7 +15,7 @@
 <!-- Les modals (Pop-up)-->
 <div class="modal fade" id="modalCreationQuizz" tabindex="-1" role="dialog" aria-labelledby="modalCreationQuestion" aria-hidden="true">
   <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
-    <div class="modal-content">
+    <div class="modal-content modal-dark">
 
       <div class="modal-header" style="background-color: #48f; color: white;">
         <h5 class="modal-title" id="modalTitle">Création d'un Quizz</h5>
@@ -31,7 +31,7 @@
             <label for="editGeneral_Nom" class="col-sm-2 col-form-label">
               Nom:
             </label>
-            <input id="formGeneral_Nom" type="text" class="col form-control" name="nom" placeholder="Entrez le nom de votre Quizz !" autocomplete="off" required/>
+            <input id="formGeneral_Nom" type="text" class="input-dark col form-control" name="nom" placeholder="Entrez le nom de votre Quizz !" autocomplete="off" required/>
             <div id="errorGeneral_Nom" class="invalid-feedback">
               Ce nom est déjà utilisé !
             </div>
@@ -41,12 +41,12 @@
             <label for="formGeneral_Desc" class="col-sm-2 col-form-label">
               Description:
             </label>
-            <textarea id="formGeneral_Desc" type="text" class="col form-control" name="desc" rows="5" placeholder="Entrez la description de votre Quizz !" required></textarea>
+            <textarea id="formGeneral_Desc" type="text" class="input-dark col form-control" name="desc" rows="5" placeholder="Entrez la description de votre Quizz !" required></textarea>
           </div>
 
           <div class="form-group row">
             <label for="formGeneral_Theme" name="theme" class="col-sm-2 col-form-label">Thème :</label>
-            <select class="col form-control" id="formGeneral_Theme" name="theme">
+            <select class="input-dark col form-control" id="formGeneral_Theme" name="theme">
               <?php
               foreach ($_THEMES as $_THEME)
               {
@@ -64,6 +64,7 @@
               Je directement Editer mon quizz après sa Création !
             </label>
           </div>
+          <br/>
 
         </div>
 

@@ -23,6 +23,7 @@
   <title>Panel d'Admin</title>
   <?php require_once "../include/header.html"?>
   <link rel="stylesheet" href="../css/cards.css" />
+  <link rel="stylesheet" href="../css/modal.css" />
 </head>
 <body>
   <?php require_once "../include/navbar.php"?>
