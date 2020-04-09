@@ -4,14 +4,22 @@
     var elements = $('.trianglify-background');
 
     for(var i = 0; i<elements.length; i++){
-      var pattern = Trianglify({
-        width: elements[i].clientWidth*1.05,
-        height: elements[i].clientHeight*1.05,
-        cell_size: Math.random()*45+40
-      });
-      elements[i].style.backgroundImage = "url("+pattern.canvas().toDataURL()+")";
-
+      drawBackground(elements[i]);
     }
+    function drawBackground(element){
+      var pattern = Trianglify({
+        width: element.clientWidth*1.05,
+        height: element.clientHeight*1.05,
+        cell_size: Math.random()*45+40
+      }).svg({includeNamespace: true});
+
+      var patternString = new XMLSerializer().serializeToString(pattern);
+      var patternMin = 'url("data:image/svg+xml,' + encodeURIComponent(patternString) + '")';
+
+      element.style.backgroundImage = 'url("data:image/svg+xml,' + encodeURIComponent(patternString) + '")';
+      //element.style.backgroundImage = "url("+pattern.canvas().toDataURL()+")";
+    }
+  });
     /*var elements = $('.trianglify-background');
     var card = $('.card-body');
     var margin = card.css('margin-top');
@@ -26,5 +34,4 @@
       });
       elements[i].insertBefore(pattern.canvas(),elements[i].firstChild)
     }*/
-});
 </script>
