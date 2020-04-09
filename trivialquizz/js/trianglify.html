@@ -7,7 +7,7 @@
       var pattern = Trianglify({
         width: elements[i].clientWidth*1.05,
         height: elements[i].clientHeight*1.05,
-        cell_size: 50
+        cell_size: Math.random()*45+40
       });
       elements[i].style.backgroundImage = "url("+pattern.canvas().toDataURL()+")";
 

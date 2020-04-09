@@ -23,6 +23,7 @@
     <meta charset="utf-8">
     <?php require_once "include/header.html"?>
     <link rel="stylesheet" type="text/css" href="css/style-quizz.css">
+    <link rel="stylesheet" type="text/css" href="css/card-2.css">
     <title>Choix du quizz - Trivial Quizz</title>
   </head>
   <body>
@@ -45,7 +46,7 @@
               <?php
               foreach ($quizzes as $quizz) {
                 ?>
-                <div class="card trianglify-background rippleContainer">
+                <div class="card trianglify-background ripple-ontainer dynamic-shadow">
                   <div class="card-body">
                     <h3><?=$quizz['nom']?></h3>
                     <p><?=$quizz['desc']?></p>

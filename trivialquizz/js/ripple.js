@@ -1,5 +1,5 @@
 $(document).ready(function(){
-  $('.rippleContainer').on('mousedown', function(event){
+  $('.ripple-container').on('mousedown', function(event){
     var buttonWidth = $(this).width(),
     buttonHeight = $(this).height();
     var radius = Math.max(buttonWidth,buttonHeight);
