@@ -289,7 +289,7 @@
 
   //renvoie les path svg du camembert tableau de dim 6 (6 parts)
   //$r marge entre les "part", $R rayon d'une "part", $c centre de la roue/"du gateau"
-  function generatePath($r, $R, $c){
+  function generatePath($r, $R, $o, $c){
     $A = array( $c-$r*cos(toRad(60)), $c-$r*sin(toRad(60)));
     $B = array( $c+$r*cos(toRad(60)), $A[1]);
     $C = array( $c+$r, $c);
@@ -306,7 +306,7 @@
     $d2y = $D[1]+$R;
     $f1x = $F[0]-$R*cos(toRad(30));
 
-    $l = $R+$r;
+    $l = $R+$r+$o;
 
     $path = array();
     $path[0] = "M $a1x,$a1y A $l,$l 0 0 1 $A[0],$a2y L $A[0],$A[1] Z";

@@ -9,7 +9,7 @@
 
   //si première essai: first_try, si echec connexion: fail
   $connection = "first_try";
-
+  
   if(isset($_POST["pseudo"]) && isset($_POST["pswd"])){
     $pseudo = $_POST["pseudo"];
     $requete = $bdd -> prepare("SELECT pr_pseudo FROM profil WHERE pr_pseudo=? AND pr_password=?");

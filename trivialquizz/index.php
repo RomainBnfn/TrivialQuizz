@@ -8,14 +8,15 @@
 
   $R = 200; //rayon
   $r = 0; // petite marge
+  $o = 40;
   $G = 1.3; // grandissement focus/unfocus
-  $L = 2*($r+$G*$R); // hauteur/largeur de la viewBox
+  $L = 2*($r+$G*$R)+$o; // hauteur/largeur de la viewBox
   $c = $L/2; // centre de la viewBox
   $fontSizeTextUnfocus = $R/13;
   $fontSizeTextFocus = $R/11;
 
-  $pathFocus = generatePath($r, $G*$R, $c);
-  $pathUnfocus = generatePath($r, $R, $c);
+  $pathFocus = generatePath($r, $G*$R, -$o, $c);
+  $pathUnfocus = generatePath($r, $R, -$o, $c);
 
   $coordTextFocus = generateCoordText($r, $G*$R, $c);
   $coordTextUnfocus = generateCoordText($r, $R, $c);
@@ -62,7 +63,7 @@
               ?>
                 <path class="theme<?=$i?>" d="<?=$pathUnfocus[$i]?>" fill="<?=$theme["couleur"]?>"/>
                 <text id="th-text<?=$i?>" fill="#fff" x="<?=$coordTextUnfocus[$i][0]?>" y="<?=$coordTextUnfocus[$i][1]?>"><?=$theme["nom"]?></text>
-                <path class="bt-theme theme<?=$i?>" d="<?=$pathUnfocus[$i++]?>" fill="#ffffff00" stroke="#ffffff" stroke-width="1"/>
+                <path class="bt-theme theme<?=$i?>" d="<?=$pathUnfocus[$i++]?>" fill="#ffffff00" stroke="#222" stroke-width="1"/>
               <?php
               }
               ?>

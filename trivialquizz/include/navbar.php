@@ -13,16 +13,12 @@
       $hello_txt = "Bonjour, ".$_SESSION['pseudo']." (admin)";
     }
   }
-
+  $connected = 0;
   if(isset($_SESSION['pseudo'])){
-    if(empty($_SESSION['pseudo'])){
-      $connected = false;
-    }else{
-      $connected = true;
+    if(!empty($_SESSION['pseudo'])){
+      $connected = 1;
       $hello_txt = "Bonjour, ".$_SESSION['pseudo'];
     }
-  }else{
-    $connected = false;
   }
 ?>
 <nav class="navbar fixed-top" role="navigation">
@@ -42,7 +38,7 @@
     ?>
       <div id="hello-navbar">
         <p><?=$hello_txt?></p>
-        <a class="center" href="?unlog=true">
+        <a class="center" href="/trivial/trivialquizz/index.php?unlog=true">
           <button type="button" class="btn btn-outline-primary" name="unlog">Déconnexion</button>
         </a>
       </div>
