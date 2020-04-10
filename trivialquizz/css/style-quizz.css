@@ -1,6 +1,7 @@
 body
 {
-  background-size: cover;
+  background-size: 100% 100%;
+  height: 100vh;
 }
 
 #quizz-description
@@ -15,8 +16,80 @@ body
 {
   border: none;
   cursor: pointer;
-  background-size: cover;
+  background-size: 100% 100%;
 }
+
+
+/*quizz*/
+.quest{
+  width: 100%;
+  position: relative;
+  top: 100vh;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  text-align: center;
+}
+.quest .btn
+{
+  border: solid 1px #666;
+  background-color: rgba(255, 255, 255, 0.4);
+}
+.quest .btn:hover
+{
+  border: solid 2px #666;
+  background-color: rgba(100, 100, 100, 0.8);
+  color: white;
+}
+.hide
+{
+  display: none !important;
+}
+.control-info{
+  position: absolute;
+  color: rgba(0, 0, 0, 0.6);
+  font-weight: bold;
+  font-size: 1.4rem;
+  padding: 0.5%;
+  margin: 1%;
+  display: flex;
+  top: var(--navbar-height);
+  border: solid 1px rgba(0, 0, 0, 0.6);
+  border-radius: 1rem;
+}
+#back{
+  justify-content: center;
+}
+#back > p{
+  margin: 0;
+}
+#back:hover{
+  background-color: rgba(0, 0, 0, 0.1);
+  color: rgba(0, 0, 0, 0.6);
+}
+#scoreboard{
+  animation: leftApparitionEffect .8s ease;
+  animation-fill-mode: forwards;
+  flex-direction: column;
+}
+#difficulty-choice
+{
+  display: flex;
+  justify-content: space-between;
+  width: 50%;
+  margin: 5% auto 0 auto;
+}
+#difficulty-choice > .btn
+{
+  width: 30%;
+  height: 40px;
+}
+#btn-begin
+{
+  width: 40%;
+  margin: 15% auto 0 auto;
+}
+
 
 /**** ANIMATIONS ****/
 /* agrandissement du font */
@@ -50,13 +123,6 @@ body
 
 
 /* apparition des questions */
-.quest{
-  width: 100%;
-  text-align: center;
-  display: none;
-  position: relative;
-  top: 100vh;
-}
 .spawn-question
 {
   animation: bottomApparitionEffect 1s ease;
@@ -68,5 +134,34 @@ body
   100%{
     opacity: 1;
     transform: translateY(-90vh);
+  }
+}
+
+
+/* disparition des questions*/
+.disappearance
+{
+  animation: topDisappearanceEffect .6s ease;
+  animation-fill-mode: forwards;
+}
+
+@keyframes topDisappearanceEffect {
+  0%{
+    opacity: 1;
+    transform: translateY(-90vh);
+  }
+  100%{
+    opacity: 0;
+    transform: translateY(-100vw);
+  }
+}
+
+/* pour le scoreboard */
+@keyframes leftApparitionEffect {
+  0%{
+    right: -10vw;
+  }
+  100%{
+    right: 0;
   }
 }
