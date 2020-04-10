@@ -1,0 +1,72 @@
+body
+{
+  background-size: cover;
+}
+
+#quizz-description
+{
+  padding: 2%;
+  font-size: 1.2rem;
+  font-weight: lighter;
+}
+
+/* style pour les card */
+.card
+{
+  border: none;
+  cursor: pointer;
+  background-size: cover;
+}
+
+/**** ANIMATIONS ****/
+/* agrandissement du font */
+.full-page
+{
+  animation: fullPageEffect 1.5s;
+  animation-fill-mode: forwards;
+}
+.full-page > *
+{
+  opacity: 0;
+}
+
+@keyframes fullPageEffect {
+
+    0%{
+      position: absolute;
+      top:45%;
+      left:45%;
+      height: 25vw;
+      width: 18vw;
+    }
+    100%{
+      position: absolute;
+      top:0;
+      left:0;
+      height: 100vh;
+      width: 100vw;
+    }
+}
+
+
+/* apparition des questions */
+.quest{
+  width: 100%;
+  text-align: center;
+  display: none;
+  position: relative;
+  top: 100vh;
+}
+.spawn-question
+{
+  animation: bottomApparitionEffect 1s ease;
+  animation-fill-mode: forwards;
+  display: block;
+}
+
+@keyframes bottomApparitionEffect {
+  100%{
+    opacity: 1;
+    transform: translateY(-90vh);
+  }
+}

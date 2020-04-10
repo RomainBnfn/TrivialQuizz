@@ -7,8 +7,8 @@
   $th_custom = getAllThemesPersoInfos($bdd);
 
   $R = 200; //rayon
-  $r = 5; // petite marge
-  $G = 1.2; // grandissement focus/unfocus
+  $r = 0; // petite marge
+  $G = 1.3; // grandissement focus/unfocus
   $L = 2*($r+$G*$R); // hauteur/largeur de la viewBox
   $c = $L/2; // centre de la viewBox
   $fontSizeTextUnfocus = $R/13;
@@ -41,6 +41,7 @@
   <title>Trivial Quizz</title>
   <?php require_once "include/header.html"?>
   <link rel="stylesheet" type="text/css" href="css/style-index.css">
+  <link rel="stylesheet" type="text/css" href="css/card-2.css">
 </head>
 <body>
   <?php require_once "include/navbar.php"?>
@@ -61,8 +62,7 @@
               ?>
                 <path class="theme<?=$i?>" d="<?=$pathUnfocus[$i]?>" fill="<?=$theme["couleur"]?>"/>
                 <text id="th-text<?=$i?>" fill="#fff" x="<?=$coordTextUnfocus[$i][0]?>" y="<?=$coordTextUnfocus[$i][1]?>"><?=$theme["nom"]?></text>
-                <path class="bt-theme theme<?=$i?>" d="<?=$pathUnfocus[$i++]?>" fill="#ffffff00" stroke="#ffffff" stroke-width="1" onClick="clicka(<?=$theme['id']?>)"/>
-
+                <path class="bt-theme theme<?=$i?>" d="<?=$pathUnfocus[$i++]?>" fill="#ffffff00" stroke="#ffffff" stroke-width="1"/>
               <?php
               }
               ?>
@@ -82,12 +82,10 @@
         <?php
           foreach ($themesCustoms as $theme) {
         ?>
-          <a class="card rippleContainer"  href="quizz-choice.php?theme=<?=$theme['id']?>" style="background-color: <?=$theme['couleur']?>">
-            <div class="card-body text-center">
-              <div class="card-border">
-                <p class="card-text"><?=$theme['nom']?></p>
-                <p class="card-text"><?=$theme['desc']?></p>
-              </div>
+          <a class="card ripple-container dynamic-shadow"  href="quizz-choice.php?theme=<?=$theme['id']?>" style="background-color: <?=$theme['couleur']?>">
+              <div class="card-body">
+                <h3><?=$theme['nom']?></h3>
+                <p><?=$theme['desc']?></p>
             </div>
           </a>
         <?php
@@ -100,7 +98,6 @@
       ?>
     </div>
   </section>
-
   <?php require_once "include/script.html"?>
   <script type="text/javascript" src="js/animation_roue.js"></script>
   <script type="text/javascript" src="js/ripple.js"></script>
