@@ -25,6 +25,7 @@
 <head>
   <title>Panel d'Admin</title>
   <?php require_once "../include/header.html"?>
+
 </head>
 <body>
   <?php require_once "../include/navbar.php"?>
@@ -47,7 +48,24 @@
           </button>
         </div>
 
+        <div class="container">
 
+          <div class="row">
+            <div class="col-xs-12">
+              <div class="box">
+                <!-- /.box-header -->
+                <div class="box-body">
+                  
+                </div>
+                <!-- /.box-body -->
+              </div>
+              <!-- /.box -->
+            </div>
+            <!-- /.col -->
+          </div>
+          <!-- /.row -->
+        </div>
+        <!-- /.container -->
       </div>
       <!-- FIN: Section des Quizz -->
 
@@ -57,34 +75,8 @@
   <?php require_once "../include/script.html"?>
 
 <script>
-  $(document).ready(function(){
-    <?php
-      foreach ($_QUIZZES as $_QUIZZ)
-      {
-        if (empty($_QUIZZ["id"])) break;
-      ?>
-      $("#suppressionQuizzN<?= $_QUIZZ["id"] ?>").click(function(){
-        fetch("ajax/quizz-delete.php?id=<?= $_QUIZZ["id"] ?>")
-          .then((response) => {
-            response.text()
-            .then((resp) => {
-              if (resp != 0)
-              {
-                $("#quizzN<?= $_QUIZZ["id"] ?>").text("");
-              }
-              else
-              {
-                $("#containerListQuizz").text("<?= $messagePasDeQuizz ?>");
-              }
-            })
-          })
-          /* A voir si on met un message d'erreur
-          .catch(() => {
-          });*/
-      });
-      <?php
-      }
-    ?>
+  $(function() {
+  $('.selectpicker').selectpicker();
   });
 </script>
 

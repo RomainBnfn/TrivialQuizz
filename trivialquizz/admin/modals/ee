@@ -1,0 +1,44 @@
+<div class="modal-header" style="background-color: #48f; color: white;">
+  <h5 class="modal-title" id="modalTitle">Importation d'une Question</h5>
+  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+
+
+
+<div class="modal-body" style="padding-bottom: 0 !important; margin-bottom: 15px; margin-right: 15px;">
+
+  <?php if(empty($_QUESTIONS) || empty($_QUIZZES)){
+    echo "Il n'y a aucune question à importer. Créez en une avant d'essayer cette fonctionnalité !";
+  }else{?>
+
+  <form id="importationQuestion" method="POST">
+    <div class="form-group row">
+      <label for="" class="col-sm-2 form-control-label">Question</label>
+      <div class="col-sm-10">
+        <select class="form-control selectpicker" id="select-country" data-live-search="true">
+          <?php
+          $id = -1;
+          foreach ($_QUESTIONS as $_QUESTION) {
+            if($id != $_QUESTION["idQuizz"]){
+              if($id != -1){
+                echo "</optgroup>";
+              }
+              $id = $_QUESTION["idQuizz"];
+              $name = $_QUIZZES["$id"]["nom"];
+              echo "<optgroup label='$name'>";
+            } ?>
+            <option data-tokens="<?= $_QUESTION["lib"] ?>"><?= $_QUESTION["lib"] ?></option>
+          <?php
+          }?>
+          </optgroup>
+        </select>
+      </div>
+    </div>
+  </form>
+  <?php}?>
+</div>
+
+<div class="modal-footer">
+</div>

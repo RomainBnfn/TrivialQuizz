@@ -16,61 +16,17 @@
    require_once "../../include/functions.php";
 
    // On regarde si l'id passé en méthode get est correct
-   if(empty($_POST['typeQuestion'])
-    || empty($_POST['intituleQuestion'])
-    || empty($_POST['id_Quizz'])
-    || !is_numeric($_POST["id_Quizz"]))
+   if(empty($_GET) || empty($_GET["id"]) || !is_numeric($_GET["id"]))
    {
      exit();
    }
 
+   $id_question = $_GET["id"];
 
-   $id_quizz = $_POST['id_Quizz'];
+   $bdd -> query("UPDATE quiz_quest as A, quiz_quest as B SET A.qq_order = A.qq_order - 1
+                                   WHERE A.qui_id = B.qui_id AND A.qq_order > B.qq_order
+                                     AND B.que_id = $id_question");
 
-   if(!existQuizz($bdd, $id_quizz)){
-     exit();
-   }
-
-   switch ($_POST['typeQuestion']) {
-     default:
-        exit();
-        break;
-     case "repLibre":
-        if (empty($_POST['reponseLibre_correcte']))
-        {
-          exit();
-        }
-
-
-        // On crée la question dans la bdd
-        $requete = $bdd -> prepare("INSERT INTO QUESTION (que_lib,
-                                                          que_type)
-                                                        VALUES ( ? , 1)");
-        $requete -> execute(array(escape($_POST['intituleQuestion'])));
-        $id_quest = $bdd->lastInsertId();
-
-        $requete = $bdd -> query("SELECT MAX(qq_order) FROM quiz_quest WHERE qui_id = $id_quizz");
-        $result = $requete -> fetch();
-        $max = $result[0];
-
-        // On crée la réponse dans la bdd
-        $requete = $bdd -> prepare("INSERT INTO reponse (re_lib,
-           	                                              re_isBonne,
-                                                          que_id)
-                                                        VALUES (? , true, $id_quest)");
-        $requete -> execute(array(escape($_POST['reponseLibre_correcte'])));
-
-
-
-        $bdd -> query("INSERT INTO quiz_quest (qui_id,
-           	                                        que_id,
-                                                    qq_order)
-                                                  VALUES ( $id_quizz , $id_quest , $max+1)");
-        echo "ok";
-
-        break;
-     case "QCM":
-        exit();
-        break;
-   }
+   $bdd -> query("DELETE FROM question WHERE que_id = $id_question");
+   echo "ok";
 ?>

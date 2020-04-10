@@ -99,14 +99,21 @@
               <div class="form-group">
                 <label for="editGeneral_Theme" name="id_theme" class="form-label">Thème :</label>
                 <select class="input-dark form-control" id="editGeneral_Theme" name="id_theme">
+                  <optgroup label="Thèmes Principaux">
                   <?php
-                  foreach (getAllThemesInfos($bdd) as $_THEME)
+                  $_THEMES = getAllThemesInfos($bdd);
+                  foreach ($_THEMES as $_THEME)
                   {
                   ?>
-                    <option value="<?= $_THEME["id"] ?>" <?php if($_THEME["id"] == $_QUIZZ["id_theme"]) {echo"selected"; }?>><?= $_THEME["nom"] ?></option>
+                  <option value="<?= $_THEME["id"] ?>" <?php if($_THEME["id"] == $_QUIZZ["id_theme"]) {echo"selected"; }?>><?= $_THEME["nom"] ?></option>
+
                   <?php
+                    if($_THEME["id"] == 6 && count($_THEMES) > 6){
+                      echo "</optgroup><optgroup label='Thèmes personnalisés'>";
+                    }
                   }
                   ?>
+                  </optgroup>
                 </select>
               </div>
 
@@ -146,10 +153,10 @@
             <button id="boutonAjouterQuestion" type="button" class="btn btn-success button-open-modal" data-toggle="modal" data-target="#modalCreationQuestion">
               Ajouter
             </button>
-            <button id="boutonImporterQuestion" type="button" class="btn btn-info" data-toggle="modal" data-target="#modalImportationQuestion">
+            <button id="boutonImporterQuestion" type="button" class="btn btn-info button-open-modal" data-toggle="modal" data-target="#modalImportationQuestion">
               Importer
             </button>
-            <button id="boutonViderQuestions" type="button" class="btn btn-danger" data-toggle="modal" data-target="#modalViderQuestions">
+            <button id="boutonViderQuestions" type="button" class="btn btn-danger button-open-modal" data-toggle="modal" data-target="#modalViderQuestions">
               Vider le Quizz
             </button>
           </div>
@@ -158,6 +165,8 @@
 
         <div class="containerQuestions" id="containerQuestions">
           <?php
+            $tableauQuestionOrder = [];
+            $nbQuestions = 0;
             if (empty($_QUESTIONS) || $_QUESTIONS == null )
             {
               $nbQuestions = 0;
@@ -166,11 +175,11 @@
             else
             {
               $nbQuestions = count($_QUESTIONS);
-              $tableauQuestionOrder;
+              $i=-1;
               foreach ($_QUESTIONS as $_QUESTION)
               {
-                $indice = $_QUESTION['order'];
-                $tableauQuestionOrder["$indice"] = $_QUESTION["id"];
+                $i++;
+                $tableauQuestionOrder[$i] = $_QUESTION["id"];
                 ?>
                   <div id="containerQuestionN<?= $_QUESTION["id"] ?>" class="jumbotron jumbotron-vert questionContainer" style="order: <?= $_QUESTION['order'] ?>;">
                     <form id="editQuestionN<?= $_QUESTION["id"] ?>" method="POST" onsubmit="saveQuestionReponse(<?= $_QUESTION["id"] ?>); return false;">
@@ -179,7 +188,7 @@
 
                         <div class="col-sm-1 d-flex align-items-center">
                           <div>
-                            <div id="questionUpN<?= $_QUESTION["id"] ?>" onclick="moveQuestion(-1, <?= $_QUIZZ["id"] ?>, <?= $_QUESTION["id"] ?>, <?= $_QUESTION["order"] ?>); return false;" <?php if( $_QUESTION["order"] <= 1){ echo "style='display: none'";}?>>
+                            <div id="questionUpN<?= $_QUESTION["id"] ?>" onclick="moveQuestion(-1, <?= $_QUESTION["id"] ?>, <?= $_QUESTION["order"] ?>); return false;" <?php if( $_QUESTION["order"] <= 1){ echo "style='display: none'";}?>>
                               <i class="fas fa-arrow-up"></i>
                             </div>
 
@@ -187,7 +196,7 @@
                               <?= $_QUESTION["order"] ?>
                             </span>
 
-                            <div id="questionDownN<?= $_QUESTION["id"] ?>"onclick="moveQuestion(1, <?= $_QUIZZ["id"] ?>, <?= $_QUESTION["id"] ?>, <?= $_QUESTION["order"] ?>); return false;" <?php if( $_QUESTION["order"] >= $nbQuestions){ echo "style='display: none'";}?>>
+                            <div id="questionDownN<?= $_QUESTION["id"] ?>"onclick="moveQuestion(1, <?= $_QUESTION["id"] ?>, <?= $_QUESTION["order"] ?>); return false;" <?php if( $_QUESTION["order"] >= $nbQuestions){ echo "style='display: none'";}?>>
                               <i class="fas fa-arrow-down"></i>
                             </div>
                           </div>
@@ -238,10 +247,10 @@
                       </div>
 
                       <div class="col">
-                        <button class="btn btn-danger float-right" style="margin-left:5px;">
-                          <i class="far fa-trash-alt"></i></i>
+                        <button class="btn btn-danger float-right" type='button' onclick="deleteQuestion(<?= $_QUESTION["id"] ?>);" style="margin-left:5px;">
+                          <i class="far fa-trash-alt"></i>
                         </button>
-                        <button class="btn btn-info float-right" style="margin-left:5px;">
+                        <button class="btn btn-info float-right" type='button' style="margin-left:5px;">
                           <i class="fas fa-unlink"></i>
                         </button>
                         <button id="editQuestion_BtnN<?= $_QUESTION["id"] ?>" type="submit"  class="btn btn-success float-right" style="margin-left:5px;">
@@ -264,42 +273,108 @@
 
   <?php require_once "../include/script.html"?>
   <?php require_once "modals/question-create.php"?>
-  
+  <?php require_once "modals/question-importer.php"?>
+
   <script>
 
     var listeNoms = <?=json_encode(getAllQuizzNames($bdd))?>,
         nameQuizz = <?=json_encode($_QUIZZ["nom"])?>,
-        <?php if($nbQuestions>0){?>
-          tableauQuestionOrder = <?=json_encode($tableauQuestionOrder)?>,
-        <?php }?>
-        nbQuestions = <?= $nbQuestions ?>;
+        tableauQuestionOrder = <?=json_encode($tableauQuestionOrder)?>,
+        idQuizz = <?= $_QUIZZ["id"] ?>;
 
     listeNoms = listeNoms.filter(function(value, index, arr){ return value != nameQuizz;});
 
-    function editFleches(pos, id, idQuizz){
+    //return entre 1 et nbQuestions
+    function getPos(id)
+    {
+      for(var i = 0; i < tableauQuestionOrder.length ; i++){
+        if(tableauQuestionOrder[i]==id)
+          return i+1;
+      };
+      return null;
+    }
+
+    // pos entre 1 et nbQuestions
+    function decreasePosition(pos)
+    {
+      var nbQuestions = tableauQuestionOrder.length;
+      var id = 0;
+      for(var i = pos-1; i< nbQuestions-1; i++){
+        id = tableauQuestionOrder[i+1];
+        tableauQuestionOrder[i] = id;
+        editFleches(i+1, id);
+        editBadge(i+1, id);
+      }
+      tableauQuestionOrder.pop();
+      if(id == 0) id = tableauQuestionOrder[nbQuestions-2];
+      editFleches(nbQuestions-1, id);
+    }
+
+    function deleteQuestion(id)
+    {
+      $(() =>{
+        fetch("ajax/question-delete.php?id="+id)
+        .then((response)=>{
+          response.text()
+          .then((resp)=>{
+            if(resp == "ok"){
+              $("#containerQuestionN"+id).remove();
+              decreasePosition(getPos(id));
+            }
+          });
+        })
+
+      });
+    }
+
+    //pos entre 1 et nbQuestions
+    function editFleches(pos, id){
       var flecheUp = document.getElementById("questionUpN"+id),
-          flecheDown = document.getElementById("questionDownN"+id);
+          flecheDown = document.getElementById("questionDownN"+id),
+          nbQuestions = tableauQuestionOrder.length;
+
       flecheUp.onclick = () => {
-        moveQuestion(-1, idQuizz, id, pos);
+        moveQuestion(-1, id, pos);
         return false
       };
       flecheDown.onclick = () => {
-        moveQuestion(1, idQuizz, id, pos);
+        moveQuestion(1, id, pos);
         return false
       };
-      flecheUp.style.display = "block";
-      flecheDown.style.display = "block";
       if(pos == 1)
       {
         flecheUp.style.display = "none";
+        if (pos == nbQuestions)
+        {
+          flecheDown.style.display = "none";
+        }
+        return;
       }
       if (pos == nbQuestions)
       {
         flecheDown.style.display = "none";
+        return;
       }
+      flecheUp.style.display = "block";
+      flecheDown.style.display = "block";
     }
 
-    function moveQuestion(direction, idQuizz, idQuestion, posQuestion){
+    //pos entre 1 et nbQuestions
+    function editBadge(pos, id){
+      $(()=>{
+        $("#badgeQuestionN"+id).text(pos);
+      })
+    }
+
+    function editPositionDisplay(pos, id){
+      $(()=>{
+        $("#containerQuestionN"+id).css("order", pos);
+      })
+    }
+
+    function moveQuestion(direction, idQuestion, posQuestion){
+
+      var nbQuestions = tableauQuestionOrder.length;
       if(posQuestion+direction<=0 || posQuestion+direction>nbQuestions){
         return;
       }
@@ -308,19 +383,23 @@
         response.text()
         .then((resp) =>{
           if (resp == "ok"){
-            var idCible = tableauQuestionOrder[posQuestion+direction];
-            //Tableau edit
-            tableauQuestionOrder[posQuestion+direction] = idQuestion;
-            tableauQuestionOrder[posQuestion] = idCible;
-            //order edit
-            document.getElementById("containerQuestionN"+idQuestion).style.order = posQuestion+direction;
-            document.getElementById("containerQuestionN"+idCible).style.order = posQuestion;
-            //badgeQuestion edit
-            document.getElementById("badgeQuestionN"+idQuestion).innerHTML = posQuestion+direction;
-            document.getElementById("badgeQuestionN"+idCible).innerHTML = posQuestion;
-            //fleches edit
-            editFleches(posQuestion+direction, idQuestion, idQuizz);
-            editFleches(posQuestion, idCible, idQuizz);
+            $(()=>{
+              var idCible = tableauQuestionOrder[posQuestion+direction-1];
+              //Tableau edit
+              tableauQuestionOrder[posQuestion+direction-1] = idQuestion;
+              tableauQuestionOrder[posQuestion-1] = idCible;
+              //badgeQuestion edit
+              editBadge(posQuestion+direction, idQuestion);
+              editBadge(posQuestion, idCible);
+
+              //order edit
+              editPositionDisplay(posQuestion+direction, idQuestion);
+              editPositionDisplay(posQuestion, idCible);
+
+              //fleches edit
+              editFleches(posQuestion+direction, idQuestion);
+              editFleches(posQuestion, idCible);
+            });
           }
         });
       });
