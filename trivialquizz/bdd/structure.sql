@@ -68,6 +68,6 @@ CREATE TABLE quiz_quest
   que_id  INTEGER NOT NULL,
   qq_order INTEGER NOT NULL,
   PRIMARY KEY (qui_id, que_id),
-  FOREIGN KEY (qui_id) REFERENCES quiz(qui_id),
-  FOREIGN KEY (que_id) REFERENCES question(que_id)
+  FOREIGN KEY (qui_id) REFERENCES quiz(qui_id) ON DELETE CASCADE,
+  FOREIGN KEY (que_id) REFERENCES question(que_id) ON DELETE CASCADE
 ) engine=innodb character set utf8 collate utf8_unicode_ci;

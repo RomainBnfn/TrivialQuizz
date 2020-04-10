@@ -47,14 +47,19 @@
           <div class="form-group row">
             <label for="formGeneral_Theme" name="theme" class="col-sm-2 col-form-label">Thème :</label>
             <select class="input-dark col form-control" id="formGeneral_Theme" name="theme">
+              <optgroup label="Thèmes Principaux">
               <?php
               foreach ($_THEMES as $_THEME)
               {
               ?>
                 <option value="<?= $_THEME["id"] ?>"><?= $_THEME["nom"] ?></option>
               <?php
+                if($_THEME["id"] == 6 && count($_THEMES) > 6){
+                  echo "</optgroup><optgroup label='Thèmes personnalisés'>";
+                }
               }
               ?>
+              </optgroup>
             </select>
           </div>
           <div class="form-check">
