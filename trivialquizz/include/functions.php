@@ -229,7 +229,7 @@
   }
 
   function tryLoadAllQuestions($bdd){
-    $data = tryQueryBDD($bdd, "SELECT question.que_id as que_id, question.que_lib as que_lib, quiz_quest.qui_id as qui_id FROM question, quiz_quest WHERE question.que_id = quiz_quest.que_id ORDER BY quiz_quest.qui_id");
+    $data = tryQueryBDD($bdd, "SELECT question.que_lib as que_lib, quiz_quest.qui_id as qui_id FROM question, quiz_quest WHERE question.que_id = quiz_quest.que_id ORDER BY quiz_quest.qui_id");
     if(is_null($data)){
       return null;
     }
@@ -239,11 +239,22 @@
       $_QUESTION;
       $_QUESTION["idQuizz"] = $result["qui_id"];
       $_QUESTION["lib"] = $result["que_lib"];
-      $_QUESTION["id"] = $result["que_id"];
       $_QUESTIONS[$i] = $_QUESTION;
       $i++;
     }
     return $_QUESTIONS;
+  }
+
+  function tryLoadAllQuestionsReponses($bdd,$idTheme){
+    $data = tryQueryBDD($bdd,"SELECT qui_nom FROM quiz WHERE th_id=$idTheme");
+    if(is_null($data)){
+      return null;
+    }
+    $_QUIZZ;
+    foreach($data as $idQuizz){
+      $_QUIZZ[$idQuizz[0]] = tryLoadQuizzQuestion($bdd,$idQuizz);
+    }
+    return $_QUIZZ;
   }
 
 // Get Nb

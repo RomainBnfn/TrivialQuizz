@@ -114,15 +114,17 @@ INSERT INTO theme (th_nom, th_couleur, th_description, th_is_principal) VALUES
 ##### Quizz de test ######
 ##########################
 
-INSERT INTO quiz (qui_nom, qui_desc, th_id) VALUES
+INSERT INTO quiz (qui_id, qui_nom, qui_desc, th_id) VALUES
 (
+  "1",
   "Super quiz made in PAF",
   "Ce genre de description bien éclatée au sol, mais faut un mettre une ... donc me voilà !!",
   "6"
 );
 
-INSERT INTO quiz (qui_nom, qui_desc, th_id) VALUES
+INSERT INTO quiz (qui_id,qui_nom, qui_desc, th_id) VALUES
 (
+  "2",
   "Super quiz made in PAF",
   "Ce genre de description bien éclatée au sol, mais faut un mettre une ... donc me voilà !!
   Ce genre de description bien éclatée au sol, mais faut un mettre une ... donc me voilà !!",
@@ -235,100 +237,132 @@ INSERT INTO quiz (qui_nom, qui_desc, th_id) VALUES
   "6"
 );
 
-INSERT INTO quiz (qui_nom, qui_desc, th_id) VALUES
+/*** QUESTION ****/
+INSERT INTO question (que_id, que_lib, que_type) VALUES
 (
-  "Super quiz made in PAF",
-  "Ce genre de description bien éclatée au sol, mais faut un mettre une ... donc me voilà !!
-  Ce genre de description bien éclatée au sol, mais faut un mettre une ... donc me voilà !!",
-  "6"
+  "1",
+  "Pourquoi l'herbe est verte?",
+  "2"
 );
 
-INSERT INTO quiz (qui_nom, qui_desc, th_id) VALUES
+INSERT INTO question (que_id, que_lib, que_type) VALUES
 (
-  "Super quiz made in PAF",
-  "Ce genre de description bien éclatée au sol, Ce genre de description bien éclatée au sol, mais faut un mettre une ... donc me voilà !!",
-  "6"
+  "2",
+  "Quels questions de test je pourrais avoir?",
+  "1"
+);
+INSERT INTO question (que_id, que_lib, que_type) VALUES
+(
+  "3",
+  "Il était une fois une question qui ne servait à rien ou presque pcq ça permet de test des giga fonctionnalité, ça te plait?",
+  "1"
 );
 
-INSERT INTO quiz (qui_nom, qui_desc, th_id) VALUES
+INSERT INTO question (que_id, que_lib, que_type) VALUES
 (
-  "Super quiz made in PAF",
-  "Ce genre de description bien éclatée au sol, mais faut un mettre une ... donc me voilà !!
-  Ce genre de description bien éclatée au sol, mais faut un mettre une ... donc me voilà !!
-  Ce genre de description bien éclatée au sol, mais faut un mettre une ... donc me voilà !!
-  Ce genre de description bien éclatée au sol, mais faut un mettre une ... donc me voilà !!
-  Ce genre de description bien éclatée au sol, mais faut un mettre une ... donc me voilà !!",
-  "6"
-);
-
-INSERT INTO quiz (qui_nom, qui_desc, th_id) VALUES
-(
-  "Super quiz made in PAF",
-  "Ce genre de description bien éclatée au sol, mais faut un mettre une ... donc me voilà !!",
-  "6"
-);
-
-INSERT INTO quiz (qui_nom, qui_desc, th_id) VALUES
-(
-  "Super quiz made in PAF",
-  "Ce genre de description bien éclatée au sol, mais faut un mettre une ... donc me voilà !!
-   Ce genre de description bien éclatée au sol, mais faut un mettre une ... donc me voilà !!
-   Ce genre de description bien éclatée au sol, mais faut un mettre une ... donc me voilà !!",
-  "6"
-);
-
-INSERT INTO quiz (qui_nom, qui_desc, th_id) VALUES
-(
-  "Super quiz made in PAF",
-  "Ce genre de description bien éclatée au sol, mais faut un mettre une ... donc me voilà !!",
-  "6"
-);
-INSERT INTO quiz (qui_nom, qui_desc, th_id) VALUES
-(
-  "Super quiz made in PAF",
-  "Ce genre de description bien éclatée au sol, mais faut un mettre une ... donc me voilà !!",
-  "6"
-);
-INSERT INTO quiz (qui_nom, qui_desc, th_id) VALUES
-(
-  "Super quiz made in PAF",
-  "Ce genre de description bien éclatée au sol, mais faut un mettre une ... donc me voilà !!
-  Ce genre de description bien éclatée au sol, mais faut un mettre une ... donc me voilà !!",
-  "6"
-);
-
-INSERT INTO quiz (qui_nom, qui_desc, th_id) VALUES
-(
-  "Super quiz made in PAF",
-  "Ce genre de description bien éclatée au sol, mais faut un mettre une ... donc me voilà !!
-  Ce genre de description bien éclatée au sol, mais faut un mettre une ... donc me voilà !!
-  Ce genre de description bien éclatée au sol, mais faut un mettre une ... donc me voilà !!
-  Ce genre de description bien éclatée au sol, mais faut un mettre une ... donc me voilà !!
-  Ce genre de description bien éclatée au sol, mais faut un mettre une ... donc me voilà !!",
-  "6"
+  "4",
+  "Lequel des ces surnoms n'appartient pas à un membre de la DGSE dans le bureaux des légendes?",
+  "2"
 );
 
 
-INSERT INTO quiz (qui_nom, qui_desc, th_id) VALUES
+/*** RÉPONSES ***/
+INSERT INTO reponse (re_lib, re_isBonne, que_id) VALUES
 (
-  "Super quiz made in PAF",
-  "Ce genre de description bien éclatée au sol, Ce genre de description bien éclatée au sol, mais faut un mettre une ... donc me voilà !!",
-  "6"
+  "T'es daltonien",
+  "0",
+  "1"
+);
+INSERT INTO reponse (re_lib, re_isBonne, que_id) VALUES
+(
+  "Parce que les poules ont des dents",
+  "0",
+  "1"
+);
+INSERT INTO reponse (re_lib, re_isBonne, que_id) VALUES
+(
+  "Je sais pas",
+  "1",
+  "1"
+);
+INSERT INTO reponse (re_lib, re_isBonne, que_id) VALUES
+(
+  "Parce que réponse 4",
+  "0",
+  "1"
+);
+INSERT INTO reponse (re_lib, re_isBonne, que_id) VALUES
+(
+  "Parce que réponse 5",
+  "0",
+  "1"
 );
 
-
-INSERT INTO quiz (qui_nom, qui_desc, th_id) VALUES
+INSERT INTO reponse (re_lib, re_isBonne, que_id) VALUES
 (
-  "Super quiz made in PAF",
-  "Ce genre de description bien éclatée au sol, mais faut un mettre une ... donc me voilà !!",
-  "6"
+  "Malotru",
+  "0",
+  "4"
+);
+INSERT INTO reponse (re_lib, re_isBonne, que_id) VALUES
+(
+  "MAG",
+  "0",
+  "4"
+);
+INSERT INTO reponse (re_lib, re_isBonne, que_id) VALUES
+(
+  "La mule",
+  "0",
+  "4"
+);
+INSERT INTO reponse (re_lib, re_isBonne, que_id) VALUES
+(
+  "Cyclone",
+  "0",
+  "4"
+);
+INSERT INTO reponse (re_lib, re_isBonne, que_id) VALUES
+(
+  "Fantastique",
+  "1",
+  "4"
+);
+INSERT INTO reponse (re_lib, re_isBonne, que_id) VALUES
+(
+  "Je me rappelle plus de la question bordel",
+  "1",
+  "2"
+);
+INSERT INTO reponse (re_lib, re_isBonne, que_id) VALUES
+(
+  "Je me rappelle plus de la question fait chier",
+  "1",
+  "3"
 );
 
-INSERT INTO quiz (qui_nom, qui_desc, th_id) VALUES
+/*** association quizz avec question ****/
+INSERT INTO quiz_quest (qui_id, que_id, qq_order) VALUES
 (
-  "Super quiz made in PAF",
-  "Ce genre de description bien éclatée au sol, mais faut un mettre une ... donc me voilà !!
-   Ce genre de description bien éclatée au sol, mais faut un mettre une ... donc me voilà !!
-   Ce genre de description bien éclatée au sol, mais faut un mettre une ... donc me voilà !!",
-  "6"
+  "2",
+  "1",
+  "1"
+);
+INSERT INTO quiz_quest (qui_id, que_id, qq_order) VALUES
+(
+  "2",
+  "2",
+  "2"
+);
+INSERT INTO quiz_quest (qui_id, que_id, qq_order) VALUES
+(
+  "2",
+  "3",
+  "3"
+);
+INSERT INTO quiz_quest (qui_id, que_id, qq_order) VALUES
+(
+  "2",
+  "4",
+  "4"
 );

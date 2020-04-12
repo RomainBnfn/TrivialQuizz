@@ -6,6 +6,8 @@
   $th_base = getAllThemesPrincipauxInfos($bdd);
   $th_custom = getAllThemesPersoInfos($bdd);
 
+  $array = array( "un" => 1, "deux" => 2, "trois" => 3);
+
   $R = 200; //rayon
   $r = 0; // petite marge
   $o = 40;
