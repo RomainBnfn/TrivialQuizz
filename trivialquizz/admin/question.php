@@ -37,8 +37,6 @@
   <div class="cadre-global">
     <div class="cadre-central">
 
-      <?php include "include/admin-navbar.php"?>
-
       <!-- DEBUT: Section des Quizz-->
       <div>
         <div class="titre1">
@@ -55,7 +53,7 @@
               <div class="box">
                 <!-- /.box-header -->
                 <div class="box-body">
-                  
+
                 </div>
                 <!-- /.box-body -->
               </div>

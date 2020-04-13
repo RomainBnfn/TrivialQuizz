@@ -42,8 +42,6 @@
   <link rel="stylesheet" href="https://unpkg.com/huebee@1/dist/huebee.min.css">
 </head>
 <body>
-  <?php require_once "../include/navbar.php"?>
-
   <!-- TODO: Ajouter une couleur en fct de $couleur -->
   <div class="bandeau-principal fond-bleu">Edition de Thème : <?= $_THEME["nom"] ?></div>
 

@@ -35,8 +35,6 @@
   <div class="cadre-global">
     <div class="cadre-central">
 
-      <?php include "include/admin-navbar.php"?>
-
       <!-- DEBUT: Section des Thèmes-->
       <div>
 
