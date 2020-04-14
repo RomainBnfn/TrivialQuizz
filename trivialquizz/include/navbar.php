@@ -1,6 +1,6 @@
 <?php
   //TODO: changer les liens
-  $_locationBase = "/trivial/trivialquizz/";
+  $_locationBase = "/trivial/trivialquizz";
 
   if(isset($_GET['unlog'])){
     $_SESSION['pseudo']="";
@@ -28,19 +28,23 @@
     <div>
         <a href="<?=$_locationBase?>/index.php">
           ​<picture>
-            <img src="/trivial/trivialquizz/image/logo.png" class="img-logo" alt="Logo du Trivial Quizz">
+            <img src="<?=$_locationBase?>/image/logo.png" class="img-logo" alt="Logo du Trivial Quizz">
           </picture>
         </a>
     </div>
     <div style="width: 600px">
       <div class="dropdown">
+
         <span class="dropdown-toggle-dark dropdown-toggle" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
           Section Admin
         </span>
+
         <div class="dropdown-menu-dark dropdown-menu" aria-labelledby="dropdownMenuButton">
+
           <a class="dropdown-dark dropdown-item-dark dropdown-item" href="<?=$_locationBase?>/admin/theme.php">Thèmes</a>
           <a class="dropdown-dark dropdown-item-dark dropdown-item" href="<?=$_locationBase?>/admin/quizz.php">Quizzes</a>
         </div>
+
       </div>
     </div>
     <!-- Se connecter -->
@@ -49,7 +53,7 @@
     ?>
       <div id="hello-navbar">
         <p><?=$hello_txt?></p>
-        <a class="center" href="/trivial/trivialquizz/index.php?unlog=true">
+        <a class="center" href="<?=$_locationBase?>/index.php?unlog=true">
           <button type="button" class="btn btn-outline-primary" name="unlog">Déconnexion</button>
         </a>
       </div>
@@ -57,10 +61,10 @@
       }else{
     ?>
     <div>
-      <a href="/trivial/trivialquizz/register.php">
+      <a href="<?=$_locationBase?>/register.php">
         <button type="button" class="btn btn-primary">Inscription</button>
       </a>
-      <a href="/trivial/trivialquizz/log.php">
+      <a href="<?=$_locationBase?>/log.php">
         <button type="button" class="btn btn-outline-primary">Connexion</button>
       </a>
     </div>

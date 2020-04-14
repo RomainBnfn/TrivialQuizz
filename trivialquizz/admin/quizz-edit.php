@@ -154,7 +154,7 @@
             <button id="boutonImporterQuestion" type="button" class="btn btn-info button-open-modal" data-toggle="modal" data-target="#modalImportationQuestion">
               Importer
             </button>
-            <button id="boutonViderQuestions" type="button" class="btn btn-danger button-open-modal" data-toggle="modal" data-target="#modalViderQuestions">
+            <button id="boutonViderQuestions" type="button" class="btn btn-danger button-open-modal" data-toggle="modal" data-target="#modalConfirmationVider">
               Vider le Quizz
             </button>
           </div>
@@ -272,6 +272,7 @@
   <?php require_once "../include/script.html"?>
   <?php require_once "modals/question-create.php"?>
   <?php require_once "modals/question-importer.php"?>
+  <?php require_once "modals/confirmation-question-vider.php"?>
 
 <script>
   var listeNoms = <?=json_encode(getAllQuizzNames($bdd))?>,

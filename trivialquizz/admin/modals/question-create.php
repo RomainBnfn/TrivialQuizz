@@ -66,7 +66,7 @@
               <i>Listez toutes les réponses qui seront proposées, et cochez celles qui sont justes.</i>
             </label>
 
-            <ul class="list-group list-group-flush">
+            <ul class="list-group col list-group-flush">
 
               <li class="list-group-item" style="padding-bottom: 0 !important;">
 
@@ -74,7 +74,7 @@
                     <div class="col-sm-1 form-group" style="text-align: center; vertical-align: middle;">
                       <input class="form-check-input" type="checkbox" value="" id="defaultCheck1"/>
                     </div>
-                    <input class="col-sm-10 form-control" type="text"  id="inputAddress" placeholder="La bonne réponse de la question libre." required>
+                    <input class="col-sm-10 form-control" type="text"   placeholder="La bonne réponse de la question libre." required>
                     <div class="col-sm-1 form-group">
                       <button class="btn btn-danger" type="button">
                           <i class="fas fa-trash-alt" style="color: #ffffff;"></i>
@@ -89,7 +89,7 @@
                     <div class="col-sm-1 form-group" style="text-align: center; vertical-align: middle;">
                       <input class="form-check-input" type="checkbox" value="" id="defaultCheck1"/>
                     </div>
-                    <input class="col-sm-10 form-control" type="text"  id="inputAddress" placeholder="La bonne réponse de la question libre." required>
+                    <input class="col-sm-10 form-control" type="text"  placeholder="La bonne réponse de la question libre." required>
                     <div class="col-sm-1 form-group">
                       <button class="btn btn-danger" type="button">
                           <i class="fas fa-trash-alt" style="color: #ffffff;"></i>
@@ -98,6 +98,36 @@
 
                   </div>
 
+              </li>
+              <li class="list-group-item" style="padding-bottom: 0 !important;">
+
+                  <div class="row">
+                    <div class="col-sm-1 form-group" style="text-align: center; vertical-align: middle;">
+                      <input class="form-check-input" type="checkbox" value="" id="defaultCheck3"/>
+                    </div>
+                    <input class="col-sm-10 form-control" type="text" placeholder="La bonne réponse de la question libre." required>
+                    <div class="col-sm-1 form-group">
+                      <button class="btn btn-danger" type="button">
+                          <i class="fas fa-trash-alt" style="color: #ffffff;"></i>
+                      </button>
+                    </div>
+
+                  </div>
+              </li>
+              <li class="list-group-item" style="padding-bottom: 0 !important;">
+
+                  <div class="row">
+                    <div class="col-sm-1 form-group" style="text-align: center; vertical-align: middle;">
+                      <input class="form-check-input" type="checkbox" value="" id="defaultCheck4"/>
+                    </div>
+                    <input class="col-sm-10 form-control" type="text"  placeholder="La bonne réponse de la question libre." required>
+                    <div class="col-sm-1 form-group">
+                      <button class="btn btn-danger" type="button">
+                          <i class="fas fa-trash-alt" style="color: #ffffff;"></i>
+                      </button>
+                    </div>
+
+                  </div>
               </li>
 
             </ul>
@@ -120,6 +150,7 @@
     // ---- Choix Type Question ----
     var _save_htmlLibre = $("#reponse_TypeLibre").html(),
         htmlLibre = _save_htmlLibre;
+
         _save_htmlQCM = $("#reponse_TypeQCM").html(),
         htmlQCM = _save_htmlQCM;
     $("#reponse_TypeQCM").html("");
