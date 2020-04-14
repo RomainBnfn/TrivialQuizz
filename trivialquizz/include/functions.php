@@ -229,7 +229,7 @@
         }
 
         function getAllQuizzesDuration($bdd, $idTheme){
-          $data = tryQueryBDD($bdd, "SELECT qui_id, qui_temps, qui_malus FROM quiz WHERE th_id =")
+          $data = tryQueryBDD($bdd, "SELECT qui_id, qui_temps, qui_malus FROM quiz WHERE th_id =");
           if ($data == null)
           {
               return null;

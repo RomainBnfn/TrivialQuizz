@@ -24,8 +24,8 @@
   $nbrQuestByQuizz = getNumbersOfQuestionsOfQuizzes($bdd, $theme['id']);
 
   //temps et réduction par difficulté par quizzes
-  //$quizzeDuration = getAllQuizzezDuration($bdd, $theme['id']);
-
+  //$quizzesDuration = getAllQuizzezDuration($bdd, $theme['id']);
+  $quizzesDuration = array( 2 => array(3*60,20));
 ?>
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
@@ -104,11 +104,11 @@
     <script type="text/javascript">
 
     var isConnected = <?=$connected?>; //cf navbar.php
+    var time = <?=json_encode($quizzesDuration)?>;
     var idQuizz;
     var btnCheck = 0;
     var difficulty;
     var score = 0;
-    var timeRef = 0;
 
     $(document).ready(function(){
 
@@ -123,6 +123,7 @@
           // carte cliquée
           var clickedCard = $(this);
           idQuizz = clickedCard.attr('id').substring(5);
+          time = time[idQuizz];
           //suppression de toutes les autres cartes
           for(var i =0;i<card.length;i++){
             if(card[i]!=clickedCard[0]){
@@ -194,26 +195,28 @@
       displayScoreBoard();
     }
 
-var timer;
+    var timer,
+      maxDuration,
+      lastTime,
+      timeRef;
     function displayScoreBoard(){
       var htmlScoreBoard = $(''+
       '<div id="scoreboard" class="control-info">'+
         '<p>Score: <span id="score">0</span></p>'+
-        "<p>Temps: <span id='time'>00'</span></p>"+
+        "<p>Temps: <span id='time'>--:--'</span></p>"+
         '</div>');
         $('#quizz-container').append(htmlScoreBoard);
 
+        maxDuration = (time[0]-(difficulty-1)*time[1])*1000;
         timeRef = (new Date().getTime())+1000;
         timer = setInterval(function(){
-          var now = new Date().getTime();
-          var time = now-timeRef;
-          var minute = Math.floor((time % (1000 * 60 * 60)) / (1000 * 60));
-          var seconde = Math.floor((time % (1000 * 60)) / 1000);
-          var timeText = "";
-          if(minute>0) timeText += minute+":";
-          if(seconde>9) timeText += seconde+"'";
-          else timeText += "0"+seconde+"'";
-          $('#time').text(timeText);
+          lastTime = new Date().getTime();
+          var time = timeRef-lastTime+maxDuration;
+          if(time>0){
+            $('#time').text(formatTime(time));
+          }else{
+            endQuizz(true);
+          }
         },1000);
       }
 
@@ -230,7 +233,7 @@ var timer;
         xmlhttp.onreadystatechange=function() {
           if (this.readyState==4 && this.status==200) {
             if(this.responseText == "finish"){
-                endQuizz();
+                endQuizz(false);
             }else{
               typeQuest = this.responseText[0];
               bonneRep = this.responseText.substring(1,this.responseText.indexOf('%'));
@@ -293,10 +296,18 @@ var timer;
         },1100);
       }
 
-      function endQuizz(){
+      function endQuizz(isTimeOut){
         clearInterval(timer);
+        if(isTimeOut){
+          $('.quest-container').children().addClass('disappearance');
+          setTimeout(function(){
+            $('.quest-container').remove();
+          },500);
+        }
+        console.log(lastTime+" "+timeRef+" "+(lastTime+timeRef));
+        $('#time').text(formatTime(lastTime-timeRef));
         $('#scoreboard').addClass('expend');
-        $('#back').addClass('continue')
+        $('#back').addClass('continue');
       }
 
       function isEqual(s1, s2){
@@ -313,7 +324,15 @@ var timer;
         return (joker > 0 && joker-Math.abs(str1.length-str2.length) > 0);
       }
 
-
+      function formatTime(timeInMillis){
+        var minute = Math.floor((timeInMillis % (1000 * 60 * 60)) / (1000 * 60));
+        var seconde = Math.floor((timeInMillis % (1000 * 60)) / 1000);
+        var timeText = "";
+        if(minute>0) timeText += minute+":";
+        if(seconde>9) timeText += seconde+"'";
+        else timeText += "0"+seconde+"'";
+        return timeText;
+      }
     </script>
   </body>
 </html>
