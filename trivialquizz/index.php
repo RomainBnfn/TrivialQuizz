@@ -11,7 +11,7 @@
   $R = 200; //rayon
   $r = 0; // petite marge
   $G = 1.3; // grandissement focus/unfocus
-  $L = 2*($r+$G*$R)+$o; // hauteur/largeur de la viewBox
+  $L = 2*($r+$G*$R); // hauteur/largeur de la viewBox
   $c = $L/2; // centre de la viewBox
   $fontSizeTextUnfocus = $R/13;
   $fontSizeTextFocus = $R/11;

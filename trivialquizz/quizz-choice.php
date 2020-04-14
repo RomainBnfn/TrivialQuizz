@@ -19,6 +19,13 @@
 
   //variable qui permet de revenir à la page où était l'ut avant qu'il se connecte
   $_SESSION["origin"] = "quizz-choice.php?theme=".$theme['id'];
+
+  //nombre de questions dans chaques thèmes
+  $nbrQuestByQuizz = getNumbersOfQuestionsOfQuizzes($bdd, $theme['id']);
+
+  //temps et réduction par difficulté par quizzes
+  //$quizzeDuration = getAllQuizzezDuration($bdd, $theme['id']);
+
 ?>
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
@@ -49,14 +56,17 @@
             <div class="card-columns">
               <?php
               foreach ($quizzes as $quizz) {
-                ?>
-                <div id="quizz<?=$quizz['id']?>" class="card card-quizz trianglify-background ripple-container dynamic-shadow">
-                  <div class="card-body">
-                    <h3><?=$quizz['nom']?></h3>
-                    <p><?=$quizz['desc']?></p>
+                if(!empty($nbrQuestByQuizz[$quizz['id']])){
+                  ?>
+                  <div id="quizz<?=$quizz['id']?>" class="card card-quizz trianglify-background ripple-container dynamic-shadow">
+                    <div class="card-body">
+                      <h3><?=$quizz['nom']?></h3>
+                      <p>Nombre de questions: <span class="badge badge-pill badge-info"><?=$nbrQuestByQuizz[$quizz['id']]?></span></p>
+                      <p><?=$quizz['desc']?></p>
+                    </div>
                   </div>
-                </div>
-                <?php
+                  <?php
+                }
               }
               ?>
             </div>

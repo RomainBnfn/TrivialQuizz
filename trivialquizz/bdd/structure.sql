@@ -28,6 +28,8 @@ CREATE TABLE quiz
   qui_id INTEGER NOT NULL PRIMARY KEY AUTO_INCREMENT,
   qui_nom VARCHAR(20) NOT NULL,
   qui_desc VARCHAR(200) NOT NULL,
+  qui_temps INTEGER NOT NULL,
+  qui_malus INTEGER NOT NULL,
   th_id INTEGER NOT NULL,
   FOREIGN KEY (th_id) REFERENCES theme(th_id)
 ) engine=innodb character set utf8 collate utf8_unicode_ci;

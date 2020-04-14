@@ -215,7 +215,7 @@
 
         function getNumbersOfQuestionsOfQuizzes($bdd,$idTheme)
         {
-          $data = tryQueryBDD($bdd, "SELECT COUNT(*) AS NB, qui_id FROM quiz_quest GROUP BY qui_id");
+          $data = tryQueryBDD($bdd, "SELECT COUNT(*) AS NB, qui_id FROM quiz_quest GROUP BY qui_id = $idTheme");
           $_NUMBERS;
           if ($data == null)
           {
@@ -226,6 +226,20 @@
             $_NUMBERS[$infos["qui_id"]] = $infos["NB"];
           }
           return $_NUMBERS;
+        }
+
+        function getAllQuizzesDuration($bdd, $idTheme){
+          $data = tryQueryBDD($bdd, "SELECT qui_id, qui_temps, qui_malus FROM quiz WHERE th_id =")
+          if ($data == null)
+          {
+              return null;
+          }
+          $_DURATIONS;
+          foreach ($data as $infos)
+          {
+            $_DURATIONS[$infos["qui_id"]] = array($infos["qui_temps"],$infos["qui_malus"]);
+          }
+          return $_DURATIONS;
         }
 
   /// Essaie de charger toutes les questions d'un quizz, puis renvoie une liste
@@ -303,7 +317,7 @@
 
   //renvoie les path svg du camembert tableau de dim 6 (6 parts)
   //$r marge entre les "part", $R rayon d'une "part", $c centre de la roue/"du gateau"
-  function generatePath($r, $R, $o, $c){
+  function generatePath($r, $R, $c){
     $A = array( $c-$r*cos(toRad(60)), $c-$r*sin(toRad(60)));
     $B = array( $c+$r*cos(toRad(60)), $A[1]);
     $C = array( $c+$r, $c);
