@@ -1,4 +1,8 @@
 $(document).ready(function(){
+  refreshRipple();
+});
+
+function refreshRipple(){
   $('.ripple-container').on('mousedown', function(event){
     var buttonWidth = $(this).width(),
     buttonHeight = $(this).height();
@@ -14,4 +18,4 @@ $(document).ready(function(){
       left: x + 'px'
     }).addClass("rippleAnim");
   });
-});
+}

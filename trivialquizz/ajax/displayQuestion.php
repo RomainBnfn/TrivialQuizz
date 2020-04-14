@@ -8,12 +8,20 @@
       $questions = tryLoadQuizzQuestion($bdd,$_GET['idQuizz']);
       $numQuest = $_GET['numQuest'];
       if(is_null($questions)) {
-        echo "finish";
+        echo "null";
       }else{
         $question = getNiemeQuestion($numQuest,$questions);
         if(!is_null($question)){
           if($question['type']==2){// qcm
-            $nbrOfAnswer = min($_GET['difficulty']+1, 5);
+
+            //$nbrOfAnswer = min($_GET['difficulty']+1, 5);
+            $difficulty = $_GET['difficulty'];
+            if($difficulty == 0) $nbrOfAnswer = 2;
+            if($difficulty == 1) $nbrOfAnswer = 3;
+            if($difficulty == 2) $nbrOfAnswer = 3;
+            if($difficulty == 3) $nbrOfAnswer = 3;
+            if($difficulty == 4) $nbrOfAnswer = 4;
+
             $answers = $question["reponses"];
 
             //suppression de réponse fausse s'il y en a trop pour la difficulté choisie
@@ -26,7 +34,6 @@
                 }
               }
             }
-
 
             //construction de la question
             $idBonnerep;
@@ -49,12 +56,29 @@
             <button id='validated' class='btn' type='button name='valided' onclick='valideQuestion()'>VALIDER</button>
             </div>
             </div>";
+            $html = $idBonneRep.$html;
           }else{// répsone libre
-            $html ="<h1>Réponse libre</h1>";
+            $reponse;
+            foreach ($question['reponses'] as $rep) {
+              $reponse = $rep; //qu'une seule réponse possible
+            }
+            $html = "1".$rep['lib'].'%';
+            $html .= "
+            <div class='quest-container'>
+            <h1 id='question'>".$question['lib']."</h1>
+            <div id='free-answer-container'>
+            <label for='answer'>Réponse:</label>
+            <input type='text' id='free-answer-input' name='answer' placeholder='Entre une réponse beau mal'>
+            </div>
+            <div id='valide-container'>
+            <button id='validated' class='btn' type='button name='valided' onclick='valideQuestion()'>VALIDER</button>
+            </div>
+            </div>";
+
           }
           echo $html;
         }else{
-          echo "empty";
+          echo "finish";
         }
       }
     }else{

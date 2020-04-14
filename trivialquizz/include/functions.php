@@ -213,6 +213,21 @@
           }
         }
 
+        function getNumbersOfQuestionsOfQuizzes($bdd,$idTheme)
+        {
+          $data = tryQueryBDD($bdd, "SELECT COUNT(*) AS NB, qui_id FROM quiz_quest GROUP BY qui_id");
+          $_NUMBERS;
+          if ($data == null)
+          {
+              return null;
+          }
+          foreach ($data as $infos)
+          {
+            $_NUMBERS[$infos["qui_id"]] = $infos["NB"];
+          }
+          return $_NUMBERS;
+        }
+
   /// Essaie de charger toutes les questions d'un quizz, puis renvoie une liste
   /// de liste qui comportent les infos des questions. Renvoie null sinon.
   /// Renvoie $_QUESTIONS[] qui comporte tous les $_QUESTION[] (id, lib, id_bonneRep)
@@ -243,18 +258,6 @@
       $i++;
     }
     return $_QUESTIONS;
-  }
-
-  function tryLoadAllQuestionsReponses($bdd,$idTheme){
-    $data = tryQueryBDD($bdd,"SELECT qui_nom FROM quiz WHERE th_id=$idTheme");
-    if(is_null($data)){
-      return null;
-    }
-    $_QUIZZ;
-    foreach($data as $idQuizz){
-      $_QUIZZ[$idQuizz[0]] = tryLoadQuizzQuestion($bdd,$idQuizz);
-    }
-    return $_QUIZZ;
   }
 
 // Get Nb
@@ -317,7 +320,7 @@
     $d2y = $D[1]+$R;
     $f1x = $F[0]-$R*cos(toRad(30));
 
-    $l = $R+$r+$o;
+    $l = $R+$r;
 
     $path = array();
     $path[0] = "M $a1x,$a1y A $l,$l 0 0 1 $A[0],$a2y L $A[0],$A[1] Z";

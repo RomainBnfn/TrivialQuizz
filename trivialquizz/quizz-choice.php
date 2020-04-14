@@ -15,10 +15,7 @@
   //récupération du themes
   $theme = tryLoadTheme($bdd,$_GET["theme"]);
   //récupération des quizzes associés au thème
-  //récupération des qustions et réponses associés à chaque quizz
   $quizzes = getAllQuizzesInfosOfTheme($bdd,$theme['id']);
-  $questions =  tryLoadAllQuestionsReponses($bdd,$theme['id']);
-
 
   //variable qui permet de revenir à la page où était l'ut avant qu'il se connecte
   $_SESSION["origin"] = "quizz-choice.php?theme=".$theme['id'];
@@ -35,7 +32,7 @@
   </head>
   <body>
     <?php require_once "include/navbar.php" ?>
-    <section class="bandeau-principal">
+    <section class="bandeau-principal fond-bleu">
       Thème: <?=$theme['nom']?>
     </section>
     <section class="cadre-global">
@@ -76,17 +73,17 @@
 
     <!--Choix de la difficulté-->
     <section id="quizz-container">
-      <a class="hide control-info" id="back" href="quizz-choice.php?theme=<?=$theme['id']?>"><p>RETOUR</p></a>
+      <a class="hide control-info ripple-container" id="back" href="quizz-choice.php?theme=<?=$theme['id']?>"><p>RETOUR</p></a>
       <div class="quest-container hide">
         <h1 class="hide">Choix difficulté?</h1>
         <div id="difficulty-choice" class="hide btn-group">
-          <button id="btn-dif1" class="btn btn-light" type="button" name="dif1" onclick='check("#btn-dif1")'>Handicapé</button>
-          <button id="btn-dif2" class="btn btn-light" type="button" name="dif2" onclick='check("#btn-dif2")'>Tranquillou</button>
-          <button id="btn-dif3" class="btn btn-light" type="button" name="dif3" onclick='check("#btn-dif3")'>Milieu</button>
-          <button id="btn-dif4" class="btn btn-light" type="button" name="dif4" onclick='check("#btn-dif4")'>Aïe Aïe</button>
-          <button id="btn-dif5" class="btn btn-light" type="button" name="dif5" onclick='check("#btn-dif5")'>7eme ciel</button>
+          <button id="btn-dif1" class="btn btn-light ripple-container" type="button" name="dif1" onclick='check("#btn-dif1")'>Handicapé</button>
+          <button id="btn-dif2" class="btn btn-light ripple-container" type="button" name="dif2" onclick='check("#btn-dif2")'>Tranquillou</button>
+          <button id="btn-dif3" class="btn btn-light ripple-container" type="button" name="dif3" onclick='check("#btn-dif3")'>Milieu</button>
+          <button id="btn-dif4" class="btn btn-light ripple-container" type="button" name="dif4" onclick='check("#btn-dif4")'>Aïe Aïe</button>
+          <button id="btn-dif5" class="btn btn-light ripple-container" type="button" name="dif5" onclick='check("#btn-dif5")'>7eme ciel</button>
         </div>
-        <button id="btn-begin" class="btn btn-light hide" type="button" name="start" onclick='startQuizz()'>Commencer</button>
+        <button id="btn-begin" class="btn btn-light hide ripple-container" type="button" name="start" onclick='startQuizz()'>Commencer</button>
       </div>
     </section>
 
@@ -187,6 +184,7 @@
       displayScoreBoard();
     }
 
+var timer;
     function displayScoreBoard(){
       var htmlScoreBoard = $(''+
       '<div id="scoreboard" class="control-info">'+
@@ -196,7 +194,7 @@
         $('#quizz-container').append(htmlScoreBoard);
 
         timeRef = (new Date().getTime())+1000;
-        setInterval(function(){
+        timer = setInterval(function(){
           var now = new Date().getTime();
           var time = now-timeRef;
           var minute = Math.floor((time % (1000 * 60 * 60)) / (1000 * 60));
@@ -226,7 +224,9 @@
             }else{
               typeQuest = this.responseText[0];
               bonneRep = this.responseText.substring(1,this.responseText.indexOf('%'));
-              $('#quizz-container').append(this.responseText.substring(this.responseText.indexOf('%')));
+              console.log(bonneRep);
+              $('#quizz-container').append(this.responseText.substring(this.responseText.indexOf('%')+1));
+              refreshRipple();
               var elements = $('.quest-container').children();
               for(var i=0;i<elements.length;i++){
                 spawn(elements[i],i,elements.length,500);
@@ -234,28 +234,76 @@
             }
           }
         }
+        $('.plusOne').remove();
         xmlhttp.open("GET","ajax/displayQuestion.php?idQuizz="+idQuizz+"&numQuest="+numQuestion+"&difficulty="+difficulty,true);
         xmlhttp.send();
 
       }
 
+      var validated = false;
       function valideQuestion(){
-          if(typeQuest == 1){
-
+        if(validated){
+          return;
+        }
+        validated = true;
+        if(typeQuest == 1){
+          if(isEqual($('#free-answer-input').val(),bonneRep)){
+            score++;
+            $('#score').text(score);
+            $(bonneRep).addClass('right-answer');
+            $('#validated').addClass('right-answer');
+            var plus = $('<span class="plusOne">+1</span>');
+            $('#quizz-container').append(plus);
           }else{
-            if(btnCheck==bonneRep){
-
-            }else{
-
-            }
-            numQuestion++;
-            $('.quest-container').children().addClass('disappearance');
-            setTimeout(function(){
-              $('.quest-container').remove();
-              question();
-            },200);
+            $(btnCheck).addClass('bad-answer');
+            $('#validated').addClass('bad-answer');
           }
+        }else{
+          if(btnCheck==bonneRep){
+            score++;
+            $('#score').text(score);
+            $(bonneRep).addClass('right-answer');
+            $('#validated').addClass('right-answer');
+            var plus = $('<span class="plusOne">+1</span>');
+            $('#quizz-container').append(plus);
+          }else{
+            $(btnCheck).addClass('bad-answer');
+            $('#validated').addClass('bad-answer');
+          }
+        }
+        numQuestion++;
+        setTimeout(function(){
+          $('.quest-container').children().addClass('disappearance');
+          setTimeout(function(){
+            $('.quest-container').remove();
+            validated = false;
+            btnCheck = null;
+            question();
+          },200);
+        },1100);
       }
+
+      function endQuizz(){
+        clearInterval(timer);
+        $('#scoreboard').addClass('expend');
+        $('#back').addClass('continue')
+      }
+
+      function isEqual(s1, s2){
+        str1 = s1.toLowerCase();
+        str2 = s2.toLowerCase();
+        var joker = Math.round(Math.max(str1.length,str2.length)*0.2);
+        var i = 0;
+        while(joker>0 && i < str1.length && i < str2.length){
+          if(str1[i]!=str2[i]){
+            joker--;
+          }
+          i++;
+        }
+        return (joker > 0 && joker-Math.abs(str1.length-str2.length) > 0);
+      }
+
+
     </script>
   </body>
 </html>

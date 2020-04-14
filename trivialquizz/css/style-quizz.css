@@ -19,7 +19,6 @@ body
   background-size: 100% 100%;
 }
 
-
 /*quizz*/
 .hide
 {
@@ -41,16 +40,11 @@ body
 {
   width: 100%;
   height: 100%;
-  /*position: relative;
-  display: flex;
-  flex-direction: column;
-  top: 100vh;*/
   position: fixed;
-  top: calc(var(--navbar-height) + 50px);
-  height: calc(100vh - var(--navbar-height) - 50px);
+  top: calc(var(--navbar-height) + 65px);
+  height: calc(100vh - var(--navbar-height) - 65px);
   overflow-y: scroll;
   margin-bottom: 10%;
-
   text-align: center;
 }
 .quest-container > *{
@@ -72,7 +66,6 @@ body
   font-size: 1.5rem;
   font-family: "CaviarDreams";
   text-align: left;
-  /*min-height: 35px;*/
   overflow: hidden;
   white-space: break-spaces;
 }
@@ -81,20 +74,34 @@ body
   position: relative;
 
   margin: 0 auto 2% auto;
-  padding: 0 2% 0 2%;
+  padding: 0 2% .2% 2%;
   overflow: hidden;
   white-space: break-spaces;
 }
+#free-answer-container
+{
+  display: flex;
+  flex-direction: column;
+  font-size: 1.5rem;
+  width: 80%;
+  margin: 0 auto 0 auto;
+}
+#free-answer-input{
+  padding: 5px 15px 5px 15px;
+  border-radius: .5rem;
+  border-top: 0;
+  border-right: 0;
+  border-bottom: solid 1px #555;
+  border-left: 0;
+  background-color: rgba(255, 255, 255, 0.2);
+}
 #answer-container
 {
-position: relative;
-
+  position: relative;
   display: flex;
   flex-direction: column;
   width: 80%;
   margin: 0 auto 0 auto;
-  /*max-height: 40vh;
-  overflow-y: scroll;*/
 }
 #valide-container{
   padding: 50px 10% 0 30px;
@@ -102,10 +109,6 @@ position: relative;
   text-align: right;
 }
 #validated{
-  /*position: absolute;
-  right: 10%;
-  margin-top: 8%;
-  bottom: calc(3% + 100px);*/
   width: 15%;
   min-width: 100px;
 
@@ -118,17 +121,18 @@ position: relative;
 }
 #back{
   justify-content: center;
+  background-color: rgba(255, 255, 255, 0.15) !important;
 }
 #back > p{
   margin: 0;
 }
 #back:hover{
-  background-color: rgba(0, 0, 0, 0.1);
+  background-color: rgba(0, 0, 0, 0.15) !important;
   color: rgba(0, 0, 0, 0.6);
 }
 #scoreboard{
   animation: leftApparitionEffect 1s ease;
-  animation-fill-mode: forwards;
+  animation-fill-mode: forwards !important;
   flex-direction: row;
 }
 #scoreboard > *{
@@ -143,27 +147,6 @@ position: relative;
   justify-content: center;
   margin-top: 3%;
 }
-/*
-#btn-dif1
-{
-  background-color: rgba(40, 200, 50, 0.4);
-}
-#btn-dif2
-{
-  background-color: rgba(20, 180, 100, 0.4);
-}
-#btn-dif3
-{
-  background-color: rgba(80, 80, 250, 0.4);
-}
-#btn-dif4
-{
-  background-color: rgba(200, 40, 100, 0.4);
-}
-#btn-dif5
-{
-  background-color: rgba(250, 70, 50, 0.4);
-}*/
 #difficulty-choice > .btn
 {
   width: 12%;
@@ -173,7 +156,7 @@ position: relative;
 }
 #btn-begin
 {
-  width: 40%;
+  width: 30%;
   margin: 15% auto 0 auto;
 }
 @media (max-width: 550px) {
@@ -243,10 +226,6 @@ position: relative;
     opacity: 1;
     transform: translateY(0);
   }
-  /*100%{
-    opacity: 1;
-    transform: translateY(-100vh);
-  }*/
 }
 
 
@@ -275,5 +254,138 @@ position: relative;
   }
   100%{
     right: 1vw;
+  }
+}
+
+/* bonne réponse*/
+.right-answer
+{
+  animation: rightEffect .5s;
+  animation-fill-mode: forwards;
+}
+@keyframes rightEffect {
+  100%{
+    color: rgba(0, 80, 0, 1);
+    background-color: rgba(0, 200, 0, 1);
+    border: solid 2px rgba(0, 100, 0, 1);
+    box-shadow: 0 0 20px rgba(0, 200, 0, 0.8);
+    font-weight: bold;
+  }
+}
+.plusOne{
+  position: absolute;
+  font-weight: bold;
+  animation: plusEffect 1.5s;
+  animation-fill-mode: forwards;
+  right: 150px;
+  font-family: "CaviarDreams";
+}
+@keyframes plusEffect {
+  0%{
+    top:150px;
+    font-size: 3.2rem;
+  }
+  99%{
+    top:35px;
+    font-size: .5rem;
+  }
+  100%{
+    top:35px;
+    font-size: 0rem;
+  }
+}
+/* mauvaise réponse */
+.bad-answer
+{
+  animation: badEffect .5s;
+  animation-fill-mode: forwards;
+}
+@keyframes badEffect {
+  100%{
+    color: rgba(80, 0, 0, 1);
+    background-color: rgba(200, 0, 0, 1);
+    border: solid 2px rgba(100, 0, 0, 1);
+    box-shadow: 0 0 20px rgba(200, 0, 0, 0.8);
+    font-weight: bold;
+  }
+}
+
+/* expend scoreboard */
+.expend{
+  animation: expendEffect 1s !important;
+  right: 1vw;
+  flex-direction: column !important;
+}
+
+@keyframes expendEffect {
+  0%{
+    width: 200px;
+    text-align: center;
+    border: 0;
+    line-height: normal;
+  }
+  100%{
+    top: 30vh;
+    right: 0;
+    border: 0;
+    font-size: 300%;
+    line-height: 130px;
+    width: 100%;
+    text-align: center;
+  }
+}
+
+/* animation button retour en fin de quizz */
+.continue{
+  animation: backButtonEffect 2s;
+  animation-fill-mode: forwards;
+}
+
+@keyframes backButtonEffect {
+  0{
+      border-radius: .5rem;
+      width: 100px;
+      height: 25px;
+      background-color: rgba(0, 0, 0, 0);
+      color: rgba(0, 0, 0, 0.6);
+      left: 0;
+      top: var(--navbar-height);
+  }
+  30%{
+      border-radius: 50%;
+      width: 25px;
+      height: 25px;
+      background-color: rgba(70, 70, 70, 1);
+      color: rgba(0, 0, 0, 0);
+      left: 0;
+      top: 0;
+  }
+  60%{
+      border-radius: 50%;
+      width: 25px;
+      height: 25px;
+      background-color: rgba(70, 70, 70, 1);
+      color: rgba(0, 0, 0, 0);
+      left: 0;
+      top: calc(30vh + 2*130px + 50px);
+  }
+  90%{
+      border-radius: 50%;
+      width: 25px;
+      height: 25px;
+      background-color: rgba(70, 70, 70, 1);
+      color: rgba(0, 0, 0, 0);
+      left: 49vw;
+      top: calc(30vh + 2*130px + 50px);
+  }
+  100%{
+      border-radius: .5rem;
+      width: 60vw;
+      height: auto;
+      background-color: rgba(0, 0, 0, 0);
+      color: rgba(0, 0, 0, 0.6);
+      font-size: 2rem;
+      left: 20vw;
+      top: calc(30vh + 2*130px + 50px);
   }
 }
