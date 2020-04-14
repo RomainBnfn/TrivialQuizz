@@ -53,7 +53,8 @@
             $html .= "
             </div>
             <div id='valide-container'>
-            <button id='validated' class='btn' type='button name='valided' onclick='valideQuestion()'>VALIDER</button>
+            <button id='validated' class='btn' type='button name='valided' onclick='valideQuestion()'>VALIDER&nbsp</button>
+
             </div>
             </div>";
             $html = $idBonneRep.$html;
@@ -71,7 +72,7 @@
             <input type='text' id='free-answer-input' name='answer' placeholder='Entre une réponse beau mal'>
             </div>
             <div id='valide-container'>
-            <button id='validated' class='btn' type='button name='valided' onclick='valideQuestion()'>VALIDER</button>
+            <button id='validated' class='btn' type='button name='valided' onclick='valideQuestion()'>VALIDER&nbsp</button>
             </div>
             </div>";
 

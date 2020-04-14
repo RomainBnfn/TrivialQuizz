@@ -2,6 +2,7 @@
   session_start();
   require_once  "include/liaisonbdd.php";
 
+  echo file_get_contents('php://input');
   //TODO: Changer ça
   $base_location = "/trivial/trivialquizz";
   $index_location = "/trivial/trivialquizz/index.php";

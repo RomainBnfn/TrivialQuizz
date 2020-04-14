@@ -93,7 +93,7 @@
           <button id="btn-dif4" class="btn btn-light ripple-container" type="button" name="dif4" onclick='check("#btn-dif4")'>Aïe Aïe</button>
           <button id="btn-dif5" class="btn btn-light ripple-container" type="button" name="dif5" onclick='check("#btn-dif5")'>7eme ciel</button>
         </div>
-        <button id="btn-begin" class="btn btn-light hide ripple-container" type="button" name="start" onclick='startQuizz()'>Commencer</button>
+        <button id="btn-begin" class="btn btn-light hide ripple-container" type="button" name="start" onclick='startQuizz()'>Commencer&nbsp</button>
       </div>
     </section>
 
@@ -105,10 +105,23 @@
 
     var isConnected = <?=$connected?>; //cf navbar.php
     var time = <?=json_encode($quizzesDuration)?>;
+    var idTheme = <?=$theme['id']?>;
+    var pseudo = "<?=$_SESSION['pseudo']?>";
     var idQuizz;
     var btnCheck = 0;
     var difficulty;
     var score = 0;
+    var timer,
+      maxDuration,
+      lastTime,
+      timeRef,
+      delay = 0;
+    var numQuestion = 1,
+      bonneRep,
+      typeQuest,
+      response;
+    var validated = false;
+    var isTimerPaused = true;
 
     $(document).ready(function(){
 
@@ -183,156 +196,166 @@
       return;
       difficulty = btnCheck.substring(8);
 
-      //faire disparaire les boutons de choix de difficulté
-      //$('.quest').children().removeClass('spaw-question');
-      $('.quest-container').children().addClass('disappearance');
-      setTimeout(function(){
-        $('.quest-container').remove();
-        question();
-      },200);
-
       //faire apparaitre le score et le temps
       displayScoreBoard();
+
+      // lancement d'une question
+      $('#btn-begin').append($('<i class="fa fa-spinner fa-spin"></i>'));
+      question();
+
     }
 
-    var timer,
-      maxDuration,
-      lastTime,
-      timeRef;
+
     function displayScoreBoard(){
       var htmlScoreBoard = $(''+
       '<div id="scoreboard" class="control-info">'+
-        '<p>Score: <span id="score">0</span></p>'+
-        "<p>Temps: <span id='time'>--:--'</span></p>"+
-        '</div>');
-        $('#quizz-container').append(htmlScoreBoard);
+      '<p>Score: <span id="score">0</span></p>'+
+      "<p>Temps: <span id='time'>--:--'</span></p>"+
+      '</div>');
+      $('#quizz-container').append(htmlScoreBoard);
 
-        maxDuration = (time[0]-(difficulty-1)*time[1])*1000;
-        timeRef = (new Date().getTime())+1000;
-        timer = setInterval(function(){
-          lastTime = new Date().getTime();
-          var time = timeRef-lastTime+maxDuration;
-          if(time>0){
-            $('#time').text(formatTime(time));
+      maxDuration = (time[0]-(difficulty-1)*time[1])*1000;
+      timeRef = (new Date().getTime())+1000;
+
+      timer = setInterval(function(){
+        if(!isTimerPaused){
+          var time = new Date().getTime();
+          lastTime = timeRef-time+maxDuration+delay;
+          if(lastTime>0){
+            $('#time').text(formatTime(lastTime));
           }else{
             endQuizz(true);
           }
-        },1000);
-      }
-
-      var numQuestion = 1;
-      var bonneRep;
-      var typeQuest;
-      function question(){
-        if (window.XMLHttpRequest) {
-          // code for IE7+, Firefox, Chrome, Opera, Safari
-          xmlhttp=new XMLHttpRequest();
-        } else { // code for IE6, IE5
-          xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
         }
-        xmlhttp.onreadystatechange=function() {
-          if (this.readyState==4 && this.status==200) {
-            if(this.responseText == "finish"){
+      },900);
+
+    }
+
+
+    function question(){
+      $('.plusOne').remove();
+      var t0 = new Date().getTime(), t1=0;
+
+      if (window.XMLHttpRequest) {
+        // code for IE7+, Firefox, Chrome, Opera, Safari
+        xmlhttp=new XMLHttpRequest();
+      } else { // code for IE6, IE5
+        xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+      }
+      xmlhttp.onreadystatechange=function() {
+        if (this.readyState==4 && this.status==200) {
+          response = this.responseText;
+
+          setTimeout(function(){
+            $('.quest-container').children().addClass('disappearance');
+            setTimeout(function(){
+              $('.quest-container').remove();
+              if(response == "finish"){
                 endQuizz(false);
-            }else{
-              typeQuest = this.responseText[0];
-              bonneRep = this.responseText.substring(1,this.responseText.indexOf('%'));
-              console.log(bonneRep);
-              $('#quizz-container').append(this.responseText.substring(this.responseText.indexOf('%')+1));
-              refreshRipple();
-              var elements = $('.quest-container').children();
-              for(var i=0;i<elements.length;i++){
-                spawn(elements[i],i,elements.length,500);
+              }else{
+                var t1 = new Date().getTime();
+                delay += Math.max(1000,t1-t0);
+                isTimerPaused = false;
+                typeQuest = response[0];
+                bonneRep = response.substring(1,response.indexOf('%'));
+                console.log(bonneRep);
+                $('#quizz-container').append(response.substring(response.indexOf('%')+1));
+                refreshRipple();
+                var elements = $('.quest-container').children();
+                for(var i=0;i<elements.length;i++){
+                  spawn(elements[i],i,elements.length,500);
+                }
               }
-            }
-          }
+            },200);
+          },Math.min(1000,t1-t0));
         }
-        $('.plusOne').remove();
-        xmlhttp.open("GET","ajax/displayQuestion.php?idQuizz="+idQuizz+"&numQuest="+numQuestion+"&difficulty="+difficulty,true);
+      }
+
+      xmlhttp.open("GET","ajax/displayQuestion.php?idQuizz="+idQuizz+"&numQuest="+numQuestion+"&difficulty="+difficulty,true);
+      setTimeout(function(){
         xmlhttp.send();
+      },2000);
 
+    }
+
+    function valideQuestion(){
+      if(validated){
+        return;
       }
-
-      var validated = false;
-      function valideQuestion(){
-        if(validated){
-          return;
-        }
-        validated = true;
-        if(typeQuest == 1){
-          if(isEqual($('#free-answer-input').val(),bonneRep)){
-            score++;
-            $('#score').text(score);
-            $(bonneRep).addClass('right-answer');
-            $('#validated').addClass('right-answer');
-            var plus = $('<span class="plusOne">+1</span>');
-            $('#quizz-container').append(plus);
-          }else{
-            $(btnCheck).addClass('bad-answer');
-            $('#validated').addClass('bad-answer');
-          }
+      validated = true;
+      $('#validated').append($('<i class="fa fa-spinner fa-spin"></i>'));
+      isTimerPaused = true;
+      if(typeQuest == 1){
+        if(isEqual($('#free-answer-input').val(),bonneRep)){
+          score++;
+          $('#score').text(score);
+          $(bonneRep).addClass('right-answer');
+          $('#validated').addClass('right-answer');
+          var plus = $('<span class="plusOne">+1</span>');
+          $('#quizz-container').append(plus);
         }else{
-          if(btnCheck==bonneRep){
-            score++;
-            $('#score').text(score);
-            $(bonneRep).addClass('right-answer');
-            $('#validated').addClass('right-answer');
-            var plus = $('<span class="plusOne">+1</span>');
-            $('#quizz-container').append(plus);
-          }else{
-            $(btnCheck).addClass('bad-answer');
-            $('#validated').addClass('bad-answer');
-          }
+          $(btnCheck).addClass('bad-answer');
+          $('#validated').addClass('bad-answer');
         }
-        numQuestion++;
+      }else{
+        if(btnCheck==bonneRep){
+          score++;
+          $('#score').text(score);
+          $(bonneRep).addClass('right-answer');
+          $('#validated').addClass('right-answer');
+          var plus = $('<span class="plusOne">+1</span>');
+          $('#quizz-container').append(plus);
+        }else{
+          $(btnCheck).addClass('bad-answer');
+          $('#validated').addClass('bad-answer');
+        }
+      }
+      numQuestion++;
+      validated = false;
+      btnCheck = null;
+      question();
+    }
+
+    function endQuizz(isTimeOut){
+      clearInterval(timer);
+      if(isTimeOut){
+        $('.quest-container').children().addClass('disappearance');
         setTimeout(function(){
-          $('.quest-container').children().addClass('disappearance');
-          setTimeout(function(){
-            $('.quest-container').remove();
-            validated = false;
-            btnCheck = null;
-            question();
-          },200);
-        },1100);
+          $('.quest-container').remove();
+        },500);
       }
+      var time = Math.round((maxDuration-lastTime)/1000);
+      $('#time').text(formatTime(time*1000));
+      $('#scoreboard').addClass('expend');
+      $('#back').addClass('continue');
 
-      function endQuizz(isTimeOut){
-        clearInterval(timer);
-        if(isTimeOut){
-          $('.quest-container').children().addClass('disappearance');
-          setTimeout(function(){
-            $('.quest-container').remove();
-          },500);
+      fetch("ajax/addScore.php?point="+score+"&temps="+time+"&diff="+difficulty+"&profil="+pseudo+"&quizz="+idQuizz);
+    }
+
+    function isEqual(s1, s2){
+      str1 = s1.toLowerCase();
+      str2 = s2.toLowerCase();
+      var joker = Math.round(Math.max(str1.length,str2.length)*0.2);
+      var i = 0;
+      while(joker>0 && i < str1.length && i < str2.length){
+        if(str1[i]!=str2[i]){
+          joker--;
         }
-        console.log(lastTime+" "+timeRef+" "+(lastTime+timeRef));
-        $('#time').text(formatTime(lastTime-timeRef));
-        $('#scoreboard').addClass('expend');
-        $('#back').addClass('continue');
+        i++;
       }
+      return (joker > 0 && joker-Math.abs(str1.length-str2.length) > 0);
+    }
 
-      function isEqual(s1, s2){
-        str1 = s1.toLowerCase();
-        str2 = s2.toLowerCase();
-        var joker = Math.round(Math.max(str1.length,str2.length)*0.2);
-        var i = 0;
-        while(joker>0 && i < str1.length && i < str2.length){
-          if(str1[i]!=str2[i]){
-            joker--;
-          }
-          i++;
-        }
-        return (joker > 0 && joker-Math.abs(str1.length-str2.length) > 0);
-      }
+    function formatTime(timeInMillis){
+      var minute = Math.floor((timeInMillis % (1000 * 60 * 60)) / (1000 * 60));
+      var seconde = Math.floor((timeInMillis % (1000 * 60)) / 1000);
+      var timeText = "";
+      if(minute>0) timeText += minute+":";
+      if(seconde>9) timeText += seconde+"'";
+      else timeText += "0"+seconde+"'";
+      return timeText;
+    }
 
-      function formatTime(timeInMillis){
-        var minute = Math.floor((timeInMillis % (1000 * 60 * 60)) / (1000 * 60));
-        var seconde = Math.floor((timeInMillis % (1000 * 60)) / 1000);
-        var timeText = "";
-        if(minute>0) timeText += minute+":";
-        if(seconde>9) timeText += seconde+"'";
-        else timeText += "0"+seconde+"'";
-        return timeText;
-      }
     </script>
   </body>
 </html>
