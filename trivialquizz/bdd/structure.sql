@@ -8,8 +8,7 @@ DROP TABLE IF EXISTS profil;
 
 CREATE TABLE profil
 (
-  pr_id INTEGER NOT NULL PRIMARY KEY AUTO_INCREMENT,
-  pr_pseudo VARCHAR(20) NOT NULL,
+  pr_pseudo VARCHAR(20) NOT NULL PRIMARY KEY,
   pr_password VARCHAR(20) NOT NULL,
   pr_is_admin BIT(1)
 ) engine=innodb character set utf8 collate utf8_unicode_ci;
@@ -39,10 +38,11 @@ CREATE TABLE score
   sc_id INTEGER NOT NULL PRIMARY KEY AUTO_INCREMENT,
   sc_point INTEGER NOT NULL,
   sc_temps INTEGER NOT NULL,
+  sc_difficulte INTEGER NOT NULL,
   sc_date DATE NOT NULL,
-  pr_id INTEGER NOT NULL,
+  pr_pseudo VARCHAR(20) NOT NULL,
   qui_id INTEGER NOT NULL,
-  FOREIGN KEY (pr_id) REFERENCES profil(pr_id),
+  FOREIGN KEY (pr_pseudo) REFERENCES profil(pr_pseudo),
   FOREIGN KEY (qui_id) REFERENCES quiz(qui_id)
 ) engine=innodb character set utf8 collate utf8_unicode_ci;
 

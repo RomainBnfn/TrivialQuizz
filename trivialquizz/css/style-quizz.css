@@ -33,6 +33,7 @@ body
   margin: 1%;
   display: flex;
   top: var(--navbar-height);
+  background-color: rgba(255, 255, 255, 0.1);
   border: solid 1px rgba(0, 0, 0, 0.6);
   border-radius: .5rem;
 }
@@ -104,14 +105,13 @@ body
   margin: 0 auto 0 auto;
 }
 #valide-container{
-  padding: 50px 10% 0 30px;
+  padding: 50px 10% 20px 30px;
   width: 100%;
   text-align: right;
 }
 #validated{
   width: 15%;
   min-width: 100px;
-
 }
 #quizz-container
 {
@@ -121,7 +121,6 @@ body
 }
 #back{
   justify-content: center;
-  background-color: rgba(255, 255, 255, 0.15) !important;
 }
 #back > p{
   margin: 0;
@@ -315,6 +314,7 @@ body
   animation: expendEffect 1s !important;
   right: 1vw;
   flex-direction: column !important;
+  background-color: rgba(0, 0, 0, 0);
 }
 
 @keyframes expendEffect {
@@ -322,10 +322,10 @@ body
     width: 200px;
     text-align: center;
     border: 0;
-    line-height: normal;
+    line-height: 45px;
   }
   100%{
-    top: 30vh;
+    top: 28vh;
     right: 0;
     border: 0;
     font-size: 300%;
@@ -334,7 +334,25 @@ body
     text-align: center;
   }
 }
-
+@media (max-height: 500px) {
+  @keyframes expendEffect {
+    0%{
+      width: 200px;
+      text-align: center;
+      border: 0;
+      line-height: 45px;
+    }
+    100%{
+      top: 22vh;
+      right: 0;
+      border: 0;
+      font-size: 250%;
+      line-height: 80px;
+      width: 100%;
+      text-align: center;
+    }
+  }
+}
 /* animation button retour en fin de quizz */
 .continue{
   animation: backButtonEffect 2s;
@@ -344,48 +362,97 @@ body
 @keyframes backButtonEffect {
   0{
       border-radius: .5rem;
+      border-width: 1px;
       width: 100px;
       height: 25px;
-      background-color: rgba(0, 0, 0, 0);
       color: rgba(0, 0, 0, 0.6);
       left: 0;
       top: var(--navbar-height);
   }
   30%{
       border-radius: 50%;
-      width: 25px;
-      height: 25px;
-      background-color: rgba(70, 70, 70, 1);
+      border-width: 10px;
+      width: 12px;
+      height: 12px;
       color: rgba(0, 0, 0, 0);
       left: 0;
       top: 0;
   }
   60%{
       border-radius: 50%;
-      width: 25px;
-      height: 25px;
-      background-color: rgba(70, 70, 70, 1);
+      border-width: 10px;
+      width: 12px;
+      height: 12px;
       color: rgba(0, 0, 0, 0);
       left: 0;
       top: calc(30vh + 2*130px + 50px);
   }
   90%{
       border-radius: 50%;
-      width: 25px;
-      height: 25px;
-      background-color: rgba(70, 70, 70, 1);
+      border-width: 10px;
+      width: 12px;
+      height: 12px;
       color: rgba(0, 0, 0, 0);
       left: 49vw;
       top: calc(30vh + 2*130px + 50px);
   }
   100%{
       border-radius: .5rem;
+      border-width: 1px;
       width: 60vw;
       height: auto;
-      background-color: rgba(0, 0, 0, 0);
       color: rgba(0, 0, 0, 0.6);
       font-size: 2rem;
       left: 20vw;
       top: calc(30vh + 2*130px + 50px);
   }
+}
+@media (max-height: 500px) {
+  @keyframes backButtonEffect {
+    0{
+        border-radius: .5rem;
+        border-width: 1px;
+        width: 100px;
+        height: 25px;
+        color: rgba(0, 0, 0, 0.6);
+        left: 0;
+        top: var(--navbar-height);
+    }
+    30%{
+        border-radius: 50%;
+        border-width: 10px;
+        width: 12px;
+        height: 12px;
+        color: rgba(0, 0, 0, 0);
+        left: 0;
+        top: 0;
+    }
+    60%{
+        border-radius: 50%;
+        border-width: 10px;
+        width: 12px;
+        height: 12px;
+        color: rgba(0, 0, 0, 0);
+        left: 0;
+        top: calc(22vh + 2*130px + 50px);
+    }
+    90%{
+        border-radius: 50%;
+        border-width: 10px;
+        width: 12px;
+        height: 12px;
+        color: rgba(0, 0, 0, 0);
+        left: 49vw;
+        top: calc(22vh + 2*130px + 50px);
+    }
+    100%{
+        border-radius: .5rem;
+        border-width: 1px;
+        width: 60vw;
+        height: auto;
+        color: rgba(0, 0, 0, 0.6);
+        font-size: 2rem;
+        left: 20vw;
+        top: calc(22vh + 2*130px + 50px);
+    }
 }

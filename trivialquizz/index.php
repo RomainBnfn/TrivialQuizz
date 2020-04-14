@@ -84,7 +84,7 @@
         <?php
           foreach ($themesCustoms as $theme) {
         ?>
-          <a class="card ripple-container dynamic-shadow"  href="quizz-choice.php?theme=<?=$theme['id']?>" style="background-color: <?=$theme['couleur']?>">
+          <a class="card ripple-container dynamic-shadow"  href="quizz.php?theme=<?=$theme['id']?>" style="background-color: <?=$theme['couleur']?>">
               <div class="card-body">
                 <h3><?=$theme['nom']?></h3>
                 <p><?=$theme['desc']?></p>

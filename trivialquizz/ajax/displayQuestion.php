@@ -16,11 +16,11 @@
 
             //$nbrOfAnswer = min($_GET['difficulty']+1, 5);
             $difficulty = $_GET['difficulty'];
-            if($difficulty == 0) $nbrOfAnswer = 2;
-            if($difficulty == 1) $nbrOfAnswer = 3;
+            if($difficulty == 1) $nbrOfAnswer = 2;
             if($difficulty == 2) $nbrOfAnswer = 3;
             if($difficulty == 3) $nbrOfAnswer = 3;
-            if($difficulty == 4) $nbrOfAnswer = 4;
+            if($difficulty == 4) $nbrOfAnswer = 3;
+            if($difficulty == 5) $nbrOfAnswer = 4;
 
             $answers = $question["reponses"];
 
@@ -53,7 +53,8 @@
             $html .= "
             </div>
             <div id='valide-container'>
-            <button id='validated' class='btn' type='button name='valided' onclick='valideQuestion()'>VALIDER</button>
+            <button id='validated' class='btn' type='button name='valided' onclick='valideQuestion()'>VALIDER&nbsp</button>
+
             </div>
             </div>";
             $html = $idBonneRep.$html;
@@ -71,7 +72,7 @@
             <input type='text' id='free-answer-input' name='answer' placeholder='Entre une réponse beau mal'>
             </div>
             <div id='valide-container'>
-            <button id='validated' class='btn' type='button name='valided' onclick='valideQuestion()'>VALIDER</button>
+            <button id='validated' class='btn' type='button name='valided' onclick='valideQuestion()'>VALIDER&nbsp</button>
             </div>
             </div>";
 
