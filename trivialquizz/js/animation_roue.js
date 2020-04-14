@@ -33,7 +33,7 @@ $(document).ready(function(){
   $(".bt-theme").on('click',function(){
     var themeNumber = getThemeNumber($(this));
     if(!isTouched){
-      document.location.href="quizz-choice.php?theme="+numberIdThemeRelation[themeNumber];
+      document.location.href="quizz.php?theme="+numberIdThemeRelation[themeNumber];
     }
     isTouched = false;
   });
@@ -84,7 +84,7 @@ function undisplayDescTheme(){
 function displayButtonTheme(themeNumber){
   $("#btn-quizz-smartphone").css("display","block");
   $("#btn-quizz-smartphone").css("background-color",colorTheme[themeNumber]);
-  $('#btn-quizz-smartphone').parent().attr('href','quizz-choice.php?theme='+numberIdThemeRelation[themeNumber]);
+  $('#btn-quizz-smartphone').parent().attr('href','quizz.php?theme='+numberIdThemeRelation[themeNumber]);
   $('#btn-quizz-smartphone')[0].textContent = "Voir les quizzes: "+nomTheme[themeNumber];
 }
 

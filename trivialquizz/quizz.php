@@ -18,7 +18,7 @@
   $quizzes = getAllQuizzesInfosOfTheme($bdd,$theme['id']);
 
   //variable qui permet de revenir à la page où était l'ut avant qu'il se connecte
-  $_SESSION["origin"] = "quizz-choice.php?theme=".$theme['id'];
+  $_SESSION["origin"] = "quizz.php?theme=".$theme['id'];
 
   //nombre de questions dans chaques thèmes
   $nbrQuestByQuizz = getNumbersOfQuestionsOfQuizzes($bdd, $theme['id']);
@@ -83,7 +83,7 @@
 
     <!--Choix de la difficulté-->
     <section id="quizz-container">
-      <a class="hide control-info ripple-container" id="back" href="quizz-choice.php?theme=<?=$theme['id']?>"><p>RETOUR</p></a>
+      <a class="hide control-info ripple-container" id="back" href="quizz.php?theme=<?=$theme['id']?>"><p>RETOUR</p></a>
       <div class="quest-container hide">
         <h1 class="hide">Choix difficulté?</h1>
         <div id="difficulty-choice" class="hide btn-group">
@@ -104,24 +104,29 @@
     <script type="text/javascript">
 
     var isConnected = <?=$connected?>; //cf navbar.php
-    var time = <?=json_encode($quizzesDuration)?>;
     var idTheme = <?=$theme['id']?>;
     var pseudo = "<?=$_SESSION['pseudo']?>";
     var idQuizz;
-    var btnCheck = 0;
-    var difficulty;
     var score = 0;
-    var timer,
-      maxDuration,
-      lastTime,
-      timeRef,
-      delay = 0;
-    var numQuestion = 1,
-      bonneRep,
-      typeQuest,
-      response;
-    var validated = false;
-    var isTimerPaused = true;
+    var difficulty;
+
+    var btnCheck = 0; //stock l'id du btn correspondant au choix du joueur (difficulté/qcm)
+
+    var duration = <?=json_encode($quizzesDuration)?>; //{qui_id: {durée, malus}, ... , ...}
+    var isTimerPaused = true, //timer en pause lors des chargement
+      maxDuration, // durée max du quizz en prenant en compte la difficulté
+      timer, // objet setInterval
+      lastTime, // la durée qu'il reste pour répondre aux questions, actualisé à chaque tour de timer
+      timeRef, // temps du début du quizz
+      delay = 0; // durée des chargement et pause
+
+    var numQuestion = 1, //numéro de la question correspond à l'ordre
+      bonneRep, //qcm: id du btn de la bonne réponse / réponse libre: chaine réponse
+      typeQuest; //qcm: 2 / réponse libre: 1
+    var response; //retour de displayQuestion
+
+    var validated = false; // true lorsque l'ut à cliqué une fois sur validé false ensuite,
+                           // réinitialisé pour chaque question (empeche de spamé pendant la pause)
 
     $(document).ready(function(){
 
@@ -136,7 +141,7 @@
           // carte cliquée
           var clickedCard = $(this);
           idQuizz = clickedCard.attr('id').substring(5);
-          time = time[idQuizz];
+          duration = duration[idQuizz];
           //suppression de toutes les autres cartes
           for(var i =0;i<card.length;i++){
             if(card[i]!=clickedCard[0]){
@@ -165,6 +170,8 @@
       });
     });
 
+    //fait apparaitre l'élément n, d'un total de nmax éléments après delay millisecondes
+    //les nmax éléments apparaisse sur une durée de 1s
     function spawn(element,n,nmax,delay){
       setTimeout(function(){
         element.classList.add('spawn-question');
@@ -172,6 +179,8 @@
       },(delay+n*(1000/nmax)));
     }
 
+    // change l'apparance de l'élément id (apparence sélectionné)
+    // et redonne une apparence neutre au dernière élément sélèction
     function check(id){
       if(btnCheck != id){
         $(id).css({
@@ -190,6 +199,7 @@
       }
     }
 
+    //initialise le quizz (après choix de la difficulté) et lance la première question
     function startQuizz(){
       //récupérer la difficulté
       if(btnCheck == 0)
@@ -202,10 +212,9 @@
       // lancement d'une question
       $('#btn-begin').append($('<i class="fa fa-spinner fa-spin"></i>'));
       question();
-
     }
 
-
+    //affiche le temps et le score et lance le timer
     function displayScoreBoard(){
       var htmlScoreBoard = $(''+
       '<div id="scoreboard" class="control-info">'+
@@ -214,7 +223,7 @@
       '</div>');
       $('#quizz-container').append(htmlScoreBoard);
 
-      maxDuration = (time[0]-(difficulty-1)*time[1])*1000;
+      maxDuration = (duration[0]-(difficulty-1)*duration[1])*1000;
       timeRef = (new Date().getTime())+1000;
 
       timer = setInterval(function(){
@@ -227,12 +236,13 @@
             endQuizz(true);
           }
         }
-      },900);
+      },1000);
 
     }
 
-
+    //demande au serveur la question suivante et l'affiche quand il reçois la réponse
     function question(){
+
       $('.plusOne').remove();
       var t0 = new Date().getTime(), t1=0;
 
@@ -278,6 +288,8 @@
 
     }
 
+    //fonction lancée au moment du clic lors de la validation d'une question
+    //incremente le score si bonne réponse
     function valideQuestion(){
       if(validated){
         return;
@@ -316,6 +328,7 @@
       question();
     }
 
+    // appelé lorsqu'il n'y a plus de question ou quand le temps est écoulé
     function endQuizz(isTimeOut){
       clearInterval(timer);
       if(isTimeOut){
@@ -332,6 +345,8 @@
       fetch("ajax/addScore.php?point="+score+"&temps="+time+"&diff="+difficulty+"&profil="+pseudo+"&quizz="+idQuizz);
     }
 
+    // test l'égalité des chaine s1 et s2 ne tient pas compte de la casse
+    // admet une marge d'erreur de 20%
     function isEqual(s1, s2){
       str1 = s1.toLowerCase();
       str2 = s2.toLowerCase();
@@ -346,6 +361,7 @@
       return (joker > 0 && joker-Math.abs(str1.length-str2.length) > 0);
     }
 
+    // formate timeInMillis en chaine: mm:ss'
     function formatTime(timeInMillis){
       var minute = Math.floor((timeInMillis % (1000 * 60 * 60)) / (1000 * 60));
       var seconde = Math.floor((timeInMillis % (1000 * 60)) / 1000);
