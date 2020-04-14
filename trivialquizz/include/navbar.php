@@ -1,15 +1,16 @@
 <?php
   //TODO: changer les liens
+  $_locationBase = "/trivial/trivialquizz/";
+
   if(isset($_GET['unlog'])){
     $_SESSION['pseudo']="";
     $_SESSION['is_admin']="false";
-    header("Location: /trivial/trivialquizz/index.php");
+    header("Location: $_locationBase/index.php");
     exit();
   }
-  $logo_link = "/trivial/trivialquizz/index.php";
+
   if(isset($_SESSION['is_admin'])){
     if($_SESSION['is_admin']=="true"){
-      $logo_link = "/trivial/trivialquizz/admin/index.php";
       $hello_txt = "Bonjour, ".$_SESSION['pseudo']." (admin)";
     }
   }
@@ -25,13 +26,23 @@
   <div class="container">
     <!-- Logo pour aller à la page d'accueil -->
     <div>
-        <a href="<?=$logo_link?>">
+        <a href="<?=$_locationBase?>/index.php">
           ​<picture>
             <img src="/trivial/trivialquizz/image/logo.png" class="img-logo" alt="Logo du Trivial Quizz">
           </picture>
         </a>
     </div>
-
+    <div style="width: 600px">
+      <div class="dropdown">
+        <span class="dropdown-toggle-dark dropdown-toggle" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Section Admin
+        </span>
+        <div class="dropdown-menu-dark dropdown-menu" aria-labelledby="dropdownMenuButton">
+          <a class="dropdown-dark dropdown-item-dark dropdown-item" href="<?=$_locationBase?>/admin/theme.php">Thèmes</a>
+          <a class="dropdown-dark dropdown-item-dark dropdown-item" href="<?=$_locationBase?>/admin/quizz.php">Quizzes</a>
+        </div>
+      </div>
+    </div>
     <!-- Se connecter -->
     <?php
       if($connected){

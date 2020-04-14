@@ -52,8 +52,6 @@
   <div class="cadre-global">
     <div class="cadre-central">
 
-      <?php require_once "include/admin-navbar.php"?>
-
       <!-- DEBUT : Cadre des options générales -->
       <div>
         <div class="titre1 titre-shadow">
