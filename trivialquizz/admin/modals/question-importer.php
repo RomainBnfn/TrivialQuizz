@@ -5,7 +5,6 @@
 //-----------------------------------------
 
   $_QUIZZES = getAllQuizzesInfos($bdd);
-  $_QUESTIONS = tryLoadAllQuestions($bdd);
 
 //-----------------------------------------
 ?>

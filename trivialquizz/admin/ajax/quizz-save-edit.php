@@ -3,9 +3,6 @@
   //
   session_start();
 
-  //TODO: CHANGER CA
-  $_SESSION['is_admin'] = true;
-
   // On regarde si l'utilisateur est bien un admin
   if(!isset($_SESSION['is_admin']))
   {

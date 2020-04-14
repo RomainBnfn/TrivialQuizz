@@ -3,7 +3,7 @@
 
   //TODO: Changer ça
   $base_location = "/trivial/trivialquizz";
-  $_SESSION['is_admin'] = true;
+  
   if(!isset($_SESSION['is_admin']))
   {
     //TODO: Changer la location
@@ -37,7 +37,7 @@
 
   <div class="cadre-global">
     <div class="cadre-central">
-      
+
       <!-- DEBUT: Section des Quizz-->
       <div>
         <div class="titre1">

@@ -3,7 +3,7 @@
 
   //TODO: Changer ça
   $base_location = "/trivial/trivialquizz";
-  $_SESSION['is_admin'] = true;
+  
   if(!isset($_SESSION['is_admin']))
   {
     //TODO: Changer la location
@@ -45,38 +45,28 @@
             Créer un Quizz !
           </button>
         </div>
+        <style>
+          .toggle.ios, .toggle-on.ios, .toggle-off.ios { border-radius: 20px; }
+          .toggle.ios .toggle-handle { border-radius: 20px; background-color: white !important;}
 
-        <div class="container">
-
-          <div class="row">
-            <div class="col-xs-12">
-              <div class="box">
-                <!-- /.box-header -->
-                <div class="box-body">
-
-                </div>
-                <!-- /.box-body -->
-              </div>
-              <!-- /.box -->
+        </style>
             </div>
-            <!-- /.col -->
-          </div>
-          <!-- /.row -->
-        </div>
-        <!-- /.container -->
-      </div>
       <!-- FIN: Section des Quizz -->
 
     </div>
   </div>
 
   <?php require_once "../include/script.html"?>
+  <script>
 
+</script>
 <script>
   $(function() {
-  $('.selectpicker').selectpicker();
-  });
+    $('#toggle').bootstrapToggle({
+      on: 'Enabled',
+      off: 'Disabled'
+    });
+  })
 </script>
-
 </body>
 </html>

@@ -1,4 +1,3 @@
-
 //return entre 1 et nbQuestions
 function getPos(id)
 {
@@ -138,7 +137,6 @@ function saveQuestionReponse(id)
   });
 }
 
-var idNewQuestion = 1;
 $(document).ready(function(){
 
   $("#editGeneral").submit((e) => {

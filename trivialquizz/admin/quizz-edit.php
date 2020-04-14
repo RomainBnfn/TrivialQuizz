@@ -3,8 +3,6 @@
   //TODO: Changer la location
   $index_location = "/trivial/trivialquizz/admin/quizz.php";
 
-  //TODO: Changer àa
-  $_SESSION["is_admin"] = true;
   if(!isset($_SESSION['is_admin']))
   {
     header("Location: ".$index_location);
@@ -119,7 +117,9 @@
               <input type="hidden" name="id" value="<?= $_QUIZZ["id"] ?>" />
 
               <input id="formGeneral_Button"  class="btn btn-success float-right" value="Sauvegarder" type="submit" />
-              <span id="infoGeneral_Button" style="color: #55FF55; visibility: hidden;"> Les modifications ont été prises en compte !</span>
+              <span id="infoGeneral_Button" style="color: #55FF55; visibility: hidden;">
+                Les modifications ont été prises en compte !
+              </span>
             </form>
 
           </div>
@@ -140,7 +140,7 @@
       </div>
       <!-- FIN : Cadre des options générales -->
 
-<!-- ================================================================================= -->
+      <!-- ================================================================================= -->
 
       <!-- DEBUT : Cadre de la liste des Questions -->
       <div>
@@ -167,7 +167,6 @@
             $nbQuestions = 0;
             if (empty($_QUESTIONS) || $_QUESTIONS == null )
             {
-              $nbQuestions = 0;
               echo "Ce quizz n'a aucune question ! Pensez à en rajouter !";
             }
             else
@@ -184,6 +183,7 @@
                       <div class="reduced-div row">
                         <input id="editQuestion_IdN<?= $_QUESTION["id"] ?>" name="id" type="hidden" value="<?= $_QUESTION["id"] ?>" required/>
 
+                        <!-- FLECHES -->
                         <div class="col-sm-1 d-flex align-items-center">
                           <div>
                             <div id="questionUpN<?= $_QUESTION["id"] ?>" onclick="moveQuestion(-1, <?= $_QUESTION["id"] ?>, <?= $_QUESTION["order"] ?>); return false;" <?php if( $_QUESTION["order"] <= 1){ echo "style='display: none'";}?>>
@@ -202,42 +202,83 @@
 
                         <div class="col-sm-11">
 
-                          <div class="form-group">
-                            <label for="editGene" name="id_theme" class="col form-label">
-                              Type de la Question:
-                            </label>
-                            <select class="input-dark form-control" id="editGene" name="id_theme">
-                            <option value="e">Réponse Libre</option>
-                              <option value="t">QCM</option>
-                            </select>
+
+                          <!-- TYPE DE QUESTION -->
+                          <div class="form-group row col">
+                            <label for="typeQuestion" class="col-sm-4 col-form-label">Type de la Question :</label>
+
+                          <input id="choix_typeQuestionN<?= $_QUESTION["id"] ?>" data-idquestion="<?= $_QUESTION["id"]?>" class="switchType" name="typeQuestion" type="checkbox" <?php if($_QUESTION["type"] == 1) echo "checked";?> data-toggle="toggle" data-style="ios" data-on="Réponse Libre" data-off="QCM" data-onstyle="success" data-offstyle="info" />
+
                           </div>
 
+
+                          <!-- LIBELLE -->
                           <div class="form-group">
                             <label for="libelle" class="col form-label">
                               Libellé:
                             </label>
                             <input id="editQuestion_LibelleN<?= $_QUESTION["id"] ?>" name="libelle" type="text" class="input-dark form-control" name="nom" placeholder="Entrez le nom de votre Quizz !" autocomplete="off" value="<?= $_QUESTION["lib"] ?>" required/>
                           </div>
-                          <div ><!-- REPONSES -->
-                            <?php
-                              if($_QUESTION["type"] == 1){
-                                $idRep = array_key_first ($_QUESTION["reponses"]);
-                                $_REPONSE = $_QUESTION["reponses"][$idRep];
-                                ?>
-                                <div class="form-group">
-                                  <label for="libelle" class="col form-label">
-                                    Réponse exacte:
-                                  </label>
-                                  <input id="editQuestion_ReponseN<?= $_REPONSE["id"] ?>" name="reponse" type="text" class="input-dark form-control" name="nom" placeholder="Entrez le nom de votre Quizz !" autocomplete="off" value="<?= $_REPONSE["lib"] ?>" required/>
-                                </div>
+
+                          <hr/>
+
+
+                          <!-- REPONSES -->
+                          <div id="reponsesN<?= $_QUESTION["id"] ?>"><!-- REPONSES -->
+
+                            <div id="reponseLibreN<?= $_QUESTION["id"] ?>">
+
+                              <div class="form-group">
+                                <label for="nom" class="col">
+                                  <i class="far fa-check-circle" style="color: #51cf66;"></i>
+                                  Réponse correcte :
+                                </label>
+
+                                <small class="form-text text-muted" style="color: white !important;">
+                                  Cette réponse devra être indiquée à la lettre près.
+                                </small>
+
                                 <?php
-                              }
-                              else if ($_QUESTION["type"] == 2){
-                                ?>
-                                Mais c'est un QCM :O
+                                  if($_QUESTION["type"]==1){
+                                    $idRep = array_key_first ($_QUESTION["reponses"]);
+                                    $_REPONSE = $_QUESTION["reponses"][$idRep];
+                                  ?>
+                                  <input name="reponse" type="text" class="input-dark form-control" name="nom" placeholder="Entrez le nom de votre Quizz !" autocomplete="off" value="<?= $_REPONSE["lib"] ?>" required/>
+                                <?php } else{ ?>
+                                  <input name="reponse" type="text" class="input-dark form-control" name="nom" placeholder="Entrez le nom de votre Quizz !" autocomplete="off" required/>
+                                <?php } ?>
+                              </div>
+                            </div>
+
+                            <div id="reponseQCMN<?= $_QUESTION["id"] ?>">
+                              <label class="col">
+                                <i class="fas fa-th-list" style="color: #339af0;"></i>
+                                Liste des réponses :
+                                <br/>
+                                <small class="form-text text-muted" style="color: white !important;">
+                                  Listez toutes les réponses qui peuvent être affichées. La première est juste, les autres fausses.
+                                </small>
+                              </label>
+
+                              <ul class="dark-background list-group col list-group-flush">
                                 <?php
-                              }
-                            ?>
+                                  for($i = 1; $i<=4; $i++){ ?>
+                                  <li class="dark-background list-group-item">
+
+                                      <div class="row">
+                                        <div class="col-sm-1 form-group" style="text-align: center; vertical-align: middle;">
+                                          <?php if($i==1){?>
+                                            <i class="fas fa-check-circle" style="color: #51cf66;"></i>
+                                          <?php }else{?>
+                                            <i class="fas fa-times-circle" style="color: #ff6b6b;"></i>
+                                          <?php } ?>
+                                        </div>
+                                        <input class="input-dark col-sm-11 form-control" name="reponseQCM_N<?=$i?>" type="text" placeholder="<?php if($i==1){ echo "Entrez la réponse correcte."; }else{ echo "Entrez une mauvaise réponse"; } ?>" required>
+                                      </div>
+                                  </li>
+                              <?php } ?>
+                              </ul>
+                            </div>
 
                           </div>
                         </div >
@@ -263,6 +304,7 @@
             }
           ?>
         </div>
+
       </div>
       <!-- FIN : Cadre de la liste des Questions -->
 
@@ -271,17 +313,45 @@
 
   <?php require_once "../include/script.html"?>
   <?php require_once "modals/question-create.php"?>
-  <?php require_once "modals/question-importer.php"?>
   <?php require_once "modals/confirmation-question-vider.php"?>
 
 <script>
+
   var listeNoms = <?=json_encode(getAllQuizzNames($bdd))?>,
       nameQuizz = <?=json_encode($_QUIZZ["nom"])?>,
       tableauQuestionOrder = <?=json_encode($tableauQuestionOrder)?>,
       idQuizz = <?= $_QUIZZ["id"] ?>;
 
   listeNoms = listeNoms.filter(function(value, index, arr){ return value != nameQuizz;});
+  <?php
+    foreach ($_QUESTIONS as $_QUESTION) { ?>
+      var html_repLibre<?= $_QUESTION["id"] ?> = $("#reponseLibreN<?= $_QUESTION["id"] ?>").html(),
+          html_repQCM<?= $_QUESTION["id"] ?> = $("#reponseQCMN<?= $_QUESTION["id"] ?>").html();
+          <?php
+          if ($_QUESTION["type"] == 1){ ?>
+            $("#reponseQCMN<?= $_QUESTION["id"] ?>").html("");
+            <?php } else { ?>
+            $("#reponseLibreN<?= $_QUESTION["id"] ?>").html("");
+          <?php }
+     } ?>
+
+  $(document).ready(()=>{
+    $( ".switchType" ).change(function() {
+      var id = $(this).data("idquestion");
+      if($(this).prop('checked')) {
+        window["html_repQCM"+id] = $("#reponseQCMN"+id).html();
+        $("#reponseQCMN"+id).html("");
+        $("#reponseLibreN"+id).html(window["html_repLibre"+id]);
+      }
+      else{
+        window["html_repLibre"+id] = $("#reponseLibreN"+id).html();
+        $("#reponseLibreN"+id).html("");
+        $("#reponseQCMN"+id).html(window["html_repQCM"+id]);
+      }
+    });
+  });
 </script>
-  <script type="text/javascript" src="js/quizz-edit.js"></script>
+<script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
+<script type="text/javascript" src="js/quizz-edit.js"></script>
 </body>
 </html>

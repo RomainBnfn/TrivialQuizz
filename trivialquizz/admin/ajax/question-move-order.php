@@ -1,9 +1,6 @@
 <?php
   session_start();
 
-  //TODO: CHANGER CA
-  $_SESSION['is_admin'] = true;
-
   // On regarde si l'utilisateur est bien un admin
   if(!isset($_SESSION['is_admin']))
   {
@@ -30,7 +27,7 @@
    if($newPos <= 0){
      exit();
    }
-   
+
    $requete = $bdd -> query("UPDATE quiz_quest SET qq_order = $oldPos
                                    WHERE qui_id = $idQuizz AND qq_order = $newPos;");
 

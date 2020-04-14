@@ -1,3 +1,4 @@
+<link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
 <!-- Les modals (Pop-up)-->
 <div class="modal fade" id="modalCreationQuestion" tabindex="-1" role="dialog" aria-labelledby="modalCreationQuestion" aria-hidden="true">
   <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
@@ -19,19 +20,25 @@
           <div class="form-group row">
             <label for="typeQuestion" class="col-sm-3 col-form-label">Type de la Question :</label>
 
-            <div class="form-check col-sm-3 custom-radio">
-              <input id="choix_repLibre" class="form-check-input" type="radio" name="typeQuestion" value="repLibre" checked>
-              <label class="form-check-label" for="choix_repLibre">
-                Réponse Libre
-              </label>
-            </div>
+            <style>
+              .toggle.ios, .toggle-on.ios, .toggle-off.ios {
+                border-radius: 20px;
+                width: 140px !important;
+              }
+              .toggle-on{
+                width: var( --.toggle.ios-width ) !important;
+              }
+              .toggle-off{
+                width: var( --.toggle.ios-width ) !important;
+              }
+              .toggle.ios .toggle-handle {
+                border-radius: 20px;
+                background-color: white !important;
+              }
+            </style>
 
-            <div class="form-check col-sm-4 custom-radio">
-              <input id="choix_QCM" class="form-check-input" type="radio" name="typeQuestion" value="QCM"/>
-              <label class="form-check-label" for="choix_QCM">
-                QCM
-              </label>
-            </div>
+          <input id="choix_typeQuestion" name="typeQuestion" type="checkbox" checked data-toggle="toggle" data-style="ios" data-on="Réponse Libre" data-off="QCM" data-onstyle="success" data-offstyle="info" />
+
           </div>
 
           <!-- =============================== NOM DE QUESTION ===============================-->
@@ -40,6 +47,7 @@
               <i class="far fa-question-circle" style="color: #339af0;"></i>
               Intitulé de la question :
             </label>
+
             <input type="text" class="input-dark form-control" name="intituleQuestion" id="intituleQuestion" autocomplete="off" placeholder="Entrez l'intitulé de la Question !" required/>
           </div>
 
@@ -53,83 +61,40 @@
               Réponse correcte :
             </label>
             <input type="text" class="input-dark form-control" name="reponseLibre_correcte" id="reponseLibre_correcte" autocomplete="off" placeholder="Entrez cette fameuse réponse !" required/>
-            <small id="reponseLibre_correcte_help" class="form-text text-muted">Cette réponse devra être indiquée à la lettre près.</small>
+            <small id="reponseLibre_correcte_help" class="form-text text-muted" style="color: white !important;">
+              Cette réponse devra être indiquée à la lettre près.
+            </small>
           </div>
 
 
           <!-- =============================== REPONSE QCM a la QUESTION =============================== -->
           <div id="reponse_TypeQCM" class="form-group">
             <label class="col">
-              <i class="fas fa-th-list" style="color: #ff922b;"></i>
+              <i class="fas fa-th-list" style="color: #339af0;"></i>
               Liste des réponses :
               <br/>
-              <i>Listez toutes les réponses qui seront proposées, et cochez celles qui sont justes.</i>
+              <small class="form-text text-muted" style="color: white !important;">
+                Listez toutes les réponses qui peuvent être affichées. La première est juste, les autres fausses.
+              </small>
             </label>
 
-            <ul class="list-group col list-group-flush">
+            <ul class="dark-background list-group col list-group-flush">
+              <?php for($i = 1; $i<=4; $i++){?>
+                <li class="dark-background list-group-item">
 
-              <li class="list-group-item" style="padding-bottom: 0 !important;">
+                    <div class="row">
+                      <div class="col-sm-1 form-group" style="text-align: center; vertical-align: middle;">
+                        <?php if($i==1){?>
+                          <i class="fas fa-check-circle" style="color: #51cf66;"></i>
+                        <?php }else{?>
+                          <i class="fas fa-times-circle" style="color: #ff6b6b;"></i>
+                        <?php } ?>
+                      </div>
+                      <input class="input-dark col-sm-11 form-control" name="reponseQCM_N<?=$i?>" type="text" placeholder="<?php if($i==1){?>Entrez la réponse correcte.<?php }else{?>Entrez une mauvaise réponse.<?php }?>" required>
 
-                  <div class="row">
-                    <div class="col-sm-1 form-group" style="text-align: center; vertical-align: middle;">
-                      <input class="form-check-input" type="checkbox" value="" id="defaultCheck1"/>
                     </div>
-                    <input class="col-sm-10 form-control" type="text"   placeholder="La bonne réponse de la question libre." required>
-                    <div class="col-sm-1 form-group">
-                      <button class="btn btn-danger" type="button">
-                          <i class="fas fa-trash-alt" style="color: #ffffff;"></i>
-                      </button>
-                    </div>
-
-                  </div>
-              </li>
-              <li class="list-group-item" style="padding-bottom: 0 !important;">
-
-                  <div class="row">
-                    <div class="col-sm-1 form-group" style="text-align: center; vertical-align: middle;">
-                      <input class="form-check-input" type="checkbox" value="" id="defaultCheck1"/>
-                    </div>
-                    <input class="col-sm-10 form-control" type="text"  placeholder="La bonne réponse de la question libre." required>
-                    <div class="col-sm-1 form-group">
-                      <button class="btn btn-danger" type="button">
-                          <i class="fas fa-trash-alt" style="color: #ffffff;"></i>
-                      </button>
-                    </div>
-
-                  </div>
-
-              </li>
-              <li class="list-group-item" style="padding-bottom: 0 !important;">
-
-                  <div class="row">
-                    <div class="col-sm-1 form-group" style="text-align: center; vertical-align: middle;">
-                      <input class="form-check-input" type="checkbox" value="" id="defaultCheck3"/>
-                    </div>
-                    <input class="col-sm-10 form-control" type="text" placeholder="La bonne réponse de la question libre." required>
-                    <div class="col-sm-1 form-group">
-                      <button class="btn btn-danger" type="button">
-                          <i class="fas fa-trash-alt" style="color: #ffffff;"></i>
-                      </button>
-                    </div>
-
-                  </div>
-              </li>
-              <li class="list-group-item" style="padding-bottom: 0 !important;">
-
-                  <div class="row">
-                    <div class="col-sm-1 form-group" style="text-align: center; vertical-align: middle;">
-                      <input class="form-check-input" type="checkbox" value="" id="defaultCheck4"/>
-                    </div>
-                    <input class="col-sm-10 form-control" type="text"  placeholder="La bonne réponse de la question libre." required>
-                    <div class="col-sm-1 form-group">
-                      <button class="btn btn-danger" type="button">
-                          <i class="fas fa-trash-alt" style="color: #ffffff;"></i>
-                      </button>
-                    </div>
-
-                  </div>
-              </li>
-
+                </li>
+            <?php } ?>
             </ul>
           </div>
 
@@ -149,23 +114,23 @@
   $(document).ready(() =>{
     // ---- Choix Type Question ----
     var _save_htmlLibre = $("#reponse_TypeLibre").html(),
-        htmlLibre = _save_htmlLibre;
 
-        _save_htmlQCM = $("#reponse_TypeQCM").html(),
-        htmlQCM = _save_htmlQCM;
+        _save_htmlQCM = $("#reponse_TypeQCM").html();
     $("#reponse_TypeQCM").html("");
 
-    $("#choix_repLibre").click(()=>{
-      htmlQCM = $("#reponse_TypeQCM").html();
-      $("#reponse_TypeQCM").html("");
-      $("#reponse_TypeLibre").html(htmlLibre);
+    $("#choix_typeQuestion").change(function() {
+      if(this.checked) {
+        _save_htmlQCM = $("#reponse_TypeQCM").html();
+        $("#reponse_TypeQCM").html("");
+        $("#reponse_TypeLibre").html(_save_htmlLibre);
+      }
+      else{
+        _save_htmlLibre = $("#reponse_TypeLibre").html();
+        $("#reponse_TypeLibre").html("");
+        $("#reponse_TypeQCM").html(_save_htmlQCM);
+      }
     });
 
-    $("#choix_QCM").click(()=>{
-      htmlLibre = $("#reponse_TypeLibre").html();
-      $("#reponse_TypeLibre").html("");
-      $("#reponse_TypeQCM").html(htmlQCM);
-    });
 
     // ----------------------------
 
@@ -179,8 +144,8 @@
       .then((response) => {
         response.text()
         .then((resp) => {
+          console.log(resp);
           if(resp=="ok"){
-            document.location.reload(true);
           }
         })
       });

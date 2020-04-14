@@ -2,10 +2,7 @@
   /*  Ceci n'est pas une page.
    */
    session_start();
-
-   //TODO: CHANGER CA
-   $_SESSION['is_admin'] = true;
-
+   
    // On regarde si l'utilisateur est bien un admin
    if(!isset($_SESSION['is_admin']))
    {
@@ -22,7 +19,7 @@
    }
 
    $id = $_GET['id'];
-   
+
    // Suppression d'un Thème principal
    $_THEME = tryLoadTheme($bdd, $id);
 

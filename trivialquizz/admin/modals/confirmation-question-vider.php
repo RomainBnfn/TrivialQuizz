@@ -25,43 +25,4 @@
   </div>
 </div>
 <script>
-  $(document).ready(() =>{
-    // ---- Choix Type Question ----
-    var _save_htmlLibre = $("#reponse_TypeLibre").html(),
-        htmlLibre = _save_htmlLibre;
-        _save_htmlQCM = $("#reponse_TypeQCM").html(),
-        htmlQCM = _save_htmlQCM;
-    $("#reponse_TypeQCM").html("");
-
-    $("#choix_repLibre").click(()=>{
-      htmlQCM = $("#reponse_TypeQCM").html();
-      $("#reponse_TypeQCM").html("");
-      $("#reponse_TypeLibre").html(htmlLibre);
-    });
-
-    $("#choix_QCM").click(()=>{
-      htmlLibre = $("#reponse_TypeLibre").html();
-      $("#reponse_TypeLibre").html("");
-      $("#reponse_TypeQCM").html(htmlQCM);
-    });
-
-    // ----------------------------
-
-    $("#formCreationQuestion").submit((e) => {
-      e.preventDefault();
-      var form = new FormData(document.getElementById("formCreationQuestion"));
-      fetch("ajax/question-create.php", {
-        method: "POST",
-        body: form
-      })
-      .then((response) => {
-        response.text()
-        .then((resp) => {
-          if(resp=="ok"){
-            document.location.reload(true);
-          }
-        })
-      });
-    });;
-  });
 </script>

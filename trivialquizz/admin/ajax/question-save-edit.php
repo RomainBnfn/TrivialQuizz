@@ -3,9 +3,6 @@
   //
   session_start();
 
-  //TODO: CHANGER CA
-  $_SESSION['is_admin'] = true;
-
   // On regarde si l'utilisateur est bien un admin
   if(!isset($_SESSION['is_admin']))
   {
@@ -20,6 +17,11 @@
     || empty($_POST['libelle']) || $_POST['libelle'] == "")
   {
     exit();
+  }
+
+  $typeQuestion = 1; // Libre
+  if(empty($_POST['typeQuestion'])){
+    $typeQuestion = 2; // QCM
   }
 
   $id = $_POST['id'];

@@ -3,8 +3,6 @@
   //TODO: Changer la location
   $index_location = "/trivial/trivialquizz/admin/index.php";
 
-  //TODO: Enlever ça
-  $_SESSION['is_admin'] = true;
   // Le visiteur n'est pas un admin.
   if(!isset($_SESSION['is_admin']))
   {
@@ -43,7 +41,7 @@
 </head>
 <body>
   <?php require_once "../include/navbar.php"?>
-  
+
   <!-- TODO: Ajouter une couleur en fct de $couleur -->
   <div class="bandeau-principal fond-bleu">Edition de Thème : <?= $_THEME["nom"] ?></div>
 

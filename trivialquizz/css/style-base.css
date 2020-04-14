@@ -93,6 +93,9 @@ nav {
   height: var(--navbar-height);
 }
 
+.dark-background{
+  background-color: var(--cadre-central-background-color) !important;
+}
 
 html{
   margin-top: var(--navbar-height);
