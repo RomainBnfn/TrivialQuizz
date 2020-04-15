@@ -59,7 +59,7 @@
         </div>
         <div class="row reduced-div" style="justify-content: space-between;">
 
-          <div class="jumbotron jumbotron-vert col-sm-7">
+          <div class="jumbotron jumbotron-vert col-lg-7">
             <!-- A gauche : Changer le nom... -->
             <!-- A Rajouter
 
@@ -124,7 +124,7 @@
 
           </div>
 
-          <div class="jumbotron jumbotron-vert col-sm-4" >
+          <div class="jumbotron jumbotron-vert col-lg-4" >
             <h3 class="titre3 titre-shadow">Statistiques</h3>
             <div>
               <!-- A droite : Les statistiques générales: Chargé en dernier
@@ -145,7 +145,7 @@
       <!-- DEBUT : Cadre de la liste des Questions -->
       <div>
         <div class="titre1 titre-shadow">
-          <h1>Les questions</h1>
+          <h1 >Les questions</h1>
           <!-- Quand on appuie sur le bouton, on envoie une requête -->
           <div >
             <button id="boutonAjouterQuestion" type="button" class="btn btn-success button-open-modal" data-toggle="modal" data-target="#modalCreationQuestion">
@@ -205,7 +205,7 @@
 
                           <!-- TYPE DE QUESTION -->
                           <div class="form-group row col">
-                            <label for="typeQuestion" class="col-sm-4 col-form-label">Type de la Question :</label>
+                            <label for="typeQuestion" class="col-sm-4 col-form-label">Type de la Question:</label>
 
                           <input id="choix_typeQuestionN<?= $_QUESTION["id"] ?>" data-idquestion="<?= $_QUESTION["id"]?>" class="switchType" name="typeQuestion" type="checkbox" <?php if($_QUESTION["type"] == 1) echo "checked";?> data-toggle="toggle" data-style="ios" data-on="Réponse Libre" data-off="QCM" data-onstyle="success" data-offstyle="info" />
 
@@ -233,11 +233,6 @@
                                   <i class="far fa-check-circle" style="color: #51cf66;"></i>
                                   Réponse correcte :
                                 </label>
-
-                                <small class="form-text text-muted" style="color: white !important;">
-                                  Cette réponse devra être indiquée à la lettre près.
-                                </small>
-
                                 <?php
                                   if($_QUESTION["type"]==1){
                                     $idRep = array_key_first ($_QUESTION["reponses"]);
@@ -247,10 +242,15 @@
                                 <?php } else{ ?>
                                   <input name="reponse" type="text" class="input-dark form-control" name="nom" placeholder="Entrez le nom de votre Quizz !" autocomplete="off" required/>
                                 <?php } ?>
+                                <small class="form-text text-muted" style="color: white !important;">
+                                  Cette réponse devra être indiquée à la lettre près.
+                                </small>
                               </div>
                             </div>
 
                             <div id="reponseQCMN<?= $_QUESTION["id"] ?>">
+                              <?php $keys = array_keys($_QUESTION["reponses"]);
+                              ?>
                               <label class="col">
                                 <i class="fas fa-th-list" style="color: #339af0;"></i>
                                 Liste des réponses :
@@ -273,7 +273,8 @@
                                             <i class="fas fa-times-circle" style="color: #ff6b6b;"></i>
                                           <?php } ?>
                                         </div>
-                                        <input class="input-dark col-sm-11 form-control" name="reponseQCM_N<?=$i?>" type="text" placeholder="<?php if($i==1){ echo "Entrez la réponse correcte."; }else{ echo "Entrez une mauvaise réponse"; } ?>" required>
+                                        <input class="input-dark col-sm-11 form-control" name="reponseQCM_N<?=$i?>" type="text" placeholder="<?php if($i==1){ echo "Entrez la réponse correcte."; }else{ echo "Entrez une mauvaise réponse"; } ?>"
+                                        <?php if($_QUESTION["type"]==2){ $idR = $keys[$i-1]; ?> value="<?= $_QUESTION["reponses"][$idR]["lib"] ?>" <?php } ?>required>
                                       </div>
                                   </li>
                               <?php } ?>

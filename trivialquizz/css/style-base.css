@@ -14,7 +14,7 @@
     --navbar-height: 90px;
 }
 
-/*** navbar ***/
+/*** ------ NAVBAR ------ ***/
 .img-logo {
 	max-height: 80px;
   height: 80px;
@@ -22,7 +22,7 @@
 }
 #hello-navbar p
 {
-  font-size: 1.2rem;
+  font-size: 1.0rem;
   font-family: "CaviarDreams";
   font-weight: bold;
   line-height: 35px;
@@ -41,7 +41,6 @@
 {
   text-decoration: none;
 }
-
 /* INPUTS */
 .input-dark{
   background-color: rgb(100,100,100) !important;
@@ -90,7 +89,7 @@ nav {
   box-shadow: 0px 1px 5px 1px rgba(0, 0, 0, .55);
   background-color: rgb(50,50,50) !important;
   color: white !important;
-  height: var(--navbar-height);
+  height: auto;
 }
 
 .dark-background{

@@ -9,7 +9,7 @@
     exit();
   }
 
-  if(isset($_SESSION['is_admin'])){
+  if(isset($_SESSION['is_admin']) && isset($_SESSION['pseudo'])){
     if($_SESSION['is_admin']=="true"){
       $hello_txt = "Bonjour, ".$_SESSION['pseudo']." (admin)";
     }
@@ -22,54 +22,45 @@
     }
   }
 ?>
-<nav class="navbar fixed-top" role="navigation">
-  <div class="container">
-    <!-- Logo pour aller à la page d'accueil -->
-    <div>
-        <a href="<?=$_locationBase?>/index.php">
-          ​<picture>
-            <img src="<?=$_locationBase?>/image/logo.png" class="img-logo" alt="Logo du Trivial Quizz">
-          </picture>
-        </a>
-    </div>
-    <div style="width: 600px">
-      <div class="dropdown">
+<nav class="navbar fixed-top navbar-expand-md navbar" role="navigation">
+  <div>
+      <a href="<?=$_locationBase?>/index.php">
+        ​<picture>
+          <img src="<?=$_locationBase?>/image/logo.png" class="img-logo" alt="Logo du Trivial Quizz">
+        </picture>
+      </a>
+  </div>
 
-        <span class="dropdown-toggle-dark dropdown-toggle" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          Section Admin
-        </span>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#menuNavbar" aria-controls="menuNavbar" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon" style="color: white !important"></span>
+  </button>
 
-        <div class="dropdown-menu-dark dropdown-menu" aria-labelledby="dropdownMenuButton">
+  <div class="collapse navbar-collapse" id="menuNavbar">
+    <div class="dropdown">
 
-          <a class="dropdown-dark dropdown-item-dark dropdown-item" href="<?=$_locationBase?>/admin/theme.php">Thèmes</a>
-          <a class="dropdown-dark dropdown-item-dark dropdown-item" href="<?=$_locationBase?>/admin/quizz.php">Quizzes</a>
-        </div>
+      <span class="dropdown-toggle-dark dropdown-toggle" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        Section Admin
+      </span>
 
+      <div class="dropdown-menu-dark dropdown-menu" aria-labelledby="dropdownMenuButton">
+
+        <a class="dropdown-dark dropdown-item-dark dropdown-item" href="<?=$_locationBase?>/admin/theme.php">Thèmes</a>
+        <a class="dropdown-dark dropdown-item-dark dropdown-item" href="<?=$_locationBase?>/admin/quizz.php">Quizzes</a>
       </div>
     </div>
-    <!-- Se connecter -->
-    <?php
-      if($connected){
-    ?>
-      <div id="hello-navbar">
-        <p><?=$hello_txt?></p>
-        <a class="center" href="<?=$_locationBase?>/index.php?unlog=true">
-          <button type="button" class="btn btn-outline-primary" name="unlog">Déconnexion</button>
+
+    <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+      <li>
+        <a href="<?=$_locationBase?>/register.php">
+          <button type="button" class="btn btn-primary">Inscription</button>
         </a>
-      </div>
-    <?php
-      }else{
-    ?>
-    <div>
-      <a href="<?=$_locationBase?>/register.php">
-        <button type="button" class="btn btn-primary">Inscription</button>
-      </a>
-      <a href="<?=$_locationBase?>/log.php">
-        <button type="button" class="btn btn-outline-primary">Connexion</button>
-      </a>
-    </div>
-    <?php
-      }
-    ?>
+      </li>
+      <li>
+        <a href="<?=$_locationBase?>/log.php">
+          <button type="button" class="btn btn-outline-primary">Connexion</button>
+        </a>
+      </li>
+    </ul>
+
   </div>
 </nav>

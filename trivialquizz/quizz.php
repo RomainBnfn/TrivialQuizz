@@ -4,24 +4,13 @@
   //TODO: changer chemin
   $path_index = "/trivial/trivialquizz/index.php";
 
-<<<<<<< HEAD
-  if(!isset($_GET["quizz"])){
-=======
   if(!isset($_GET["theme"])){
->>>>>>> 6ac649343862a7c1457acb24d67d1e9cc69f5aed
     header("Location: ".$path_index);
     exit();
   }
 
   require_once "include/functions.php";
   require_once "include/liaisonbdd.php";
-<<<<<<< HEAD
-  //récupération du themes
-  $quizz = tryLoadQuizz($bdd,$_GET["quizz"]);
-  //récupération des quizzes associés au thème
-  $quest = tryLoadQuizzQuestion($bdd,$_GET["quizz"]);
-
-=======
 
   //récupération du themes
   $theme = tryLoadTheme($bdd,$_GET["theme"]);
@@ -37,29 +26,12 @@
   //temps et réduction par difficulté par quizzes
   //$quizzesDuration = getAllQuizzezDuration($bdd, $theme['id']);
   $quizzesDuration = array( 2 => array(3*60,20));
->>>>>>> 6ac649343862a7c1457acb24d67d1e9cc69f5aed
 ?>
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
   <head>
     <meta charset="utf-8">
     <?php require_once "include/header.html"?>
-<<<<<<< HEAD
-    <title><?=$quizz['nom']?> - Trivial Quizz</title>
-  </head>
-  <body>
-    <?php require_once "include/navbar.php" ?>
-    <section class="bandeau-principal">
-      <?=$quizz['nom']?>
-    </section>
-    <section class="cadre-global">
-      <div class="cadre-central">
-
-      </div>
-    </section>
-
-    <?php require_once "include/script.html" ?>
-=======
     <link rel="stylesheet" type="text/css" href="css/style-quizz.css">
     <link rel="stylesheet" type="text/css" href="css/card-2.css">
     <link rel="stylesheet" type="text/css" href="css/test.css">
@@ -401,6 +373,5 @@
     }
 
     </script>
->>>>>>> 6ac649343862a7c1457acb24d67d1e9cc69f5aed
   </body>
 </html>

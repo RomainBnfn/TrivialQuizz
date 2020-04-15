@@ -6,7 +6,6 @@
 
   if(!isset($_SESSION['is_admin']))
   {
-    //TODO: Changer la location
     header("Location: $base_location/index.php");
     exit();
   }
