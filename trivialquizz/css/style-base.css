@@ -11,7 +11,7 @@
 
 :root
 {
-    --navbar-height: 90px;
+    --navbar-height: 95px;
 }
 
 /*** ------ NAVBAR ------ ***/
@@ -230,7 +230,7 @@ a:hover{
 /*** utilisé dans log et register ***/
 .form-padding
 {
-  padding: 5% 0 5% 0;
+  padding: 5% 15% 5% 15%;
 }
 .redirection-log-register
 {

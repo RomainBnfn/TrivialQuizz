@@ -215,7 +215,7 @@
 
         function getNumbersOfQuestionsOfQuizzes($bdd,$idTheme)
         {
-          $data = tryQueryBDD($bdd, "SELECT COUNT(*) AS NB, qui_id FROM quiz_quest GROUP BY qui_id = $idTheme");
+          $data = tryQueryBDD($bdd, "SELECT COUNT(*) AS NB, qui_id FROM quiz_quest WHERE qui_id IN (SELECT qui_id FROM quiz WHERE th_id = $idTheme) GROUP BY qui_id");
           $_NUMBERS;
           if ($data == null)
           {
@@ -317,7 +317,7 @@
 
   //renvoie les path svg du camembert tableau de dim 6 (6 parts)
   //$r marge entre les "part", $R rayon d'une "part", $c centre de la roue/"du gateau"
-  function generatePath($r, $R, $c){
+  function generatePath($r, $R, $c, $ids){
     $A = array( $c-$r*cos(toRad(60)), $c-$r*sin(toRad(60)));
     $B = array( $c+$r*cos(toRad(60)), $A[1]);
     $C = array( $c+$r, $c);
@@ -337,26 +337,26 @@
     $l = $R+$r;
 
     $path = array();
-    $path[0] = "M $a1x,$a1y A $l,$l 0 0 1 $A[0],$a2y L $A[0],$A[1] Z";
-    $path[1] = "M $B[0],$a2y A $l,$l 0 0 1 $b2x,$a1y L $B[0],$B[1] Z";
-    $path[2] = "M $c1x,$c1y A $l,$l 0 0 1 $c1x,$c2y L $C[0],$C[1] Z";
-    $path[3] = "M $b2x,$d1y A $l,$l 0 0 1 $B[0],$d2y L $D[0],$D[1] Z";
-    $path[4] = "M $A[0],$d2y A $l,$l 0 0 1 $a1x,$d1y L $E[0],$E[1] Z";
-    $path[5] = "M $f1x,$c2y A $l,$l 0 0 1 $f1x,$c1y L $F[0],$F[1] Z";
+    $path[$ids[0]] = "M $a1x,$a1y A $l,$l 0 0 1 $A[0],$a2y L $A[0],$A[1] Z";
+    $path[$ids[1]] = "M $B[0],$a2y A $l,$l 0 0 1 $b2x,$a1y L $B[0],$B[1] Z";
+    $path[$ids[2]] = "M $c1x,$c1y A $l,$l 0 0 1 $c1x,$c2y L $C[0],$C[1] Z";
+    $path[$ids[3]] = "M $b2x,$d1y A $l,$l 0 0 1 $B[0],$d2y L $D[0],$D[1] Z";
+    $path[$ids[4]] = "M $A[0],$d2y A $l,$l 0 0 1 $a1x,$d1y L $E[0],$E[1] Z";
+    $path[$ids[5]] = "M $f1x,$c2y A $l,$l 0 0 1 $f1x,$c1y L $F[0],$F[1] Z";
 
     return $path;
   }
 
   //Renvoie un tableau de coordonnées (X Y) de position des titres sur le camembert des themes
-  function generateCoordText($r, $R, $c){
+  function generateCoordText($r, $R, $c, $ids){
     return
     array(
-      array($c-0.9*$R*cos(toRad(34)),$c-0.9*$R*sin(toRad(37))),
-      array($c+0.7*$R*cos(torad(80)),$c-0.9*$R*sin(toRad(37))),
-      array($c+0.2*$R,$c+0.03*$R),
-      array($c+0.7*$R*cos(torad(85)),$c+0.9*$R*sin(toRad(40))),
-      array($c-0.9*$R*cos(toRad(33)),$c+0.9*$R*sin(toRad(40))),
-      array($c-0.9*$R,$c+0.03*$R)
+      $ids[0] => array($c-0.9*$R*cos(toRad(34)),$c-0.9*$R*sin(toRad(37))),
+      $ids[1] => array($c+0.7*$R*cos(torad(80)),$c-0.9*$R*sin(toRad(37))),
+      $ids[2] => array($c+0.2*$R,$c+0.03*$R),
+      $ids[3] => array($c+0.7*$R*cos(torad(85)),$c+0.9*$R*sin(toRad(40))),
+      $ids[4] => array($c-0.9*$R*cos(toRad(33)),$c+0.9*$R*sin(toRad(40))),
+      $ids[5] => array($c-0.9*$R,$c+0.03*$R)
     );
   }
 

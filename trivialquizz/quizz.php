@@ -8,6 +8,14 @@
     header("Location: ".$path_index);
     exit();
   }
+  if(empty($_GET["theme"])){
+    header("Location: ".$path_index);
+    exit();
+  }
+  if($_GET["theme"]=="null"){
+    header("Location: ".$path_index);
+    exit();
+  }
 
   require_once "include/functions.php";
   require_once "include/liaisonbdd.php";
@@ -22,7 +30,6 @@
 
   //nombre de questions dans chaques thèmes
   $nbrQuestByQuizz = getNumbersOfQuestionsOfQuizzes($bdd, $theme['id']);
-
   //temps et réduction par difficulté par quizzes
   //$quizzesDuration = getAllQuizzezDuration($bdd, $theme['id']);
   $quizzesDuration = array( 2 => array(3*60,20));
@@ -118,7 +125,8 @@
       timer, // objet setInterval
       lastTime, // la durée qu'il reste pour répondre aux questions, actualisé à chaque tour de timer
       timeRef, // temps du début du quizz
-      delay = 0; // durée des chargement et pause
+      delay = 0, // durée des chargement et pause
+      pause = 1500; //durée minimal entre deux questions (histoire que l'ut voit s'il à juste ou pas)
 
     var numQuestion = 1, //numéro de la question correspond à l'ordre
       bonneRep, //qcm: id du btn de la bonne réponse / réponse libre: chaine réponse
@@ -209,8 +217,10 @@
       //faire apparaitre le score et le temps
       displayScoreBoard();
 
-      // lancement d'une question
-      $('#btn-begin').append($('<i class="fa fa-spinner fa-spin"></i>'));
+      //lance le spinner de chargement au bout de pause millisecondes
+      $('#validated').append($('<i class="fa fa-spinner fa-spin"></i>'));
+
+      //lancement de la première question
       question();
     }
 
@@ -240,7 +250,7 @@
 
     }
 
-    //demande au serveur la question suivante et l'affiche quand il reçois la réponse
+    //demande au serveur la question suivante et l'affiche quand il la reçois
     function question(){
 
       $('.plusOne').remove();
@@ -256,6 +266,8 @@
         if (this.readyState==4 && this.status==200) {
           response = this.responseText;
 
+          t1 = new Date().getTime();
+
           setTimeout(function(){
             $('.quest-container').children().addClass('disappearance');
             setTimeout(function(){
@@ -263,8 +275,8 @@
               if(response == "finish"){
                 endQuizz(false);
               }else{
-                var t1 = new Date().getTime();
-                delay += Math.max(1000,t1-t0);
+                var t2 = new Date().getTime();
+                delay += Math.max(1000,t2-t0);
                 isTimerPaused = false;
                 typeQuest = response[0];
                 bonneRep = response.substring(1,response.indexOf('%'));
@@ -277,24 +289,37 @@
                 }
               }
             },200);
-          },Math.min(1000,t1-t0));
+          },Math.max(0,pause-t1+t0));
         }
       }
 
       xmlhttp.open("GET","ajax/displayQuestion.php?idQuizz="+idQuizz+"&numQuest="+numQuestion+"&difficulty="+difficulty,true);
-      xmlhttp.send(); 
+      xmlhttp.send();
     }
 
     //fonction lancée au moment du clic lors de la validation d'une question
     //incremente le score si bonne réponse
     function valideQuestion(){
+
+      //le code de cette focntion est exécuté une seule fois par question
+      // lors du première appui sur VALIDER les autres appuis vont...
       if(validated){
+        // ... ici
         return;
       }
       validated = true;
-      $('#validated').append($('<i class="fa fa-spinner fa-spin"></i>'));
+
+      numQuestion++;
+      question();//chargement de la prochaine question
+
+      //lance le spinner de chargement au bout de pause millisecondes
+      setTimeout(function(){
+        $('#validated').append($('<i class="fa fa-spinner fa-spin"></i>'));
+      },pause)
+
       isTimerPaused = true;
-      if(typeQuest == 1){
+
+      if(typeQuest == 1){ // réponse libre
         if(isEqual($('#free-answer-input').val(),bonneRep)){
           score++;
           $('#score').text(score);
@@ -306,7 +331,7 @@
           $(btnCheck).addClass('bad-answer');
           $('#validated').addClass('bad-answer');
         }
-      }else{
+      }else{ //qcm
         if(btnCheck==bonneRep){
           score++;
           $('#score').text(score);
@@ -319,27 +344,31 @@
           $('#validated').addClass('bad-answer');
         }
       }
-      numQuestion++;
       validated = false;
       btnCheck = null;
-      question();
     }
 
     // appelé lorsqu'il n'y a plus de question ou quand le temps est écoulé
     function endQuizz(isTimeOut){
+
       clearInterval(timer);
+
       if(isTimeOut){
         $('.quest-container').children().addClass('disappearance');
         setTimeout(function(){
           $('.quest-container').remove();
         },500);
       }
-      var time = Math.round((maxDuration-lastTime)/1000);
-      $('#time').text(formatTime(time*1000));
+
+      var time = Math.round((maxDuration-lastTime)/1000+1);
+      $('#time').text(formatTime(Math.min(time*1000,maxDuration)));
       $('#scoreboard').addClass('expend');
       $('#back').addClass('continue');
 
-      fetch("ajax/addScore.php?point="+score+"&temps="+time+"&diff="+difficulty+"&profil="+pseudo+"&quizz="+idQuizz);
+      //sauvgarde le score dans la bdd
+      fetch("ajax/addScore.php?point="+score+"&temps="+time+"&diff="+difficulty+"&profil="+pseudo+"&quizz="+idQuizz)
+        .then(resp => resp.text)
+        .then(console.log(resp));
     }
 
     // test l'égalité des chaine s1 et s2 ne tient pas compte de la casse
