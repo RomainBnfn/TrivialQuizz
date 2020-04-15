@@ -26,10 +26,12 @@
 
   $id = $_POST['id'];
 
+  //
   if($typeQuestion==1){
-    if(empty($_POST['reponse']) || empty($_POST["reponseID"]) || !is_numeric(empty($_POST["reponseID"]))){
+    if(empty($_POST['reponse']) || empty($_POST["reponseID"]) || !is_numeric($_POST["reponseID"])){
       exit();
     }
+
     if($_POST["reponseID"]==-1){ //On vient de changer de type -> Il faut supprimer les anciennes réponses QCM
       deleteReponses($bdd, $id);
       //Et on doit insert la réponse dans la bdd
@@ -40,8 +42,10 @@
       editReponseLibre($bdd, $_POST["reponseID"], $_POST['reponse']);
     }
   }
+
+
   if($typeQuestion==2){
-    for($i = 1; i <=4; i++){
+    for($i = 1; $i <=4; $i++){
       if(empty($_POST["reponseQCM_N$i"]) || empty($_POST["reponseID$i"])){
         exit();
       }
@@ -58,12 +62,11 @@
       editReponseQCM($bdd, $_POST["reponseID1"], $_POST["reponseQCM_N1"],
                             $_POST["reponseID2"], $_POST["reponseQCM_N2"],
                             $_POST["reponseID3"], $_POST["reponseQCM_N3"],
-                            $_POST["reponseID4"], $_POST["reponseQCM_N4"]){
+                            $_POST["reponseID4"], $_POST["reponseQCM_N4"]);
     }
 
   }
 
-  //Tout est ok : Modifications !
-  editQuestionLib($bdd, $id, $_POST['libelle']);
+  editQuestionLib($bdd, $id, $typeQuestion, $_POST['libelle']);
   echo "ok";
 ?>

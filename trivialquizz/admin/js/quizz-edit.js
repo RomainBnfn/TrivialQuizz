@@ -113,9 +113,33 @@ function moveQuestion(direction, idQuestion, posQuestion){
   });
 }
 
+function switchType(target, id){
+  if(target.prop('checked')) {//  QCM --> Libre
+
+    for (var i = 0; i <= 4; i++) {
+      var val = $("#input_repQCMN"+i).val(); //On save la value actuelle dans le HTML
+      $("#input_repQCMN"+i).attr("value", val);
+    }
+
+    window["html_repQCM"+id] = $("#reponseQCMN"+id).html();
+
+    $("#reponseQCMN"+id).html("");
+    $("#reponseLibreN"+id).html(window["html_repLibre"+id]);
+  }
+  else{ // Libre --> QCM
+
+    var val = $("#input_repLibreN"+id).val(); //On save la value actuelle dans le HTML
+    $("#input_repLibreN"+id).attr("value", val);
+
+    window["html_repLibre"+id] = $("#reponseLibreN"+id).html();
+
+    $("#reponseLibreN"+id).html("");
+    $("#reponseQCMN"+id).html(window["html_repQCM"+id]);
+  }
+}
+
 function saveQuestionReponse(id)
 {
-  return "used";
   var form = new FormData(document.getElementById("editQuestionN"+id));
   fetch("ajax/question-save-edit.php", {
     method: "POST",

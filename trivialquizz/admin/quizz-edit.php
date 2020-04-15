@@ -228,6 +228,7 @@
                           <!-- REPONSES -->
                           <div id="reponsesN<?= $_QUESTION["id"] ?>"><!-- REPONSES -->
 
+                            <!-- LIBRE -->
                             <div id="reponseLibreN<?= $_QUESTION["id"] ?>">
 
                               <div class="form-group">
@@ -241,10 +242,10 @@
                                     $_REPONSE = $_QUESTION["reponses"][$idRep];
                                   ?>
                                   <input name="reponseID" type="hidden" value="<?= $_REPONSE["id"] ?>" required/>
-                                  <input name="reponse" type="text" class="input-dark form-control" name="nom" placeholder="Entrez le nom de votre Quizz !" autocomplete="off" value="<?= $_REPONSE["lib"] ?>" required/>
+                                  <input id="input_repLibreN<?= $_QUESTION["id"]?>" name="reponse" type="text" class="input-dark form-control" name="nom" placeholder="Entrez le nom de votre Quizz !" autocomplete="off" value="<?= $_REPONSE["lib"] ?>" required/>
                                 <?php } else{ ?>
                                   <input name="reponseID" type="hidden" value="-1" required/>
-                                  <input name="reponse" type="text" class="input-dark form-control" name="nom" placeholder="Entrez le nom de votre Quizz !" autocomplete="off" required/>
+                                  <input id="input_repLibreN<?= $_QUESTION["id"]?>" name="reponse" type="text" class="input-dark form-control" name="nom" placeholder="Entrez le nom de votre Quizz !" autocomplete="off" required/>
                                 <?php } ?>
                                 <small class="form-text text-muted" style="color: white !important;">
                                   Cette réponse devra être indiquée à la lettre près.
@@ -252,6 +253,7 @@
                               </div>
                             </div>
 
+                            <!-- QCM -->
                             <div id="reponseQCMN<?= $_QUESTION["id"] ?>">
                               <?php $keys = array_keys($_QUESTION["reponses"]);
                               ?>
@@ -280,7 +282,7 @@
                                         <input name="reponseID<?= $i ?>" type="hidden"
                                         <?php if($_QUESTION["type"]==1){ ?>value="-1" <?php }else{ $idR = $keys[$i-1]; ?> value="<?= $_QUESTION["reponses"][$idR]["id"] ?>"<?php } ?> required/>
 
-                                        <input class="input-dark col-sm-11 form-control" name="reponseQCM_N<?=$i?>" type="text" placeholder="<?php if($i==1){ echo "Entrez la réponse correcte."; }else{ echo "Entrez une mauvaise réponse"; } ?>"
+                                        <input id="input_repQCMN<?= $i ?>" class="input-dark col-sm-11 form-control" name="reponseQCM_N<?=$i?>" type="text" placeholder="<?php if($i==1){ echo "Entrez la réponse correcte."; }else{ echo "Entrez une mauvaise réponse"; } ?>"
                                         <?php if($_QUESTION["type"]==2){ $idR = $keys[$i-1]; ?> value="<?= $_QUESTION["reponses"][$idR]["lib"] ?>" <?php } ?>required>
                                       </div>
                                   </li>
@@ -347,22 +349,15 @@
 
     $( ".switchType" ).change(function() {
       var id = $(this).data("idquestion");
-      if($(this).prop('checked')) {
-        window["html_repQCM"+id] = $("#reponseQCMN"+id).html();
-        $("#reponseQCMN"+id).html("");
-        $("#reponseLibreN"+id).html(window["html_repLibre"+id]);
-      }
-      else{
-        window["html_repLibre"+id] = $("#reponseLibreN"+id).html();
-        $("#reponseLibreN"+id).html("");
-        $("#reponseQCMN"+id).html(window["html_repQCM"+id]);
-      }
+      switchType($(this), id);
     });
 
     $(".form-edit-question").submit((e) => {
-      alert( "Handler for .submit() called." );
-      event.preventDefault();
+      e.preventDefault();
+      var id = e.target.dataset.idquestion;
+      saveQuestionReponse(id);
     });
+
   });
 </script>
 <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
