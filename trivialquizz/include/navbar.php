@@ -1,11 +1,10 @@
 <?php
-  //TODO: changer les liens
-  $_locationBase = "/trivial/trivialquizz";
+  require_once "index_location.php";
 
   if(isset($_GET['unlog'])){
     $_SESSION['pseudo']="";
     $_SESSION['is_admin']="false";
-    header("Location: $_locationBase/index.php");
+    header("Location: $index_location/index.php");
     exit();
   }
 
@@ -24,9 +23,9 @@
 ?>
 <nav class="navbar fixed-top navbar-expand-md navbar" role="navigation">
   <div>
-      <a href="<?=$_locationBase?>/index.php">
+      <a href="<?=$index_location?>/index.php">
         ​<picture>
-          <img src="<?=$_locationBase?>/image/logo.png" class="img-logo" alt="Logo du Trivial Quizz">
+          <img src="<?=$index_location?>/image/logo.png" class="img-logo" alt="Logo du Trivial Quizz">
         </picture>
       </a>
   </div>
@@ -44,19 +43,19 @@
 
       <div class="dropdown-menu-dark dropdown-menu" aria-labelledby="dropdownMenuButton">
 
-        <a class="dropdown-dark dropdown-item-dark dropdown-item" href="<?=$_locationBase?>/admin/theme.php">Thèmes</a>
-        <a class="dropdown-dark dropdown-item-dark dropdown-item" href="<?=$_locationBase?>/admin/quizz.php">Quizzes</a>
+        <a class="dropdown-dark dropdown-item-dark dropdown-item" href="<?=$index_location?>/admin/theme.php">Thèmes</a>
+        <a class="dropdown-dark dropdown-item-dark dropdown-item" href="<?=$index_location?>/admin/quizz.php">Quizzes</a>
       </div>
     </div>
 
     <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
       <li>
-        <a href="<?=$_locationBase?>/register.php">
+        <a href="<?=$index_location?>/register.php">
           <button type="button" class="btn btn-primary">Inscription</button>
         </a>
       </li>
       <li>
-        <a href="<?=$_locationBase?>/log.php">
+        <a href="<?=$index_location?>/log.php">
           <button type="button" class="btn btn-outline-primary">Connexion</button>
         </a>
       </li>

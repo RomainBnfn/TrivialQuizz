@@ -1,7 +1,6 @@
 <?php
   session_start();
-  //TODO: Changer la location
-  $index_location = "/trivial/trivialquizz/admin/quizz.php";
+  require_once "../include/index_location.php";
 
   if(!isset($_SESSION['is_admin']))
   {
@@ -178,8 +177,11 @@
                 $i++;
                 $tableauQuestionOrder[$i] = $_QUESTION["id"];
                 ?>
+
+                <!-- ===========CONTAINER QUESTION =========== -->
+
                   <div id="containerQuestionN<?= $_QUESTION["id"] ?>" class="jumbotron jumbotron-vert questionContainer" style="order: <?= $_QUESTION['order'] ?>;">
-                    <form id="editQuestionN<?= $_QUESTION["id"] ?>" method="POST" onsubmit="saveQuestionReponse(<?= $_QUESTION["id"] ?>); return false;">
+                    <form id="editQuestionN<?= $_QUESTION["id"] ?>" data-idquestion="<?= $_QUESTION["id"]?>"  class="form-edit-question" method="POST">
                       <div class="reduced-div row">
                         <input id="editQuestion_IdN<?= $_QUESTION["id"] ?>" name="id" type="hidden" value="<?= $_QUESTION["id"] ?>" required/>
 
@@ -238,8 +240,10 @@
                                     $idRep = array_key_first ($_QUESTION["reponses"]);
                                     $_REPONSE = $_QUESTION["reponses"][$idRep];
                                   ?>
+                                  <input name="reponseID" type="hidden" value="<?= $_REPONSE["id"] ?>" required/>
                                   <input name="reponse" type="text" class="input-dark form-control" name="nom" placeholder="Entrez le nom de votre Quizz !" autocomplete="off" value="<?= $_REPONSE["lib"] ?>" required/>
                                 <?php } else{ ?>
+                                  <input name="reponseID" type="hidden" value="-1" required/>
                                   <input name="reponse" type="text" class="input-dark form-control" name="nom" placeholder="Entrez le nom de votre Quizz !" autocomplete="off" required/>
                                 <?php } ?>
                                 <small class="form-text text-muted" style="color: white !important;">
@@ -273,6 +277,9 @@
                                             <i class="fas fa-times-circle" style="color: #ff6b6b;"></i>
                                           <?php } ?>
                                         </div>
+                                        <input name="reponseID<?= $i ?>" type="hidden"
+                                        <?php if($_QUESTION["type"]==1){ ?>value="-1" <?php }else{ $idR = $keys[$i-1]; ?> value="<?= $_QUESTION["reponses"][$idR]["id"] ?>"<?php } ?> required/>
+
                                         <input class="input-dark col-sm-11 form-control" name="reponseQCM_N<?=$i?>" type="text" placeholder="<?php if($i==1){ echo "Entrez la réponse correcte."; }else{ echo "Entrez une mauvaise réponse"; } ?>"
                                         <?php if($_QUESTION["type"]==2){ $idR = $keys[$i-1]; ?> value="<?= $_QUESTION["reponses"][$idR]["lib"] ?>" <?php } ?>required>
                                       </div>
@@ -337,6 +344,7 @@
      } ?>
 
   $(document).ready(()=>{
+
     $( ".switchType" ).change(function() {
       var id = $(this).data("idquestion");
       if($(this).prop('checked')) {
@@ -349,6 +357,11 @@
         $("#reponseLibreN"+id).html("");
         $("#reponseQCMN"+id).html(window["html_repQCM"+id]);
       }
+    });
+
+    $(".form-edit-question").submit((e) => {
+      alert( "Handler for .submit() called." );
+      event.preventDefault();
     });
   });
 </script>

@@ -1,7 +1,6 @@
 <?php
   session_start();
-  //TODO: Changer la location
-  $index_location = "/trivial/trivialquizz/admin/index.php";
+  require_once "../include/index_location.php";
 
   // Le visiteur n'est pas un admin.
   if(!isset($_SESSION['is_admin']))
