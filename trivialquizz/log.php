@@ -62,11 +62,11 @@
           <form class="form-padding" action="log.php" method="post">
             <div class="form-group">
               <label for="pseudo">Pseudo:</label>
-              <input type="text" class="form-control" id="pseudo" placeholder="Entrer votre pseudo" name="pseudo" required>
+              <input type="text" class="form-control input-profil" id="pseudo" placeholder="Entrer votre pseudo" name="pseudo" required>
             </div>
             <div class="form-group">
               <label for="pwd">Mot de passe:</label>
-              <input type="password" class="form-control" id="pwd" placeholder="Entrer votre mot de passe" name="pswd" required>
+              <input type="password" class="form-control input-profil" id="pwd" placeholder="Entrer votre mot de passe" name="pswd" required>
             </div>
             <button type="submit" class="btn btn-primary">Se connecter</button>
           </form>

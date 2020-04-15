@@ -69,11 +69,11 @@
           </div>
           <div class="form-group">
             <label for="pwd">Mot de passe:</label>
-            <input type="password" class="form-control" placeholder="Entrer votre mot de passe" name="pswd" required>
+            <input type="password" class="form-control input-profil" placeholder="Entrer votre mot de passe" name="pswd" required>
           </div>
           <div class="form-group">
             <label for="conf-pwd" class="line">Confirmation mot de passe:</label>
-            <input type="password" class="form-control"  placeholder="Confirmer votre mot de passe" name="conf-pswd" required>
+            <input type="password" class="form-control input-profil"  placeholder="Confirmer votre mot de passe" name="conf-pswd" required>
             <div id="invalid-conf-feedback" class="invalid-feedback">Confirmation invalide</div>
             <div id="valid-conf-feedback" class="valid-feedback">Ok.</div>
           </div>

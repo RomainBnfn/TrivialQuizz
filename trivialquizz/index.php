@@ -3,10 +3,14 @@
   require_once "include/liaisonbdd.php";
   require_once "include/functions.php";
 
-  $th_base = getAllThemesPrincipauxInfos($bdd);
-  $th_custom = getAllThemesPersoInfos($bdd);
+  $themesPrincipaux = getAllThemesPrincipauxInfos($bdd);
+  $themesCustoms = getAllThemesPersoInfos($bdd);
 
-  $array = array( "un" => 1, "deux" => 2, "trois" => 3);
+  $ids = array();
+  $i = 0;
+  foreach ($themesPrincipaux as $th) {
+    $ids[$i++] = $th['id'];
+  }
 
   $R = 200; //rayon
   $r = 0; // petite marge
@@ -16,24 +20,22 @@
   $fontSizeTextUnfocus = $R/13;
   $fontSizeTextFocus = $R/11;
 
-  $pathFocus = generatePath($r, $G*$R, $c);
-  $pathUnfocus = generatePath($r, $R, $c);
+  $pathFocus = generatePath($r, $G*$R, $c, $ids);
+  $pathUnfocus = generatePath($r, $R, $c, $ids);
 
-  $coordTextFocus = generateCoordText($r, $G*$R, $c);
-  $coordTextUnfocus = generateCoordText($r, $R, $c);
+  $coordTextFocus = generateCoordText($r, $G*$R, $c, $ids);
+  $coordTextUnfocus = generateCoordText($r, $R, $c, $ids);
 
-  $themesPrincipaux = getAllThemesPrincipauxInfos($bdd);
-  $themesCustoms = getAllThemesPersoInfos($bdd);
 
-  $colorTheme = array();
-  $descTheme = array();
-  $nomTheme = array();
-  $i=0;
-  foreach ($themesPrincipaux as $theme) {
-    $colorTheme[$i] = $theme['couleur'];
-    $descTheme[$i] = $theme['desc'];
-    $nomTheme[$i++] = $theme['nom'];
-  }
+  // $colorTheme = array();
+  // $descTheme = array();
+  // $nomTheme = array();
+  // $i=0;
+  // foreach ($themesPrincipaux as $theme) {
+  //   $colorTheme[$i] = $theme['couleur'];
+  //   $descTheme[$i] = $theme['desc'];
+  //   $nomTheme[$i++] = $theme['nom'];
+  // }
   //variable qui permet de revenir à la page où était l'ut avant qu'il se connecte
   $_SESSION["origin"] = "index.php";
 ?>
@@ -58,13 +60,11 @@
             <svg id="roue-theme-classique" viewBox="0 0 <?="$L $L"?>">
               <?php
               $i = 0;
-              $numberIdThemeRelation = array();
               foreach ($themesPrincipaux as $theme) {
-                $numberIdThemeRelation[$i] = $theme['id']; //array($i -> $id) $i: position dans le cammenbert / $id: clé primaire dans la bdd
               ?>
-                <path class="theme<?=$i?>" d="<?=$pathUnfocus[$i]?>" fill="<?=$theme["couleur"]?>"/>
-                <text id="th-text<?=$i?>" fill="#fff" x="<?=$coordTextUnfocus[$i][0]?>" y="<?=$coordTextUnfocus[$i][1]?>"><?=$theme["nom"]?></text>
-                <path class="bt-theme theme<?=$i?>" d="<?=$pathUnfocus[$i++]?>" fill="#ffffff00" stroke="#222" stroke-width="1"/>
+                <path class="theme<?=$theme['id']?>" d="<?=$pathUnfocus[$theme['id']]?>" fill="<?=$theme["couleur"]?>"/>
+                <text id="th-text<?=$theme['id']?>" fill="#fff" x="<?=$coordTextUnfocus[$theme['id']][0]?>" y="<?=$coordTextUnfocus[$theme['id']][1]?>"><?=$theme["nom"]?></text>
+                <path class="bt-theme theme<?=$theme['id']?>" d="<?=$pathUnfocus[$theme['id']]?>" fill="#ffffff00" stroke="#222" stroke-width="1" onclick="clickMainTheme(<?=$theme['id']?>)"/>
               <?php
               }
               ?>
@@ -72,7 +72,7 @@
           </div>
           <p id="th-desc"></p>
           <a href="">
-            <button type="button" name="button" class="btn btn-primary btn-block" id="btn-quizz-smartphone">Voir les quizz</button>
+            <button id="btn-quizz-smartphone" type="button" name="button" class="btn btn-primary btn-block">Voir les quizz</button>
           </a>
       </article>
       <?php
@@ -108,12 +108,9 @@
       pathUnfocus = <?=json_encode($pathUnfocus)?>,
       coordTextFocus = <?=json_encode($coordTextFocus)?>,
       coordTextUnfocus = <?=json_encode($coordTextUnfocus)?>,
-      numberIdThemeRelation = <?=json_encode($numberIdThemeRelation)?>,
-      colorTheme = <?=json_encode($colorTheme)?>,
-      descTheme = <?=json_encode($descTheme)?>,
-      nomTheme = <?=json_encode($nomTheme)?>,
       fontSizeTextFocus = <?=$fontSizeTextFocus?>,
-      fontSizeTextUnfocus = <?=$fontSizeTextUnfocus?>;
+      fontSizeTextUnfocus = <?=$fontSizeTextUnfocus?>,
+      themes = <?=json_encode($themesPrincipaux)?>;
   </script>
   <?php require_once "js/script.html"?>
 </body>
