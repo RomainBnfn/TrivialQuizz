@@ -11,6 +11,7 @@
 
    require_once "../../include/liaisonbdd.php";
    require_once "../../include/functions.php";
+   require_once "../include/functions.php";
 
    // On regarde si l'id passé en méthode get est correct
    if(empty($_POST['intituleQuestion'])
@@ -28,27 +29,6 @@
 
    if(!existQuizz($bdd, $id_quizz)){
      exit();
-   }
-
-   function createQuestionSQL($bdd, $intitule, $type){
-     $requete = $bdd -> prepare("INSERT INTO QUESTION (que_lib,
-                                                       que_type)
-                                                     VALUES ( ? , $type)");
-     $requete -> execute(array(escape($intitule)));
-     return $bdd->lastInsertId();
-   }
-
-   function getNumberOfQuestions($bdd, $id_quizz){
-     $requete = $bdd -> query("SELECT MAX(qq_order) FROM quiz_quest WHERE qui_id = $id_quizz");
-     $result = $requete -> fetch();
-     return $result[0];
-   }
-
-   function createLiaisonQuizzQuestionSQL($bdd, $id_quizz , $id_quest, $order){
-     $bdd -> query("INSERT INTO quiz_quest (qui_id,
-                                                 que_id,
-                                                 qq_order)
-                                               VALUES ( $id_quizz , $id_quest , $order)");
    }
 
    switch ($typeQuestion) {
@@ -69,13 +49,9 @@
 
         createLiaisonQuizzQuestionSQL($bdd, $id_quizz , $id_quest, $nbQuestions+1);
 
-
         // On crée la réponse dans la bdd
-        $requete = $bdd -> prepare("INSERT INTO reponse (re_lib,
-           	                                              re_isBonne,
-                                                          que_id)
-                                                        VALUES (? , true, $id_quest)");
-        $requete -> execute(array(escape($_POST['reponseLibre_correcte'])));
+        createReponseLibre($bdd, $id_quest, $_POST['reponseLibre_correcte']);
+
         echo "ok";
 
         break;
@@ -94,18 +70,10 @@
         createLiaisonQuizzQuestionSQL($bdd, $id_quizz , $id_quest, $nbQuestions+1);
 
         // On crée les réponses dans la bdd
-        $requete = $bdd -> prepare("INSERT INTO reponse (re_lib,
-           	                                              re_isBonne,
-                                                          que_id)
-                                                        VALUES (? , true, $id_quest),
-                                                               (? , false, $id_quest),
-                                                               (? , false, $id_quest),
-                                                               (? , false, $id_quest)");
-
-        $requete -> execute(array(escape($_POST['reponseQCM_N1']),
-                                  escape($_POST['reponseQCM_N2']),
-                                  escape($_POST['reponseQCM_N3']),
-                                  escape($_POST['reponseQCM_N4'])));
+        createReponseQCM($bdd, $id_quest, $_POST['reponseQCM_N1'],
+                                          $_POST['reponseQCM_N2'],
+                                          $_POST['reponseQCM_N3'],
+                                          $_POST['reponseQCM_N4']);
         echo "ok";
         break;
    }

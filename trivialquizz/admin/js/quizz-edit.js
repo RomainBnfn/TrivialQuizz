@@ -115,6 +115,7 @@ function moveQuestion(direction, idQuestion, posQuestion){
 
 function saveQuestionReponse(id)
 {
+  return "used";
   var form = new FormData(document.getElementById("editQuestionN"+id));
   fetch("ajax/question-save-edit.php", {
     method: "POST",
@@ -178,5 +179,6 @@ $(document).ready(function(){
       $("#errorGeneral_Nom").css("visibility", "collapse");
     }
   });
+
 
 });
