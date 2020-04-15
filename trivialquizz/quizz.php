@@ -18,7 +18,7 @@
   $quizzes = getAllQuizzesInfosOfTheme($bdd,$theme['id']);
 
   //variable qui permet de revenir à la page où était l'ut avant qu'il se connecte
-  $_SESSION["origin"] = "quizz.php?theme=".$theme['id'];
+  $_SESSION["origin"] = "quizz-choice.php?theme=".$theme['id'];
 
   //nombre de questions dans chaques thèmes
   $nbrQuestByQuizz = getNumbersOfQuestionsOfQuizzes($bdd, $theme['id']);
@@ -282,10 +282,7 @@
       }
 
       xmlhttp.open("GET","ajax/displayQuestion.php?idQuizz="+idQuizz+"&numQuest="+numQuestion+"&difficulty="+difficulty,true);
-      setTimeout(function(){
-        xmlhttp.send();
-      },2000);
-
+      xmlhttp.send(); 
     }
 
     //fonction lancée au moment du clic lors de la validation d'une question
