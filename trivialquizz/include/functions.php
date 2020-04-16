@@ -246,7 +246,7 @@
         }
 
         function getAllQuizzesDuration($bdd, $idTheme){
-          $data = tryQueryBDD($bdd, "SELECT qui_id, qui_temps, qui_malus FROM quiz WHERE th_id =");
+          $data = tryQueryBDD($bdd, "SELECT qui_id, qui_temps, qui_malus FROM quiz WHERE th_id=$idTheme");
           if ($data == null)
           {
               return null;
@@ -254,46 +254,90 @@
           $_DURATIONS;
           foreach ($data as $infos)
           {
-            $_DURATIONS[$infos["qui_id"]] = array($infos["qui_temps"],$infos["qui_malus"]);
+            $_DURATIONS[$infos["qui_id"]] = array("temps" => $infos["qui_temps"],
+                                                  "malus" => $infos["qui_malus"]);
           }
           return $_DURATIONS;
         }
 
-  /// Essaie de charger toutes les questions d'un quizz, puis renvoie une liste
-  /// de liste qui comportent les infos des questions. Renvoie null sinon.
-  /// Renvoie $_QUESTIONS[] qui comporte tous les $_QUESTION[] (id, lib, id_bonneRep)
-  function tryLoadQuizzQuestion($bdd, $idQuizz)
-  {
-    if(!is_numeric($idQuizz)) {
-      return null;
-    }
-    $data = tryQueryBDD($bdd, "SELECT DISTINCT * FROM question, reponse, quiz_quest
-                                                WHERE question.que_id = reponse.que_id
-                                                AND question.que_id = quiz_quest.que_id
-                                                AND quiz_quest.qui_id = $idQuizz
-                                                ORDER BY qq_order;");
-    if(empty($data)){
-      return null;
-    }
-    return loadQuestionReponseFromSQLResult($data);
-  }
+  // (QUESTIONS)
+        /// Essaie de charger toutes les questions d'un quizz, puis renvoie une liste
+        /// de liste qui comportent les infos des questions. Renvoie null sinon.
+        /// Renvoie $_QUESTIONS[] qui comporte tous les $_QUESTION[] (id, lib, id_bonneRep)
+        function tryLoadQuizzQuestion($bdd, $idQuizz)
+        {
+          if(!is_numeric($idQuizz)) {
+            return null;
+          }
+          $data = tryQueryBDD($bdd, "SELECT DISTINCT * FROM question, reponse, quiz_quest WHERE question.que_id IN ( SELECT que_id FROM quiz_quest WHERE qui_id = $idQuizz) AND question.que_id = reponse.que_id AND question.que_id = quiz_quest.que_id ORDER BY qq_order;");
+          if(empty($data)){
+            return null;
+          }
+          return loadQuestionReponseFromSQLResult($data);
+        }
 
-  function tryLoadAllQuestions($bdd){
-    $data = tryQueryBDD($bdd, "SELECT question.que_lib as que_lib, quiz_quest.qui_id as qui_id FROM question, quiz_quest WHERE question.que_id = quiz_quest.que_id ORDER BY quiz_quest.qui_id");
-    if(is_null($data)){
-      return null;
-    }
-    $_QUESTIONS;
-    $i = 0;
-    foreach($data as $result) {
-      $_QUESTION;
-      $_QUESTION["idQuizz"] = $result["qui_id"];
-      $_QUESTION["lib"] = $result["que_lib"];
-      $_QUESTIONS[$i] = $_QUESTION;
-      $i++;
-    }
-    return $_QUESTIONS;
-  }
+        function tryLoadAllQuestions($bdd){
+          $data = tryQueryBDD($bdd, "SELECT question.que_lib as que_lib, quiz_quest.qui_id as qui_id FROM question, quiz_quest WHERE question.que_id = quiz_quest.que_id ORDER BY quiz_quest.qui_id");
+          if(is_null($data)){
+            return null;
+          }
+          $_QUESTIONS;
+          $i = 0;
+          foreach($data as $result) {
+            $_QUESTION;
+            $_QUESTION["idQuizz"] = $result["qui_id"];
+            $_QUESTION["lib"] = $result["que_lib"];
+            $_QUESTIONS[$i] = $_QUESTION;
+            $i++;
+          }
+          return $_QUESTIONS;
+        }
+
+  // (SCORE)
+
+        function getScoreGlobaux($bdd, $idTheme){
+          $dataId = tryQueryBDD($bdd, "SELECT DISTINCT qui_id FROM quiz WHERE th_id=$idTheme");
+          $_SCORE;
+          if(is_null($dataId)){
+            return null;
+          }
+          foreach ($dataId as $id) {
+            if(!is_null($id)){
+              $idQuizz = $id['qui_id'];
+              $data = tryQueryBDD($bdd, "SELECT sc_point, sc_temps, qui_id FROM score WHERE qui_id=$idQuizz ORDER BY sc_point desc, sc_temps LIMIT 1");
+              if(!is_null($data)){
+                $_SCORE[$data[0]['qui_id']] = array("point" => $data[0]['sc_point'],
+                                                      "temps" => $data[0]['sc_temps']);
+              }else{
+                $_SCORE[$idQuizz] = array("point" => -1,
+                                      "temps" => -1);
+              }
+            }
+          }
+          return $_SCORE;
+        }
+
+        function getScorePerso($bdd, $idTheme, $pseudo){
+          $dataId = tryQueryBDD($bdd, "SELECT DISTINCT qui_id FROM quiz WHERE th_id=$idTheme");
+          $_SCORE;
+          if(is_null($dataId)){
+            return null;
+          }
+          foreach ($dataId as $id) {
+            if(!is_null($id)){
+              $idQuizz = $id['qui_id'];
+              $data = tryQueryBDD($bdd, "SELECT sc_point, sc_temps, qui_id FROM score WHERE qui_id=$idQuizz AND pr_pseudo='$pseudo' ORDER BY sc_point desc, sc_temps LIMIT 1");
+              if(!is_null($data)){
+                $_SCORE[$data[0]['qui_id']] = array("point" => $data[0]['sc_point'],
+                                                    "temps" => $data[0]['sc_temps']);
+              }else{
+                $_SCORE[$idQuizz] = array("point" => -1,
+                                    "temps" => -1);
+              }
+            }
+          }
+          return $_SCORE;
+        }
 
 // Get Nb
   function getNbQuizz($bdd)
