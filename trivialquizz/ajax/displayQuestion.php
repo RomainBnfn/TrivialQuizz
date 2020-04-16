@@ -25,7 +25,7 @@
             $answers = $question["reponses"];
 
             //suppression de réponse fausse s'il y en a trop pour la difficulté choisie
-            $keys = array_keys($answers);
+            /*$keys = array_keys($answers);
             while(count($answers)>$nbrOfAnswer){
               $r = rand(0,count($keys)-1);
               if(isset($answers[$keys[$r]])){
@@ -33,22 +33,34 @@
                   unset($answers[$keys[$r]]);
                 }
               }
-            }
+            }*/
 
+            // mélange des réponses et garde que le nombre nécessaire pour la difficulté
+            // choisis. La bonne réponse est toujours la premiére !!
+            $answersRandomized = array();
+            $temp = array();
+            $i = 1;
+            foreach ($answers as $ans) {
+
+              do{
+                $r = rand(0,$nbrOfAnswer-1);
+              } while(in_array($r,$temp));
+              array_push($temp,$r);
+              $answersRandomized[$r] = $ans;
+              if($i++>=$nbrOfAnswer) break;
+            }
             //construction de la question
-            $idBonnerep;
+            $infoQuest;
             $html = "
             <div class='quest-container'>
             <h1 id='question'>".$question['lib']."</h1>
             <div id='answer-container'>";
-            $i = 0;
-            foreach($answers as $answer){
-              if($answer['isBonne']){
-                $idBonneRep = "2#ans".$i."%";
+            for($i=0;$i<count($answersRandomized);$i++){
+              if($answersRandomized[$i]['isBonne']){
+                $infoQuest = "2#ans".$i."%";
               }
               $html .= "
-              <button id='ans".$i."' class='btn answer' type='button' name='answer".$i."' onclick='check(".'"#ans'.$i.'"'.")'>".$answer['lib']."</button>";
-              $i++;
+              <button id='ans".$i."' class='btn answer' type='button' name='answer".$i."' onclick='check(".'"#ans'.$i.'"'.")'>".$answersRandomized[$i]['lib']."</button>";
             }
             $html .= "
             </div>
@@ -57,7 +69,7 @@
 
             </div>
             </div>";
-            $html = $idBonneRep.$html;
+            $html = $infoQuest.$html;
           }else{// répsone libre
             $reponse;
             foreach ($question['reponses'] as $rep) {

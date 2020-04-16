@@ -33,7 +33,6 @@
 
   //temps et réduction par difficulté par quizzes
   $quizzesDuration = getAllQuizzesDuration($bdd, $theme['id']);
-  print_r($quizzesDuration);
   //$quizzesDuration = array( 1 => array(2*60,20));
 
   //meilleurs scores globaux
@@ -88,7 +87,7 @@
                     <div class="card-body">
                       <h3><?=$quizz['nom']?></h3>
                         <p>Nombre de questions: <span class="badge badge-pill badge-info"><?=$nbrQuestByQuizz[$quizz['id']]?></span><br>
-                          Durée: <span class="badge badge-pill badge-info"><?=formatTimeToString($quizzesDuration[$quizz['id']]['temps']-5*$quizzesDuration[$quizz['id']]['malus'])?></span>
+                          Durée: <span class="badge badge-pill badge-info"><?=formatTimeToString($quizzesDuration[$quizz['id']]['temps']*(1-5*$quizzesDuration[$quizz['id']]['malus']/100))?></span>
                           - <span class="badge badge-pill badge-info"><?=formatTimeToString($quizzesDuration[$quizz['id']]['temps'])?></span>
                         </p>
                         <p>
@@ -159,7 +158,6 @@
     var btnCheck = 0; //stock l'id du btn correspondant au choix du joueur (difficulté/qcm)
 
     var duration = <?=json_encode($quizzesDuration)?>; //{qui_id: {temps, malus}, ... , ...}
-    console.log(duration);
     var isTimerPaused = true, //timer en pause lors des chargement
       maxDuration, // durée max du quizz en prenant en compte la difficulté
       timer, // objet setInterval
@@ -298,7 +296,7 @@
       '</div>');
       $('#quizz-container').append(htmlScoreBoard);
 
-      maxDuration = (duration.temps-(difficulty-1)*duration.malus)*1000;
+      maxDuration = (duration.temps*(1-difficulty*duration.malus/100)*1000;
       timeRef = (new Date().getTime())+1000;
 
       timer = setInterval(function(){
@@ -337,6 +335,7 @@
             $('.quest-container').children().addClass('disappearance');
             setTimeout(function(){
               $('.quest-container').remove();
+              console.log(response);
               if(response == "finish"){
                 endQuizz(false);
               }else{
@@ -386,7 +385,7 @@
 
       if(typeQuest == 1){ // réponse libre
         if(isEqual($('#free-answer-input').val(),bonneRep)){
-          score++;
+          score+=(difficulty-1)/2+1;
           $('#score').text(score);
           $(bonneRep).addClass('right-answer');
           $('#validated').addClass('right-answer');
@@ -398,7 +397,7 @@
         }
       }else{ //qcm
         if(btnCheck==bonneRep){
-          score++;
+          score+=(difficulty-1)/2+1;
           $('#score').text(score);
           $(bonneRep).addClass('right-answer');
           $('#validated').addClass('right-answer');
