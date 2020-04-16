@@ -78,7 +78,9 @@ function focusTheme(getThemeId){
 
 function displayDescTheme(description){
   var paragraphe = document.getElementById("th-desc");
+  paragraphe.style.height = "0";
   paragraphe.textContent = description;
+  paragraphe.style.height = "100%";
 }
 
 function undisplayDescTheme(){

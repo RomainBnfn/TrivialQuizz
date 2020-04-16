@@ -26,13 +26,31 @@
   $quizzes = getAllQuizzesInfosOfTheme($bdd,$theme['id']);
 
   //variable qui permet de revenir à la page où était l'ut avant qu'il se connecte
-  $_SESSION["origin"] = "quizz-choice.php?theme=".$theme['id'];
+  $_SESSION["origin"] = "quizz.php?theme=".$theme['id'];
 
   //nombre de questions dans chaques thèmes
   $nbrQuestByQuizz = getNumbersOfQuestionsOfQuizzes($bdd, $theme['id']);
+
   //temps et réduction par difficulté par quizzes
   //$quizzesDuration = getAllQuizzezDuration($bdd, $theme['id']);
-  $quizzesDuration = array( 2 => array(3*60,20));
+  $quizzesDuration = array( 1 => array(2*60,20));
+
+  //meilleurs scores globaux
+  $scoresGlobaux = getScoreGlobaux($bdd, $theme['id']);
+
+  //meilleurs scores perso
+  $scoresPerso = getScorePerso($bdd, $theme['id'], $_SESSION['pseudo']);
+
+  function formatTimeToString($time){
+    $min = floor($time % (60 * 60) / (60));
+    $sec = floor($time % 60);
+    $timeText = "";
+    if($min>0) $timeText.=$min.":";
+    if($sec>9) $timeText.=$sec."'";
+    else $timeText.="0".$sec."'";
+    return $timeText;
+  }
+
 ?>
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
@@ -68,7 +86,22 @@
                   <div id="quizz<?=$quizz['id']?>" class="card card-quizz trianglify-background ripple-container dynamic-shadow">
                     <div class="card-body">
                       <h3><?=$quizz['nom']?></h3>
-                      <p>Nombre de questions: <span class="badge badge-pill badge-info"><?=$nbrQuestByQuizz[$quizz['id']]?></span></p>
+                        <p>Nombre de questions: <span class="badge badge-pill badge-info"><?=$nbrQuestByQuizz[$quizz['id']]?></span><br>
+                      Durée: <span class="badge badge-pill badge-info">10:00'</span> - <span class="badge badge-pill badge-info">15:00'</span></p>
+                      <p>
+                        <?php
+                          if($scoresGlobaux[$quizz['id']]['point'] != -1){
+                            ?>
+                            <i class="fa fa-trophy" aria-hidden="true"></i>&nbsp; Meilleur score global: <span class="badge badge-pill badge-danger"><?=$scoresGlobaux[$quizz['id']]['point']." (".formatTimeToString($scoresGlobaux[$quizz['id']]['temps']).")"?></span><br>
+                            <?php
+                            if($scoresPerso[$quizz['id']]['point'] != -1){
+                              ?>
+                              <i class="fa fa-star" aria-hidden="true"></i>&nbsp; Meilleur score perso: <span class="badge badge-pill badge-warning"><?=$scoresPerso[$quizz['id']]['point']." (".formatTimeToString($scoresPerso[$quizz['id']]['temps']).")"?></span>
+                              <?php
+                            }
+                          }
+                         ?>
+                      </p>
                       <p><?=$quizz['desc']?></p>
                     </div>
                   </div>
@@ -92,13 +125,17 @@
     <section id="quizz-container">
       <a class="hide control-info ripple-container" id="back" href="quizz.php?theme=<?=$theme['id']?>"><p>RETOUR</p></a>
       <div class="quest-container hide">
-        <h1 class="hide">Choix difficulté?</h1>
-        <div id="difficulty-choice" class="hide btn-group">
-          <button id="btn-dif1" class="btn btn-light ripple-container" type="button" name="dif1" onclick='check("#btn-dif1")'>Handicapé</button>
-          <button id="btn-dif2" class="btn btn-light ripple-container" type="button" name="dif2" onclick='check("#btn-dif2")'>Tranquillou</button>
-          <button id="btn-dif3" class="btn btn-light ripple-container" type="button" name="dif3" onclick='check("#btn-dif3")'>Milieu</button>
-          <button id="btn-dif4" class="btn btn-light ripple-container" type="button" name="dif4" onclick='check("#btn-dif4")'>Aïe Aïe</button>
-          <button id="btn-dif5" class="btn btn-light ripple-container" type="button" name="dif5" onclick='check("#btn-dif5")'>7eme ciel</button>
+        <h1 class="hide">Choisis une difficulté</h1>
+        <div id="difficulty-choice" class="hide">
+          <h2 id="difficulty">1 - Tnul</h2>
+
+          <div id="difficulty-container">
+            <p>Facile</p>
+            <input id="slider-difficulty" type="range" name="difficulty" max="5" min="1" value="1">
+            <p>Difficile</p>
+          </div>
+          <p id="difficulty-desc">(Bouger le curseur)</p>
+
         </div>
         <button id="btn-begin" class="btn btn-light hide ripple-container" type="button" name="start" onclick='startQuizz()'>Commencer&nbsp</button>
       </div>
@@ -115,7 +152,7 @@
     var pseudo = "<?=$_SESSION['pseudo']?>";
     var idQuizz;
     var score = 0;
-    var difficulty;
+    var difficulty = 1; // valeur possible: [|1,5|]
 
     var btnCheck = 0; //stock l'id du btn correspondant au choix du joueur (difficulté/qcm)
 
@@ -139,6 +176,7 @@
     $(document).ready(function(){
 
       var card = $('.card-quizz');
+
       /// CLIQUE SUR UN QUIZZ == LANCEMENT DU QUIZZ ///
       card.on('click',function(){
 
@@ -161,9 +199,10 @@
           $('body').css('overflow','hidden');
           clickedCard.addClass('full-page');
 
-          //remplacement du font du body par celui de la carte cliquéecho
+          //remplacement du font du body par celui de la carte cliqué
           //puis suppression de la section de sélèction du quizz
           setTimeout(function(){
+            $('html').css('margin-top','0');
             $('body')[0].style.backgroundImage = clickedCard[0].style.backgroundImage;
             $('section')[0].remove();
             $('section')[0].remove();
@@ -176,6 +215,31 @@
           }
         }
       });
+
+      $('#slider-difficulty').on('change', function(){
+        switch($(this).val()){
+          case "1":
+            difficulty = 1;
+            $('#difficulty').text("1 - Tnul");
+            break;
+          case "2":
+            difficulty = 2;
+            $('#difficulty').text("2 - Tmauvais");
+            break;
+          case "3":
+            difficulty = 3;
+            $('#difficulty').text("3 - Tbof");
+            break;
+          case "4":
+            difficulty = 4;
+            $('#difficulty').text("4 - Tcho");
+            break;
+          case "5":
+            difficulty = 5;
+            $('#difficulty').text("5 - T1génie");
+            break;
+        }
+      })
     });
 
     //fait apparaitre l'élément n, d'un total de nmax éléments après delay millisecondes
@@ -209,19 +273,17 @@
 
     //initialise le quizz (après choix de la difficulté) et lance la première question
     function startQuizz(){
-      //récupérer la difficulté
-      if(btnCheck == 0)
-      return;
-      difficulty = btnCheck.substring(8);
+
+      //lancement du chargement de la première question
+      question(0);
 
       //faire apparaitre le score et le temps
       displayScoreBoard();
 
-      //lance le spinner de chargement au bout de pause millisecondes
-      $('#validated').append($('<i class="fa fa-spinner fa-spin"></i>'));
+      //lance le spinner de chargement
+      $('#validated').append($('<i class="fa fa-spinner fa-pulse"></i>'));
 
-      //lancement de la première question
-      question();
+
     }
 
     //affiche le temps et le score et lance le timer
@@ -251,7 +313,7 @@
     }
 
     //demande au serveur la question suivante et l'affiche quand il la reçois
-    function question(){
+    function question(wait){
 
       $('.plusOne').remove();
       var t0 = new Date().getTime(), t1=0;
@@ -275,6 +337,7 @@
               if(response == "finish"){
                 endQuizz(false);
               }else{
+                console.log(response);
                 var t2 = new Date().getTime();
                 delay += Math.max(1000,t2-t0);
                 isTimerPaused = false;
@@ -289,7 +352,7 @@
                 }
               }
             },200);
-          },Math.max(0,pause-t1+t0));
+          },Math.max(0,wait-t1+t0));
         }
       }
 
@@ -310,11 +373,11 @@
       validated = true;
 
       numQuestion++;
-      question();//chargement de la prochaine question
+      question(pause);//chargement de la prochaine question
 
       //lance le spinner de chargement au bout de pause millisecondes
       setTimeout(function(){
-        $('#validated').append($('<i class="fa fa-spinner fa-spin"></i>'));
+        $('#validated').append($('<i class="fa fa-spinner fa-pulse"></i>'));
       },pause)
 
       isTimerPaused = true;

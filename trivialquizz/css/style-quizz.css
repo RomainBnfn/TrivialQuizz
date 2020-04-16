@@ -3,7 +3,6 @@ body
   background-size: 100% 100%;
   height: 100vh;
 }
-
 #quizz-description
 {
   padding: 2%;
@@ -143,16 +142,53 @@ body
 #difficulty-choice
 {
   display: flex;
+  flex-direction: column;
+  margin-top: calc(4% + 20px);
+}
+#slider-difficulty::-webkit-slider-thumb, #slider-difficulty::-moz-range-thumb  {
+  width: 18px;
+  height: 18px;
+  background: rgba(0,0,0,0);
+  border-radius: 50%;
+  cursor: pointer;
+  border: solid 5px #333;
+}
+#slider-difficulty::-webkit-slider-thumb{
+  -webkit-appearance: none;
+  appearance: none;
+}
+#slider-difficulty{
+  -webkit-appearance: none;
+  background: linear-gradient(90deg,rgba(0, 255, 0, 0.7),rgba(255,255,0,0.7) 40%,rgba(255, 0, 0, 0.7) 90%);
+  border-radius: .5rem;
+  border: solid 1px #555;
+  height: 15px;
+  width: 75%;
+  max-width: 600px;
+  padding: 0 20px 0 20px;
+  margin: 10px 0 10px 0;
+  cursor: pointer;
+}
+#difficulty{
+  font-weight: lighter;
+}
+#difficulty-container{
+  display: flex;
+  flex-direction: row;
   justify-content: center;
-  margin-top: 3%;
+  height: 35px;
 }
-#difficulty-choice > .btn
-{
-  width: 12%;
-  min-width: 100px;
-  height: 40px;
-  margin: 0;
+#difficulty-container > p{
+  margin-bottom: 0;
+  padding-left: 2%;
+  padding-right: 2%;
+  line-height: 35px;
 }
+#difficulty-desc{
+  width: 100%;
+  text-align: center;
+}
+
 #btn-begin
 {
   width: 30%;
@@ -281,15 +317,15 @@ body
 }
 @keyframes plusEffect {
   0%{
-    top:150px;
+    top:250px;
     font-size: 3.2rem;
   }
   99%{
-    top:35px;
+    top:130px;
     font-size: .5rem;
   }
   100%{
-    top:35px;
+    top:130px;
     font-size: 0rem;
   }
 }
