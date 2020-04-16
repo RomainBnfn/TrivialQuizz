@@ -81,7 +81,7 @@
                   <i class="fas fa-signature"></i>
                   Nom:
                 </label>
-                <input id="editGeneral_Nom" type="text" class="input-dark form-control" name="nom" placeholder="Entrez le nom de la Question !" value="<?= $_QUIZZ["nom"] ?>" autocomplete="off" required/>
+                <input id="editGeneral_Nom" type="text" class="input-dark form-control" maxlength="50" name="nom" placeholder="Entrez le nom de la Question !" value="<?= $_QUIZZ["nom"] ?>" autocomplete="off" required/>
                 <div id="errorGeneral_Nom" class="invalid-feedback">
                   Ce nom est déjà utilisé !
                 </div>
@@ -92,7 +92,7 @@
                   <i class="fas fa-file-alt"></i>
                   Description:
                 </label>
-                <textarea id="editGeneral_Desc" type="text" class="input-dark form-control" name="desc" rows="3" placeholder="Entrez le nom de la Question !" required><?= $_QUIZZ["desc"] ?></textarea>
+                <textarea id="editGeneral_Desc" type="text" class="input-dark form-control" maxlength="300" name="desc" rows="3" placeholder="Entrez le nom de la Question !" required><?= $_QUIZZ["desc"] ?></textarea>
               </div>
 
               <div class="form-group">
@@ -126,19 +126,32 @@
                   <i class="fas fa-hourglass-half"></i>
                   Temps de base:
                 </label>
-                <input id="editGeneral_Nom" type="number" class="input-dark form-control" min="60" name="nom" placeholder="Entrez le temps de base (en seconde)." value="<?= $_QUIZZ["nom"] ?>" autocomplete="off" required/>
+                <input id="editGeneral_Temps" type="number" class="input-dark form-control" min="60" name="temps" placeholder="Entrez le temps de base (en seconde)." value="<?= $_QUIZZ["temps"] ?>" autocomplete="off" required/>
                 <small class="form-text text-muted" style="color: white !important;">
                   Le temps de base est celui du niveau de difficulté le plus bas. (Et diminue pour les autres)
                 </small>
               </div>
 
-              <label for="customRange3" class="main-label" style="color: #F1B8B8 !important">
-                <i class="fas fa-exclamation-circle"></i>
-                Malus Temps:
-              </label>
-              <input type="range" class="custom-range" min="0" max="5" step="0.5" id="customRange3">
-
-              <br/><br/>
+              <div class="form-group">
+                <label for="customRange3" class="main-label" style="color: #F1B8B8 !important">
+                  <i class="fas fa-exclamation-circle"></i>
+                  Malus Temps:
+                </label>
+                <br/><br/>
+                <div class="row">
+                  <span class="col-sm-1">0s</span>
+                  <input name="malus" type="range" class="col-sm-10 custom-range" value="<?= $_QUIZZ["malus"] ?>" min="0" max="15" step="1" id="editGeneral_Malus">
+                  <span class="col-sm-1">-15s</span>
+                </div>
+                <div>
+                  <span>
+                    Niveau Facile : 500s
+                  <span>
+                  <span>
+                    Niveau Extrême : 60s
+                  <span>
+                </div>
+              </div>
 
               <input type="hidden" name="ancien_nom" value="<?= $_QUIZZ["nom"] ?>" />
               <input type="hidden" name="id" value="<?= $_QUIZZ["id"] ?>" />
@@ -363,15 +376,17 @@
       idQuizz = <?= $_QUIZZ["id"] ?>;
   listeNoms = listeNoms.filter(function(value, index, arr){ return value != nameQuizz;});
   <?php
-    foreach ($_QUESTIONS as $_QUESTION) { ?>
-      var html_repLibre<?= $_QUESTION["id"] ?> = $("#reponseLibreN<?= $_QUESTION["id"] ?>").html(),
-          html_repQCM<?= $_QUESTION["id"] ?> = $("#reponseQCMN<?= $_QUESTION["id"] ?>").html();
-          <?php
-          if ($_QUESTION["type"] == 1){ ?>
-            $("#reponseQCMN<?= $_QUESTION["id"] ?>").html("");
-            <?php } else { ?>
-            $("#reponseLibreN<?= $_QUESTION["id"] ?>").html("");
-          <?php }
+    if(isset($_QUESTIONS) && !empty($_QUESTIONS)){
+      foreach ($_QUESTIONS as $_QUESTION) { ?>
+        var html_repLibre<?= $_QUESTION["id"] ?> = $("#reponseLibreN<?= $_QUESTION["id"] ?>").html(),
+            html_repQCM<?= $_QUESTION["id"] ?> = $("#reponseQCMN<?= $_QUESTION["id"] ?>").html();
+            <?php
+            if ($_QUESTION["type"] == 1){ ?>
+              $("#reponseQCMN<?= $_QUESTION["id"] ?>").html("");
+              <?php } else { ?>
+              $("#reponseLibreN<?= $_QUESTION["id"] ?>").html("");
+            <?php }
+       }
      } ?>
 
   $(document).ready(()=>{

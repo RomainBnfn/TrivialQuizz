@@ -32,6 +32,8 @@
     $_QUIZZ["id"] = $result["qui_id"];
     $_QUIZZ["nom"] = $result["qui_nom"];
     $_QUIZZ["desc"] = $result["qui_desc"];
+    $_QUIZZ["temps"] = $result["qui_temps"];
+    $_QUIZZ["malus"] = $result["qui_malus"];
     $_QUIZZ["id_theme"] = $result["th_id"];
     return $_QUIZZ;
   }

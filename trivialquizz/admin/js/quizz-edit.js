@@ -168,9 +168,7 @@ function saveQuestionReponse(id)
 $(document).ready(function(){
 
   $("#editGeneral").submit((e) => {
-
     e.preventDefault();
-
     var form = new FormData(document.getElementById("editGeneral"));
     fetch("ajax/quizz-save-edit.php", {
       method: "POST",
@@ -179,6 +177,7 @@ $(document).ready(function(){
     .then((response) => {
       response.text()
       .then((resp) => {
+        console.log(resp);
         if(resp=="ok"){
           $("#infoGeneral_Button").css("visibility", "visible");
           setTimeout(() => {

@@ -25,8 +25,8 @@ CREATE TABLE theme
 CREATE TABLE quiz
 (
   qui_id INTEGER NOT NULL PRIMARY KEY AUTO_INCREMENT,
-  qui_nom VARCHAR(20) NOT NULL,
-  qui_desc VARCHAR(200) NOT NULL,
+  qui_nom VARCHAR(50) NOT NULL,
+  qui_desc VARCHAR(300) NOT NULL,
   qui_temps INTEGER NOT NULL,
   qui_malus INTEGER NOT NULL,
   th_id INTEGER NOT NULL,
@@ -49,7 +49,7 @@ CREATE TABLE score
 CREATE TABLE question
 (
   que_id INTEGER NOT NULL PRIMARY KEY AUTO_INCREMENT,
-  que_lib VARCHAR(100) NOT NULL,
+  que_lib VARCHAR(150) NOT NULL,
   que_type INTEGER NOT NULL
 ) engine=innodb character set utf8 collate utf8_unicode_ci;
 

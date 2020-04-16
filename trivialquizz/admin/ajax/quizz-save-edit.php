@@ -17,9 +17,16 @@
     || empty($_POST['nom'])
     || empty($_POST['id_theme'])
     || empty($_POST['desc'])
-    || empty($_POST["ancien_nom"]))
+    || empty($_POST["ancien_nom"])
+    || empty($_POST['temps']) || !is_numeric($_POST['temps']))
   {
     exit();
+  }
+
+  if(empty($_POST['malus']) || !is_numeric($_POST['malus'])){
+    $malus = 0;
+  }else{
+    $malus = $_POST['malus'];
   }
 
   $id = $_POST['id'];
@@ -55,11 +62,15 @@
   //Tout est ok : Modifications !
   $requete = $bdd -> prepare("UPDATE QUIZ SET qui_nom = ? ,
                                   qui_desc = ? ,
+                                  qui_temps = ? ,
+                                  qui_malus = ? ,
                                   th_id = ?
                                   WHERE qui_id = $id;");
 
   $requete -> execute(array(escape($_POST['nom']) ,
                       escape($_POST['desc']),
+                      escape($_POST['temps']),
+                      escape($_POST['malus']),
                       escape($_POST['id_theme'])));
   echo "ok";
 ?>
