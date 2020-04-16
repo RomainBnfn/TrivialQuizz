@@ -165,6 +165,19 @@ function saveQuestionReponse(id)
   });
 }
 
+function temps_changed(){
+  var malus = $("#editGeneral_Malus").val();
+  var temps = $("#editGeneral_Temps").val();
+  if( isNaN(malus) || isNaN(temps))
+    return;
+
+  var tempFinal = parseInt(temps * (1 - malus * 4 / 100) );
+
+  $("#tempsDifficile").html(""+tempFinal+ "s");
+  $("#amountMalus").html("-"+malus+ "%");
+  $("#tempsFacile").html(""+ temps + "s");
+}
+
 $(document).ready(function(){
 
   $("#editGeneral").submit((e) => {
@@ -205,6 +218,4 @@ $(document).ready(function(){
       $("#errorGeneral_Nom").css("visibility", "collapse");
     }
   });
-
-
 });

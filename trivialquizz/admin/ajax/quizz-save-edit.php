@@ -23,10 +23,17 @@
     exit();
   }
 
+  if ($_POST['temps']<60){
+    exit();
+  }
+
   if(empty($_POST['malus']) || !is_numeric($_POST['malus'])){
     $malus = 0;
   }else{
     $malus = $_POST['malus'];
+  }
+  if($malus > 15){
+    exit();
   }
 
   $id = $_POST['id'];

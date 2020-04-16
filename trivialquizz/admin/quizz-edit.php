@@ -44,7 +44,7 @@
 <body>
   <?php require_once "../include/navbar.php"?>
   <!-- TODO: Ajouter une couleur en fct de $couleur -->
-  <div id="titreGeneral" class="bandeau-principal progress-bar progress-bar-info progress-bar-striped">
+  <div id="titreGeneral" class="bandeau-principal fond-bleu progress-bar-striped">
     Edition de Quizz : <?= $_QUIZZ["nom"] ?>
   </div>
 
@@ -53,8 +53,15 @@
 
       <!-- DEBUT : Cadre des options générales -->
       <div>
+        <a href="quizz.php">
+          <i class="fas fa-arrow-left" style="height: 2.5em;"></i>
+          Retour
+        <a/>
+
         <div class="titre1 titre-shadow">
-          <h1>Général</h1>
+          <div>
+            <h1>Général</h1>
+          </div>
           <!-- Quand on appuie sur le bouton, on envoie une requête -->
           <button id="boutonSuppression" type="button" class="btn btn-danger" style="height: 2.5em;">Supprimer le quizz</button>
         </div>
@@ -126,7 +133,8 @@
                   <i class="fas fa-hourglass-half"></i>
                   Temps de base:
                 </label>
-                <input id="editGeneral_Temps" type="number" class="input-dark form-control" min="60" name="temps" placeholder="Entrez le temps de base (en seconde)." value="<?= $_QUIZZ["temps"] ?>" autocomplete="off" required/>
+                <input id="editGeneral_Temps" type="number" class="input-dark form-control" min="60" name="temps" placeholder="Entrez le temps de base (en seconde)."
+                value="<?= $_QUIZZ["temps"] ?>" oninput="temps_changed();" autocomplete="off" required/>
                 <small class="form-text text-muted" style="color: white !important;">
                   Le temps de base est celui du niveau de difficulté le plus bas. (Et diminue pour les autres)
                 </small>
@@ -138,18 +146,24 @@
                   Malus Temps:
                 </label>
                 <br/><br/>
-                <div class="row">
-                  <span class="col-sm-1">0s</span>
-                  <input name="malus" type="range" class="col-sm-10 custom-range" value="<?= $_QUIZZ["malus"] ?>" min="0" max="15" step="1" id="editGeneral_Malus">
-                  <span class="col-sm-1">-15s</span>
+                <div class="row reduced-row">
+                  <span class="col-sm-1">-0%</span>
+                  <input id="editGeneral_Malus" name="malus" type="range" class="col-sm-10 custom-range"
+                  value="<?= $_QUIZZ["malus"] ?>" min="0" max="15" step="1" oninput="temps_changed();">
+                  <span class="col-sm-1">-15%</span>
                 </div>
                 <div>
-                  <span>
-                    Niveau Facile : 500s
-                  <span>
-                  <span>
-                    Niveau Extrême : 60s
-                  <span>
+                  Niveau Facile :
+                  <span id="tempsFacile">
+                    <?= $_QUIZZ["temps"] ?>s
+                  </span>
+                  <span id="amountMalus">
+                    -<?= $_QUIZZ["malus"] ?>%
+                  </span>
+                  Niveau Extrême :
+                  <span id="tempsDifficile">
+                    <?= (int) ( $_QUIZZ["temps"] * (1 - $_QUIZZ["malus"]/100) )?>s
+                  </span>
                 </div>
               </div>
 
