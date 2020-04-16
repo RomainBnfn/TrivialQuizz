@@ -87,7 +87,7 @@
                     <div class="card-body">
                       <h3><?=$quizz['nom']?></h3>
                         <p>Nombre de questions: <span class="badge badge-pill badge-info"><?=$nbrQuestByQuizz[$quizz['id']]?></span><br>
-                          Durée: <span class="badge badge-pill badge-info"><?=formatTimeToString($quizzesDuration[$quizz['id']]['temps']-5*$quizzesDuration[$quizz['id']]['malus'])?></span>
+                          Durée: <span class="badge badge-pill badge-info"><?=formatTimeToString($quizzesDuration[$quizz['id']]['temps']*(1-5*$quizzesDuration[$quizz['id']]['malus']/100))?></span>
                           - <span class="badge badge-pill badge-info"><?=formatTimeToString($quizzesDuration[$quizz['id']]['temps'])?></span>
                         </p>
                         <p>
@@ -296,7 +296,7 @@
       '</div>');
       $('#quizz-container').append(htmlScoreBoard);
 
-      maxDuration = (duration.temps-(difficulty-1)*duration.malus)*1000;
+      maxDuration = (duration.temps*(1-difficulty*duration.malus/100)*1000;
       timeRef = (new Date().getTime())+1000;
 
       timer = setInterval(function(){
