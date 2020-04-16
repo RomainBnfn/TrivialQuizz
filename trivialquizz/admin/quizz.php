@@ -36,6 +36,11 @@
   <div class="cadre-global">
     <div class="cadre-central">
 
+      <a href="../index.php">
+        <i class="fas fa-arrow-left" style="height: 2.5em;"></i>
+        Retour
+      <a/>
+
       <!-- DEBUT: Section des Quizz-->
       <div>
         <div class="titre1">

@@ -13,26 +13,26 @@
    require_once "../../include/functions.php";
 
    // On regarde si l'id passé en méthode get est correct
-   if(empty($_POST['id_Quizz'])
-    || !is_numeric($_POST["id_Quizz"]))
+   if(empty($_GET['idQuizz'])
+    || !is_numeric($_GET["idQuizz"]))
    {
      exit();
    }
 
 
-   $id_quizz = $_POST['id_Quizz'];
+   $idQuizz = $_GET['idQuizz'];
 
-   if(!existQuizz($bdd, $id_quizz)){
+   if(!existQuizz($bdd, $idQuizz)){
      exit();
    }
 
   //Tout est ok : Suppression !
 
   //On supprime toute les questions qui ne sont pas liées à d'autre quizzes
-  $bdd -> query("DELETE FROM question WHERE que_id IN (SELECT que_id FROM quiz_quest WHERE que_id = $id_question GROUP BY que_id HAVING COUNT(que_id)<= 1)");
+  $bdd -> query("DELETE FROM question WHERE que_id IN (SELECT que_id FROM quiz_quest WHERE que_id = $idQuizz GROUP BY que_id HAVING COUNT(que_id)<= 1)");
 
   //On délie les questions qui sont liées à d'autre quizzes
-  $bdd -> query("DELETE FROM quiz_quest WHERE que_id IN (SELECT que_id FROM quiz_quest WHERE que_id = $id_question GROUP BY que_id HAVING COUNT(que_id)<= 1)");
+  $bdd -> query("DELETE FROM quiz_quest WHERE que_id IN (SELECT que_id FROM quiz_quest WHERE que_id = $idQuizz GROUP BY que_id HAVING COUNT(que_id)<= 1)");
 
   echo "ok";
 ?>

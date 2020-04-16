@@ -32,6 +32,7 @@
   }
 
   $_QUESTIONS = tryLoadQuizzQuestion($bdd, $_QUIZZ["id"]);
+  $_NBASSOCIATION = getAllNbAssociationQuestion($bdd, $_QUIZZ["id"]);
 ?>
 <!doctype html>
 <html lang="fr">
@@ -141,11 +142,14 @@
               </div>
 
               <div class="form-group">
-                <label for="customRange3" class="main-label" style="color: #F1B8B8 !important">
+                <label for="editGeneral_Malus" class="main-label form-label" style="width: 100%; color: #F1B8B8 !important">
                   <i class="fas fa-exclamation-circle"></i>
                   Malus Temps:
                 </label>
-                <br/><br/>
+                <small class="form-text text-muted" style="color: white !important;">
+                  Le malus est un % de temps enlevé à chaque niveau de difficulté.
+                </small>
+                <br/>
                 <div class="row reduced-row">
                   <span class="col-sm-1">-0%</span>
                   <input id="editGeneral_Malus" name="malus" type="range" class="col-sm-10 custom-range"
@@ -157,9 +161,12 @@
                   <span id="tempsFacile">
                     <?= $_QUIZZ["temps"] ?>s
                   </span>
-                  <span id="amountMalus">
-                    -<?= $_QUIZZ["malus"] ?>%
+                  <span class="badge badge-pill badge-info">
+                    <span id="amountMalus">
+                      -<?= $_QUIZZ["malus"] ?>%
+                    </span>
                   </span>
+
                   Niveau Extrême :
                   <span id="tempsDifficile">
                     <?= (int) ( $_QUIZZ["temps"] * (1 - $_QUIZZ["malus"]/100) )?>s
@@ -208,9 +215,11 @@
             <button id="boutonImporterQuestion" type="button" class="btn btn-info button-open-modal" data-toggle="modal" data-target="#modalImportationQuestion">
               Importer
             </button>
-            <button id="boutonViderQuestions" type="button" class="btn btn-danger button-open-modal" data-toggle="modal" data-target="#modalConfirmationVider">
-              Vider le Quizz
-            </button>
+            <?php if(!empty($_QUESTIONS) && count($_QUESTIONS) > 0){ ?>
+              <button id="boutonViderQuestions" type="button" class="btn btn-danger button-open-modal" data-toggle="modal" data-target="#modalConfirmationVider">
+                Vider le Quizz
+              </button>
+            <?php } ?>
           </div>
         </div>
 
@@ -231,6 +240,7 @@
               {
                 $i++;
                 $tableauQuestionOrder[$i] = $_QUESTION["id"];
+                $queId = $_QUESTION["id"];
                 ?>
 
                 <!-- ===========CONTAINER QUESTION =========== -->
@@ -337,7 +347,7 @@
                                         <input name="reponseID<?= $u ?>" type="hidden"
                                         <?php if($_QUESTION["type"]==1){ ?>value="-1" <?php }else{ $idR = $keys[$u-1]; ?> value="<?= $_QUESTION["reponses"][$idR]["id"] ?>"<?php } ?> required/>
 
-                                        <input id="input_repQCMN<?= $u ?>" class="input-dark col-sm-11 form-control" name="reponseQCM_N<?=$i?>" type="text" placeholder="<?php if($u==1){ echo "Entrez la réponse correcte."; }else{ echo "Entrez une mauvaise réponse"; } ?>"
+                                        <input id="input_repQCMN<?= $u ?>" class="input-dark col-sm-11 form-control" name="reponseQCM_N<?=$u?>" type="text" placeholder="<?php if($u==1){ echo "Entrez la réponse correcte."; }else{ echo "Entrez une mauvaise réponse"; } ?>"
                                         <?php if($_QUESTION["type"]==2){ $idR = $keys[$u-1]; ?> value="<?= $_QUESTION["reponses"][$idR]["lib"] ?>" <?php } ?>required>
                                       </div>
                                   </li>
@@ -354,9 +364,12 @@
                         <button class="btn btn-danger float-right" type='button' onclick="deleteQuestion(<?= $_QUESTION["id"] ?>);" style="margin-left:5px;">
                           <i class="far fa-trash-alt"></i>
                         </button>
-                        <button class="btn btn-info float-right" type='button' style="margin-left:5px;">
-                          <i class="fas fa-unlink"></i>
-                        </button>
+                        <?php
+                          if($_NBASSOCIATION["$queId"] > 1){?>
+                            <button class="btn-delier-question btn btn-info float-right" data-idquestion="<?= $_QUESTION["id"]?>" data-idquizz="<?= $_QUIZZ['id']?>" type='button' style="margin-left:5px;">
+                              <i class="fas fa-unlink"></i>
+                            </button>
+                        <?php } ?>
                         <button id="editQuestion_BtnN<?= $_QUESTION["id"] ?>" type="submit"  class="btn btn-success float-right" style="margin-left:5px;">
                           <i id="editQuestion_BtnCtnN<?= $_QUESTION["id"] ?>" class="far fa-edit"></i>
                         </button>

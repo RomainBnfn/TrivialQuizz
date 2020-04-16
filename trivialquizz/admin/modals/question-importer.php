@@ -120,6 +120,7 @@
         .then((response)=>{
           response.text()
           .then((resp)=>{
+            console.log(resp);
             if(resp=="ok"){
               $('#modalImportationQuestion').modal('hide');
               location.reload(true);

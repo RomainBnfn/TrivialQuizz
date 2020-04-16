@@ -269,29 +269,31 @@
           if(!is_numeric($idQuizz)) {
             return null;
           }
-          $data = tryQueryBDD($bdd, "SELECT DISTINCT * FROM question, reponse, quiz_quest WHERE question.que_id IN ( SELECT que_id FROM quiz_quest WHERE qui_id = $idQuizz) AND question.que_id = reponse.que_id AND question.que_id = quiz_quest.que_id ORDER BY qq_order;");
+          $data = tryQueryBDD($bdd, "SELECT DISTINCT * FROM question, reponse, quiz_quest
+                                                       WHERE quiz_quest.qui_id = $idQuizz
+                                                       AND question.que_id = reponse.que_id
+                                                       AND question.que_id = quiz_quest.que_id
+                                                       ORDER BY qq_order;");
           if(empty($data)){
             return null;
           }
           return loadQuestionReponseFromSQLResult($data);
         }
 
-        function tryLoadAllQuestions($bdd){
-          $data = tryQueryBDD($bdd, "SELECT question.que_lib as que_lib, quiz_quest.qui_id as qui_id FROM question, quiz_quest WHERE question.que_id = quiz_quest.que_id ORDER BY quiz_quest.qui_id");
+        function getAllNbAssociationQuestion($bdd, $idQuizz)
+        {
+          $data = tryQueryBDD($bdd, "SELECT que_id, COUNT(que_id) as nb FROM quiz_quest GROUP BY que_id HAVING que_id IN (SELECT que_id FROM quiz_quest WHERE qui_id = $idQuizz)");
           if(is_null($data)){
             return null;
           }
-          $_QUESTIONS;
-          $i = 0;
-          foreach($data as $result) {
-            $_QUESTION;
-            $_QUESTION["idQuizz"] = $result["qui_id"];
-            $_QUESTION["lib"] = $result["que_lib"];
-            $_QUESTIONS[$i] = $_QUESTION;
-            $i++;
+          $_NBASSOCIATION;
+          foreach ($data as $infos) {
+            $id = $infos['que_id'];
+            $_NBASSOCIATION["$id"] = $infos["nb"];
           }
-          return $_QUESTIONS;
+          return $_NBASSOCIATION;
         }
+
 
   // (SCORE)
 

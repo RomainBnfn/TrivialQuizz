@@ -25,7 +25,6 @@
 
    $nbQuestions = getNumberOfQuestions($bdd, $idQuizz);
 
-   createLiaisonQuizzQuestionSQL($bdd, $idQuizz , $idQuest, $nbQuestions+1);
-
+   createLiaisonQuizzQuestionSQL($bdd, $idQuizz , $idQuest, $nbQuestions + 1);
    echo "ok";
 ?>
