@@ -22,6 +22,7 @@ function decreasePosition(pos)
   tableauQuestionOrder.pop();
   if(id == 0) id = tableauQuestionOrder[nbQuestions-2];
   editFleches(nbQuestions-1, id);
+  editBadge(nbQuestions-1, id);
 }
 
 function deleteQuestion(id)
@@ -93,6 +94,7 @@ function moveQuestion(direction, idQuestion, posQuestion){
       if (resp == "ok"){
         $(()=>{
           var idCible = tableauQuestionOrder[posQuestion+direction-1];
+
           //Tableau edit
           tableauQuestionOrder[posQuestion+direction-1] = idQuestion;
           tableauQuestionOrder[posQuestion-1] = idCible;
@@ -104,8 +106,9 @@ function moveQuestion(direction, idQuestion, posQuestion){
           editPositionDisplay(posQuestion+direction, idQuestion);
           editPositionDisplay(posQuestion, idCible);
 
-          //fleches edit
+          //fleches edit;
           editFleches(posQuestion+direction, idQuestion);
+          console.log("oh");
           editFleches(posQuestion, idCible);
         });
       }
@@ -165,9 +168,7 @@ function saveQuestionReponse(id)
 $(document).ready(function(){
 
   $("#editGeneral").submit((e) => {
-
     e.preventDefault();
-
     var form = new FormData(document.getElementById("editGeneral"));
     fetch("ajax/quizz-save-edit.php", {
       method: "POST",
@@ -176,6 +177,7 @@ $(document).ready(function(){
     .then((response) => {
       response.text()
       .then((resp) => {
+        console.log(resp);
         if(resp=="ok"){
           $("#infoGeneral_Button").css("visibility", "visible");
           setTimeout(() => {

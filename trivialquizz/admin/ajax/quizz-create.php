@@ -35,11 +35,12 @@
     }
 
    // On crée le quizz dans la bdd
-   $requete = $bdd -> prepare("INSERT INTO quiz (qui_id,
-                                                 qui_desc,
+   $requete = $bdd -> prepare("INSERT INTO quiz (qui_desc,
+                                                 qui_temps,
+                                                 qui_malus,
                                                  th_id,
                                                  qui_nom)
-                                                 VALUES ( 0 , ? , ? , ?)");
+                                                 VALUES ( ? , 300, 0 , ? , ?)");
    $result = $requete -> execute(array(
                              escape($_POST["desc"]),
                              escape($_POST["theme"]),

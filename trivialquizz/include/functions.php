@@ -32,6 +32,8 @@
     $_QUIZZ["id"] = $result["qui_id"];
     $_QUIZZ["nom"] = $result["qui_nom"];
     $_QUIZZ["desc"] = $result["qui_desc"];
+    $_QUIZZ["temps"] = $result["qui_temps"];
+    $_QUIZZ["malus"] = $result["qui_malus"];
     $_QUIZZ["id_theme"] = $result["th_id"];
     return $_QUIZZ;
   }
@@ -213,7 +215,22 @@
           }
         }
 
-        function getNumbersOfQuestionsOfQuizzes($bdd,$idTheme)
+        function getNumbersOfQuestionsOfAllQuizzes($bdd)
+        {
+          $data = tryQueryBDD($bdd, "SELECT COUNT(*) AS NB, qui_id FROM quiz_quest GROUP BY qui_id");
+          $_NUMBERS;
+          if ($data == null)
+          {
+              return null;
+          }
+          foreach ($data as $infos)
+          {
+            $_NUMBERS[$infos["qui_id"]] = $infos["NB"];
+          }
+          return $_NUMBERS;
+        }
+
+        function getNumbersOfQuestionsOfQuizzes($bdd, $idTheme)
         {
           $data = tryQueryBDD($bdd, "SELECT COUNT(*) AS NB, qui_id FROM quiz_quest WHERE qui_id IN (SELECT qui_id FROM quiz WHERE th_id = $idTheme) GROUP BY qui_id");
           $_NUMBERS;
@@ -242,6 +259,7 @@
           return $_DURATIONS;
         }
 
+<<<<<<< HEAD
   // (QUESTIONS)
         /// Essaie de charger toutes les questions d'un quizz, puis renvoie une liste
         /// de liste qui comportent les infos des questions. Renvoie null sinon.
@@ -257,6 +275,26 @@
           }
           return loadQuestionReponseFromSQLResult($data);
         }
+=======
+  /// Essaie de charger toutes les questions d'un quizz, puis renvoie une liste
+  /// de liste qui comportent les infos des questions. Renvoie null sinon.
+  /// Renvoie $_QUESTIONS[] qui comporte tous les $_QUESTION[] (id, lib, id_bonneRep)
+  function tryLoadQuizzQuestion($bdd, $idQuizz)
+  {
+    if(!is_numeric($idQuizz)) {
+      return null;
+    }
+    $data = tryQueryBDD($bdd, "SELECT DISTINCT * FROM question, reponse, quiz_quest
+                                                WHERE question.que_id = reponse.que_id
+                                                AND question.que_id = quiz_quest.que_id
+                                                AND quiz_quest.qui_id = $idQuizz
+                                                ORDER BY qq_order;");
+    if(empty($data)){
+      return null;
+    }
+    return loadQuestionReponseFromSQLResult($data);
+  }
+>>>>>>> 88444b0ef8ab0346680db9749d2af45b0dbf8b5e
 
         function tryLoadAllQuestions($bdd){
           $data = tryQueryBDD($bdd, "SELECT question.que_lib as que_lib, quiz_quest.qui_id as qui_id FROM question, quiz_quest WHERE question.que_id = quiz_quest.que_id ORDER BY quiz_quest.qui_id");
