@@ -23,7 +23,7 @@
   }
 
   function getNumberOfQuestions($bdd, $id_quizz){
-    $requete = $bdd -> query("SELECT MAX(qq_order) FROM quiz_quest WHERE qui_id = $id_quizz");
+    $requete = $bdd -> query("SELECT COUNT(*) FROM quiz_quest WHERE qui_id = $id_quizz");
     $result = $requete -> fetch();
     return $result[0];
   }

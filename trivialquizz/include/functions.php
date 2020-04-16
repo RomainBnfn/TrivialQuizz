@@ -213,7 +213,22 @@
           }
         }
 
-        function getNumbersOfQuestionsOfQuizzes($bdd,$idTheme)
+        function getNumbersOfQuestionsOfAllQuizzes($bdd)
+        {
+          $data = tryQueryBDD($bdd, "SELECT COUNT(*) AS NB, qui_id FROM quiz_quest GROUP BY qui_id");
+          $_NUMBERS;
+          if ($data == null)
+          {
+              return null;
+          }
+          foreach ($data as $infos)
+          {
+            $_NUMBERS[$infos["qui_id"]] = $infos["NB"];
+          }
+          return $_NUMBERS;
+        }
+
+        function getNumbersOfQuestionsOfQuizzes($bdd, $idTheme)
         {
           $data = tryQueryBDD($bdd, "SELECT COUNT(*) AS NB, qui_id FROM quiz_quest WHERE qui_id IN (SELECT qui_id FROM quiz WHERE th_id = $idTheme) GROUP BY qui_id");
           $_NUMBERS;
@@ -250,7 +265,11 @@
     if(!is_numeric($idQuizz)) {
       return null;
     }
-    $data = tryQueryBDD($bdd, "SELECT DISTINCT * FROM question, reponse, quiz_quest WHERE question.que_id IN ( SELECT que_id FROM quiz_quest WHERE qui_id = $idQuizz) AND question.que_id = reponse.que_id AND question.que_id = quiz_quest.que_id ORDER BY qq_order;");
+    $data = tryQueryBDD($bdd, "SELECT DISTINCT * FROM question, reponse, quiz_quest
+                                                WHERE question.que_id = reponse.que_id
+                                                AND question.que_id = quiz_quest.que_id
+                                                AND quiz_quest.qui_id = $idQuizz
+                                                ORDER BY qq_order;");
     if(empty($data)){
       return null;
     }

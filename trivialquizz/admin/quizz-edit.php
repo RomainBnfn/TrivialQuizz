@@ -44,7 +44,9 @@
 <body>
   <?php require_once "../include/navbar.php"?>
   <!-- TODO: Ajouter une couleur en fct de $couleur -->
-  <div id="titreGeneral" class="bandeau-principal fond-bleu">Edition de Quizz : <?= $_QUIZZ["nom"] ?></div>
+  <div id="titreGeneral" class="bandeau-principal progress-bar progress-bar-info progress-bar-striped">
+    Edition de Quizz : <?= $_QUIZZ["nom"] ?>
+  </div>
 
   <div class="cadre-global">
     <div class="cadre-central">
@@ -75,24 +77,29 @@
             <form id="editGeneral" method="POST">
 
               <div class="form-group">
-                <label for="editGeneral_Nom" class="form-label">
+                <label for="editGeneral_Nom" class="main-label form-label" style="color: #AAFFFF !important">
+                  <i class="fas fa-signature"></i>
                   Nom:
                 </label>
-                <input id="editGeneral_Nom" type="text" class="input-dark form-control" name="nom" placeholder="Entrez le nom de la Question !" value="<?= $_QUIZZ["nom"] ?>" required/>
+                <input id="editGeneral_Nom" type="text" class="input-dark form-control" name="nom" placeholder="Entrez le nom de la Question !" value="<?= $_QUIZZ["nom"] ?>" autocomplete="off" required/>
                 <div id="errorGeneral_Nom" class="invalid-feedback">
                   Ce nom est déjà utilisé !
                 </div>
               </div>
 
               <div class="form-group">
-                <label for="editGeneral_Desc" class="form-label">
+                <label for="editGeneral_Desc" class="main-label form-label" style="color: #AAFFFF !important">
+                  <i class="fas fa-file-alt"></i>
                   Description:
                 </label>
-                <textarea id="editGeneral_Desc" type="text" class="input-dark form-control" name="desc" placeholder="Entrez le nom de la Question !" required><?= $_QUIZZ["desc"] ?></textarea>
+                <textarea id="editGeneral_Desc" type="text" class="input-dark form-control" name="desc" rows="3" placeholder="Entrez le nom de la Question !" required><?= $_QUIZZ["desc"] ?></textarea>
               </div>
 
               <div class="form-group">
-                <label for="editGeneral_Theme" name="id_theme" class="form-label">Thème :</label>
+                <label for="editGeneral_Theme" name="id_theme" class="main-label form-label" style="color: #AAFFAA !important">
+                  <i class="fas fa-certificate"></i>
+                  Thème:
+                </label>
                 <select class="input-dark form-control" id="editGeneral_Theme" name="id_theme">
                   <optgroup label="Thèmes Principaux">
                   <?php
@@ -111,6 +118,27 @@
                   </optgroup>
                 </select>
               </div>
+
+              <hr/>
+
+              <div class="form-group">
+                <label for="editGeneral_Nom" class="main-label form-label" style="color: #E3C6D5 !important">
+                  <i class="fas fa-hourglass-half"></i>
+                  Temps de base:
+                </label>
+                <input id="editGeneral_Nom" type="number" class="input-dark form-control" min="60" name="nom" placeholder="Entrez le temps de base (en seconde)." value="<?= $_QUIZZ["nom"] ?>" autocomplete="off" required/>
+                <small class="form-text text-muted" style="color: white !important;">
+                  Le temps de base est celui du niveau de difficulté le plus bas. (Et diminue pour les autres)
+                </small>
+              </div>
+
+              <label for="customRange3" class="main-label" style="color: #F1B8B8 !important">
+                <i class="fas fa-exclamation-circle"></i>
+                Malus Temps:
+              </label>
+              <input type="range" class="custom-range" min="0" max="5" step="0.5" id="customRange3">
+
+              <br/><br/>
 
               <input type="hidden" name="ancien_nom" value="<?= $_QUIZZ["nom"] ?>" />
               <input type="hidden" name="id" value="<?= $_QUIZZ["id"] ?>" />
@@ -268,22 +296,22 @@
 
                               <ul class="dark-background list-group col list-group-flush">
                                 <?php
-                                  for($i = 1; $i<=4; $i++){ ?>
+                                  for($u = 1; $u<=4; $u++){ ?>
                                   <li class="dark-background list-group-item">
 
                                       <div class="row">
                                         <div class="col-sm-1 form-group" style="text-align: center; vertical-align: middle;">
-                                          <?php if($i==1){?>
+                                          <?php if($u==1){?>
                                             <i class="fas fa-check-circle" style="color: #51cf66;"></i>
                                           <?php }else{?>
                                             <i class="fas fa-times-circle" style="color: #ff6b6b;"></i>
                                           <?php } ?>
                                         </div>
-                                        <input name="reponseID<?= $i ?>" type="hidden"
-                                        <?php if($_QUESTION["type"]==1){ ?>value="-1" <?php }else{ $idR = $keys[$i-1]; ?> value="<?= $_QUESTION["reponses"][$idR]["id"] ?>"<?php } ?> required/>
+                                        <input name="reponseID<?= $u ?>" type="hidden"
+                                        <?php if($_QUESTION["type"]==1){ ?>value="-1" <?php }else{ $idR = $keys[$u-1]; ?> value="<?= $_QUESTION["reponses"][$idR]["id"] ?>"<?php } ?> required/>
 
-                                        <input id="input_repQCMN<?= $i ?>" class="input-dark col-sm-11 form-control" name="reponseQCM_N<?=$i?>" type="text" placeholder="<?php if($i==1){ echo "Entrez la réponse correcte."; }else{ echo "Entrez une mauvaise réponse"; } ?>"
-                                        <?php if($_QUESTION["type"]==2){ $idR = $keys[$i-1]; ?> value="<?= $_QUESTION["reponses"][$idR]["lib"] ?>" <?php } ?>required>
+                                        <input id="input_repQCMN<?= $u ?>" class="input-dark col-sm-11 form-control" name="reponseQCM_N<?=$i?>" type="text" placeholder="<?php if($u==1){ echo "Entrez la réponse correcte."; }else{ echo "Entrez une mauvaise réponse"; } ?>"
+                                        <?php if($_QUESTION["type"]==2){ $idR = $keys[$u-1]; ?> value="<?= $_QUESTION["reponses"][$idR]["lib"] ?>" <?php } ?>required>
                                       </div>
                                   </li>
                               <?php } ?>
@@ -312,6 +340,7 @@
                 <?php
               }
             }
+
           ?>
         </div>
 
@@ -323,6 +352,7 @@
 
   <?php require_once "../include/script.html"?>
   <?php require_once "modals/question-create.php"?>
+  <?php require_once "modals/question-importer.php"?>
   <?php require_once "modals/confirmation-question-vider.php"?>
 
 <script>
@@ -331,7 +361,6 @@
       nameQuizz = <?=json_encode($_QUIZZ["nom"])?>,
       tableauQuestionOrder = <?=json_encode($tableauQuestionOrder)?>,
       idQuizz = <?= $_QUIZZ["id"] ?>;
-
   listeNoms = listeNoms.filter(function(value, index, arr){ return value != nameQuizz;});
   <?php
     foreach ($_QUESTIONS as $_QUESTION) { ?>

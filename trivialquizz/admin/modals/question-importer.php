@@ -5,7 +5,9 @@
 //-----------------------------------------
 
   $_QUIZZES = getAllQuizzesInfos($bdd);
+  $_NBQUESTIONS = getNumbersOfQuestionsOfAllQuizzes($bdd);
 
+  $id_Quizz = $_QUIZZ["id"];
 //-----------------------------------------
 ?>
 <!-- Les modals (Pop-up)-->
@@ -21,44 +23,112 @@
       </div>
 
 
+      <form id="importationQuestion" method="POST">
+        <div class="modal-body" style="padding-bottom: 0 !important; margin-bottom: 15px; margin-right: 15px;">
+          <?php
+            $i = 0;
+            foreach ($_QUIZZES as $id => $_QUIZZ_LOOP) {
+              if($_QUIZZ_LOOP["id"] == $id_Quizz){
+                continue;
+              }
+              if(!isset($_NBQUESTIONS["$id"]) || $_NBQUESTIONS["$id"] < 1){
+                continue;
+              }
+              $i++;
+            }
+            if($i == 0){
+          ?>
+          <p>
+            Il n'y a aucune question à importer.. Créez en quelques unes avant de tester cette fonctionnalité !
+          </p>
+        <?php } else { ?>
 
-      <div class="modal-body" style="padding-bottom: 0 !important; margin-bottom: 15px; margin-right: 15px;">
-        <form id="importationQuestion" method="POST">
+
           <div class="form-group">
-            <label for="" class="col form-control-label">Question</label>
-            <div class="col">
-              <select class="input-dark dropdown form-control selectpicker" data-live-search="true" id="select">
-                <?php
-                $id = -1;
-                foreach ($_QUESTIONS as $_QUESTION) {
-                  if($_QUESTION["idQuizz"] == $_QUIZZ["id"]) // Ne pas importer ses propres questions
-                    break;
-                  if($id != $_QUESTION["idQuizz"]){
-                    if($id != -1){
-                      echo "</optgroup>";
-                    }
-                    $id = $_QUESTION["idQuizz"];
-                    $name = $_QUIZZES["$id"]["nom"];
-                    echo "<optgroup label='Quizz: $name'>";
-                  } ?>
-                  <option value="<?= $_QUESTION["id"] ?>"><?= $_QUESTION["lib"] ?></option>
-                <?php
-                }?>
-                </optgroup>
-              </select>
-            </div>
+            <label for="selectImportQuizz" class="main-label form-control-label">
+              <i class="fas fa-directions"></i>
+              Quizz:
+            </label>
+
+            <select id="selectImportQuizz" class="input-dark dropdown form-control selectpicker" data-live-search="true" required >
+              <option value="-1" selected disabled>Cliquez pour choisir un Quizz !</option>
+              <?php
+
+              foreach ($_QUIZZES as $id => $_QUIZZ_LOOP) {
+                if($_QUIZZ_LOOP["id"] == $_QUIZZ["id"])
+                  continue;
+                if($_NBQUESTIONS["$id"] < 1)
+                  continue;
+
+                 ?>
+                <option value="<?= $_QUIZZ_LOOP["id"] ?>"><?= $_QUIZZ_LOOP["nom"] ?></option>
+              <?php
+              }?>
+            </select>
+            <small class="form-text text-muted" style="color: white !important;">
+              Sélectionnez le quizz pour voir ses questions. (Seuls les quizzes avec des questions sont affichés ici)
+            </small>
           </div>
-        </form>
 
-      </div>
+          <div id="divImportQuestions" class="form-group" style="display: none">
+            <label for="selectImportQuestions" class="main-label form-control-label" style="color: #AAFFAA !important">
+              <i class="fas fa-question-circle"></i>
+              Les questions:
+            </label>
 
-      <div class="modal-footer">
-      </div>
+            <select id="selectImportQuestions" class="input-dark dropdown form-control selectpicker" data-live-search="true" id="select">
+
+            </select>
+
+          </div>
+
+        <?php } ?>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
+          <input id=""  class="btn btn-success" value="Ajouter" type="submit" />
+        </div>
+      </form>
 
 
     </div>
   </div>
 </div>
 <script>
+  $(document).ready(()=>{
+    $("#selectImportQuizz").change(()=>{
+      var idQuizz = $("#selectImportQuizz").val();
+      fetch("ajax/getQuestionsToDisplay.php?idQuizzCible="+idQuizz+"&idQuizzSource=<?=$id_Quizz?>")
+      .then((response)=>{
+        response.text()
+        .then((resp)=>{
+          $("#divImportQuestions").css("display", "block");
+          $("#selectImportQuestions").html(resp);
+        })
+      });
+
+    });
+
+    $("#importationQuestion").submit((e)=>{
+      e.preventDefault();
+      if($("#selectImportQuizz").val() == null || $("#selectImportQuestions").val() == null){
+        alert("Il faut selectionner les trucs, abuses pas.");
+      }
+      else{//OK
+        var idQuest = $("#selectImportQuestions").val();
+        fetch("ajax/question-lier.php?idQuizz=<?=$id_Quizz?>&idQuest="+idQuest)
+        .then((response)=>{
+          response.text()
+          .then((resp)=>{
+            if(resp=="ok"){
+              $('#modalImportationQuestion').modal('hide');
+              location.reload(true);
+            }
+          })
+        })
+      }
+    })
+  })
+
 
 </script>

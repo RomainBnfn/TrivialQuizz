@@ -146,6 +146,8 @@
         .then((resp) => {
           console.log(resp);
           if(resp=="ok"){
+            $('#modalCreationQuestion').modal('hide');
+            location.reload(true);
           }
         })
       });

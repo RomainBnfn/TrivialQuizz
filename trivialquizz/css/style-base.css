@@ -150,8 +150,13 @@ body{
 label
 {
 	display: block;
-	width: 100px;
 	float: left;
+}
+label.main-label
+{
+  font-size: 1.1rem;
+  font-weight: 600 !important;
+  color: #FFD5AA !important;
 }
 a{
   text-decoration: none !important;
