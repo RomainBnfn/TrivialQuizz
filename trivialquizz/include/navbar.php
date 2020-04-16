@@ -2,10 +2,9 @@
   require_once "index_location.php";
   require_once "liaisonbdd.php";
   require_once "functions.php";
-
   $isConnected ="";
 
-  if(isset($_SESSION['pseudo'])){ // Connecté
+  if(!empty($_SESSION) && isset($_SESSION['pseudo'])){ // Connecté
     $isConnected = 1;
     if(isset($_SESSION['is_admin'])){
       $hello_txt = "(Admin) Bonjour, ". $_SESSION['pseudo'];
@@ -16,6 +15,7 @@
   }
 
 ?>
+<link rel="stylesheet" type="text/css" href="<?=$index_location?>/css/modal.css">
 <nav class="navbar fixed-top navbar-expand-md navbar" role="navigation">
   <div>
       <a href="<?=$index_location?>/index.php">
@@ -57,9 +57,9 @@
         </li>
       <?php } else { ?>
         <li>
-          <a href="<?=$index_location?>/register.php">
-            <button type="button" class="btn btn-primary">Inscription</button>
-          </a>
+          <button id="boutonInscription" type="button" class="btn btn-primary button-open-modal" data-toggle="modal" data-target="#modalInscription">
+            Inscription
+          </button>
         </li>
         <li>
           <button id="boutonConnexion" type="button" class="btn btn-outline-primary button-open-modal" data-toggle="modal" data-target="#modalConnexion">
@@ -71,20 +71,17 @@
 
   </div>
 </nav>
-
 <?php
-  if(!$isConnected){
-
-    require_once $index_location."/modals/connexion.php";
-  }
-  ?>
-
+  require_once "modals/connexion.php";
+  require_once "modals/inscription.php";
+?>
 <script type="text/javascript">
   function logout(){
     fetch("<?=$index_location?>/ajax/unlog.php")
     .then((response)=>{
       response.text()
       .then((resp)=>{
+        console.log(resp);
         location.reload(true);
       })
     })

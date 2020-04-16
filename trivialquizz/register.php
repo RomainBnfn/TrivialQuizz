@@ -87,7 +87,7 @@
       </div>
     </section>
     <?php require_once "include/script.html"?>
-    
+
     <script type="text/javascript" src="js/form-register.js"></script>
   </body>
 </html>

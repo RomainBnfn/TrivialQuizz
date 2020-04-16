@@ -378,6 +378,24 @@
     return (!empty($result));
   }
 
+//
+//
+//
+
+  function getAllPseudo($bdd){
+    $dataId = tryQueryBDD($bdd, "SELECT pr_pseudo FROM profil");
+    if(is_null($dataId)){
+      return null;
+    }
+    $_PSEUDOS;
+    $i = -1;
+    foreach ($dataId as $id) {
+      $i++;
+      $_PSEUDOS[$i] = $id["pr_pseudo"];
+    }
+    return $_PSEUDOS;
+  }
+
 // -----------------------------------------------------------------------------
 //  Fonctions pour la construction du camembert des thèmes sur la page d'Accueil:
 // -----------------------------------------------------------------------------

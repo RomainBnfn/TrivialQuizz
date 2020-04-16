@@ -1,19 +1,18 @@
 <?php
   session_start();
 
-  //TODO: changer chemin
-  $path_index = "/trivial/trivialquizz/index.php";
+  require_once "include/index_location.php";
 
   if(!isset($_GET["theme"])){
-    header("Location: ".$path_index);
+    header("Location: ".$index_location);
     exit();
   }
   if(empty($_GET["theme"])){
-    header("Location: ".$path_index);
+    header("Location: ".$index_location);
     exit();
   }
   if($_GET["theme"]=="null"){
-    header("Location: ".$path_index);
+    header("Location: ".$index_location);
     exit();
   }
 
@@ -57,7 +56,6 @@
     <?php require_once "include/header.html"?>
     <link rel="stylesheet" type="text/css" href="css/style-quizz.css">
     <link rel="stylesheet" type="text/css" href="css/card-2.css">
-    <link rel="stylesheet" type="text/css" href="css/test.css">
     <title>Choix du quizz - Trivial Quizz</title>
   </head>
   <body>
@@ -146,7 +144,12 @@
     <script type="text/javascript" src="js/ripple.js"></script>
     <script type="text/javascript">
 
-    var isConnected = <?=$connected?>; //cf navbar.php
+    var isConnected = <?php
+      if($isConnected==1) {
+        echo "true";
+      } else {
+        echo "false";
+      } ?>;
     var idTheme = <?=$theme['id']?>;
     var pseudo = "<?=$_SESSION['pseudo']?>";
     var idQuizz;
@@ -177,11 +180,13 @@
       var card = $('.card-quizz');
 
       /// CLIQUE SUR UN QUIZZ == LANCEMENT DU QUIZZ ///
-      card.on('click',function(){
+      $('.card-quizz').click(function(){
 
         //il faut que la personne soit connecté
+        console.log(isConnected);
         if(!isConnected){
-          document.location.href="log.php";
+          console.log("t");
+          $('#modalConnexion').modal('show');
         }else{
           // carte cliquée
           var clickedCard = $(this);
@@ -294,7 +299,7 @@
       '</div>');
       $('#quizz-container').append(htmlScoreBoard);
 
-      maxDuration = (duration.temps*(1-difficulty*duration.malus/100)*1000;
+      maxDuration = ( duration.temps * ( 1 - difficulty * duration.malus/ 100 ) ) * 1000;
       timeRef = (new Date().getTime())+1000;
 
       timer = setInterval(function(){

@@ -3,6 +3,7 @@
 
   require_once "../include/index_location.php";
 
+  $_SESSION['is_admin'] = true;
   if(!isset($_SESSION['is_admin']))
   {
     header("Location: $index_location/index.php");

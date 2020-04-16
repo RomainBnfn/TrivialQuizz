@@ -162,6 +162,13 @@ label.main-label
   font-weight: 600 !important;
   color: #FFD5AA !important;
 }
+.blue-text{
+    color: #71E3E3 !important;
+}
+.blue-text:hover{
+    color: #AAFFFF !important;
+    cursor: pointer !important;
+}
 a{
   text-decoration: none !important;
 }
