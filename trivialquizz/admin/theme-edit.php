@@ -42,11 +42,18 @@
   <?php require_once "../include/navbar.php"?>
 
   <!-- TODO: Ajouter une couleur en fct de $couleur -->
-  <div class="bandeau-principal fond-bleu">Edition de Thème : <?= $_THEME["nom"] ?></div>
+  <div class="bandeau-principal fond-bleu progress-bar-striped">
+    Edition de Thème : <?= $_THEME["nom"] ?>
+  </div>
 
   <div class="cadre-global">
     <div class="cadre-central">
 
+      <a href="theme.php">
+        <i class="fas fa-arrow-left" style="height: 2.5em;"></i>
+        Retour
+      <a/>
+      
       <!-- DEBUT : Cadre des options générales -->
       <div>
         <div class="titre1 titre-shadow">
