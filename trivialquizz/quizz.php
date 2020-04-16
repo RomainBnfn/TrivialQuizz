@@ -32,8 +32,9 @@
   $nbrQuestByQuizz = getNumbersOfQuestionsOfQuizzes($bdd, $theme['id']);
 
   //temps et réduction par difficulté par quizzes
-  //$quizzesDuration = getAllQuizzezDuration($bdd, $theme['id']);
-  $quizzesDuration = array( 1 => array(2*60,20));
+  $quizzesDuration = getAllQuizzesDuration($bdd, $theme['id']);
+  print_r($quizzesDuration);
+  //$quizzesDuration = array( 1 => array(2*60,20));
 
   //meilleurs scores globaux
   $scoresGlobaux = getScoreGlobaux($bdd, $theme['id']);
@@ -87,8 +88,10 @@
                     <div class="card-body">
                       <h3><?=$quizz['nom']?></h3>
                         <p>Nombre de questions: <span class="badge badge-pill badge-info"><?=$nbrQuestByQuizz[$quizz['id']]?></span><br>
-                      Durée: <span class="badge badge-pill badge-info">10:00'</span> - <span class="badge badge-pill badge-info">15:00'</span></p>
-                      <p>
+                          Durée: <span class="badge badge-pill badge-info"><?=formatTimeToString($quizzesDuration[$quizz['id']]['temps']-5*$quizzesDuration[$quizz['id']]['malus'])?></span>
+                          - <span class="badge badge-pill badge-info"><?=formatTimeToString($quizzesDuration[$quizz['id']]['temps'])?></span>
+                        </p>
+                        <p>
                         <?php
                           if($scoresGlobaux[$quizz['id']]['point'] != -1){
                             ?>
@@ -100,7 +103,7 @@
                               <?php
                             }
                           }
-                         ?>
+                        ?>
                       </p>
                       <p><?=$quizz['desc']?></p>
                     </div>
@@ -125,10 +128,9 @@
     <section id="quizz-container">
       <a class="hide control-info ripple-container" id="back" href="quizz.php?theme=<?=$theme['id']?>"><p>RETOUR</p></a>
       <div class="quest-container hide">
-        <h1 class="hide">Choisis une difficulté</h1>
+        <h1 id="question" class="hide">Choisis une difficulté</h1>
         <div id="difficulty-choice" class="hide">
           <h2 id="difficulty">1 - Tnul</h2>
-
           <div id="difficulty-container">
             <p>Facile</p>
             <input id="slider-difficulty" type="range" name="difficulty" max="5" min="1" value="1">
@@ -156,7 +158,8 @@
 
     var btnCheck = 0; //stock l'id du btn correspondant au choix du joueur (difficulté/qcm)
 
-    var duration = <?=json_encode($quizzesDuration)?>; //{qui_id: {durée, malus}, ... , ...}
+    var duration = <?=json_encode($quizzesDuration)?>; //{qui_id: {temps, malus}, ... , ...}
+    console.log(duration);
     var isTimerPaused = true, //timer en pause lors des chargement
       maxDuration, // durée max du quizz en prenant en compte la difficulté
       timer, // objet setInterval
@@ -295,7 +298,7 @@
       '</div>');
       $('#quizz-container').append(htmlScoreBoard);
 
-      maxDuration = (duration[0]-(difficulty-1)*duration[1])*1000;
+      maxDuration = (duration.temps-(difficulty-1)*duration.malus)*1000;
       timeRef = (new Date().getTime())+1000;
 
       timer = setInterval(function(){
@@ -337,7 +340,6 @@
               if(response == "finish"){
                 endQuizz(false);
               }else{
-                console.log(response);
                 var t2 = new Date().getTime();
                 delay += Math.max(1000,t2-t0);
                 isTimerPaused = false;
@@ -429,9 +431,7 @@
       $('#back').addClass('continue');
 
       //sauvgarde le score dans la bdd
-      fetch("ajax/addScore.php?point="+score+"&temps="+time+"&diff="+difficulty+"&profil="+pseudo+"&quizz="+idQuizz)
-        .then(resp => resp.text)
-        .then(console.log(resp));
+      fetch("ajax/addScore.php?point="+score+"&temps="+time+"&diff="+difficulty+"&profil="+pseudo+"&quizz="+idQuizz);
     }
 
     // test l'égalité des chaine s1 et s2 ne tient pas compte de la casse

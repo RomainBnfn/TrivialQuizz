@@ -312,7 +312,7 @@ body
   font-weight: bold;
   animation: plusEffect 1.5s;
   animation-fill-mode: forwards;
-  right: 150px;
+  right: calc(130px + 2%);
   font-family: "CaviarDreams";
 }
 @keyframes plusEffect {
@@ -321,11 +321,11 @@ body
     font-size: 3.2rem;
   }
   99%{
-    top:130px;
+    top:110px;
     font-size: .5rem;
   }
   100%{
-    top:130px;
+    top:110px;
     font-size: 0rem;
   }
 }
