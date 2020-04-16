@@ -1,25 +1,20 @@
 <?php
   require_once "index_location.php";
+  require_once "liaisonbdd.php";
+  require_once "functions.php";
 
-  if(isset($_GET['unlog'])){
-    $_SESSION['pseudo']="";
-    $_SESSION['is_admin']="false";
-    header("Location: $index_location/index.php");
-    exit();
-  }
+  $isConnected ="";
 
-  if(isset($_SESSION['is_admin']) && isset($_SESSION['pseudo'])){
-    if($_SESSION['is_admin']=="true"){
-      $hello_txt = "Bonjour, ".$_SESSION['pseudo']." (admin)";
+  if(isset($_SESSION['pseudo'])){ // Connecté
+    $isConnected = 1;
+    if(isset($_SESSION['is_admin'])){
+      $hello_txt = "(Admin) Bonjour, ". $_SESSION['pseudo'];
     }
-  }
-  $connected = 0;
-  if(isset($_SESSION['pseudo'])){
-    if(!empty($_SESSION['pseudo'])){
-      $connected = 1;
+    else{
       $hello_txt = "Bonjour, ".$_SESSION['pseudo'];
     }
   }
+
 ?>
 <nav class="navbar fixed-top navbar-expand-md navbar" role="navigation">
   <div>
@@ -38,28 +33,60 @@
     <div class="dropdown">
 
       <span class="dropdown-toggle-dark dropdown-toggle" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-        Section Admin
+        Administration
       </span>
 
       <div class="dropdown-menu-dark dropdown-menu" aria-labelledby="dropdownMenuButton">
 
-        <a class="dropdown-dark dropdown-item-dark dropdown-item" href="<?=$index_location?>/admin/theme.php">Thèmes</a>
-        <a class="dropdown-dark dropdown-item-dark dropdown-item" href="<?=$index_location?>/admin/quizz.php">Quizzes</a>
+        <a class="dropdown-dark dropdown-item-dark dropdown-item" href="<?=$index_location?>/admin/theme.php">
+          Editer des thèmes
+        </a>
+        <a class="dropdown-dark dropdown-item-dark dropdown-item" href="<?=$index_location?>/admin/quizz.php">
+          Editer des quizzes
+        </a>
       </div>
     </div>
 
     <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
-      <li>
-        <a href="<?=$index_location?>/register.php">
-          <button type="button" class="btn btn-primary">Inscription</button>
-        </a>
-      </li>
-      <li>
-        <a href="<?=$index_location?>/log.php">
-          <button type="button" class="btn btn-outline-primary">Connexion</button>
-        </a>
-      </li>
+      <?php if($isConnected){ ?>
+        <p>
+          <?= $hello_txt ?>
+        </p>
+        <li>
+          <button type="button" class="btn btn-outline-primary" onclick="logout()">Deconnexion</button>
+        </li>
+      <?php } else { ?>
+        <li>
+          <a href="<?=$index_location?>/register.php">
+            <button type="button" class="btn btn-primary">Inscription</button>
+          </a>
+        </li>
+        <li>
+          <button id="boutonConnexion" type="button" class="btn btn-outline-primary button-open-modal" data-toggle="modal" data-target="#modalConnexion">
+            Connexion
+          </button>
+        </li>
+      <?php } ?>
     </ul>
 
   </div>
 </nav>
+
+<?php
+  if(!$isConnected){
+
+    require_once $index_location."/modals/connexion.php";
+  }
+  ?>
+
+<script type="text/javascript">
+  function logout(){
+    fetch("<?=$index_location?>/ajax/unlog.php")
+    .then((response)=>{
+      response.text()
+      .then((resp)=>{
+        location.reload(true);
+      })
+    })
+  }
+</script>

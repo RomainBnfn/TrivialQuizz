@@ -25,8 +25,6 @@
   //récupération des quizzes associés au thème
   $quizzes = getAllQuizzesInfosOfTheme($bdd,$theme['id']);
 
-  //variable qui permet de revenir à la page où était l'ut avant qu'il se connecte
-  $_SESSION["origin"] = "quizz.php?theme=".$theme['id'];
 
   //nombre de questions dans chaques thèmes
   $nbrQuestByQuizz = getNumbersOfQuestionsOfQuizzes($bdd, $theme['id']);

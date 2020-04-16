@@ -37,7 +37,6 @@
   //   $nomTheme[$i++] = $theme['nom'];
   // }
   //variable qui permet de revenir à la page où était l'ut avant qu'il se connecte
-  $_SESSION["origin"] = "index.php";
 ?>
 <!doctype html>
 <html lang="fr">
@@ -46,6 +45,7 @@
   <?php require_once "include/header.html"?>
   <link rel="stylesheet" type="text/css" href="css/style-index.css">
   <link rel="stylesheet" type="text/css" href="css/card-2.css">
+  <link rel="stylesheet" type="text/css" href="css/modal.css">
 </head>
 <body>
   <?php require_once "include/navbar.php"?>
@@ -101,6 +101,7 @@
     </div>
   </section>
   <?php require_once "include/script.html"?>
+
   <script type="text/javascript" src="js/animation_roue.js"></script>
   <script type="text/javascript" src="js/ripple.js"></script>
   <script type="text/javascript">
@@ -112,6 +113,5 @@
       fontSizeTextUnfocus = <?=$fontSizeTextUnfocus?>,
       themes = <?=json_encode($themesPrincipaux)?>;
   </script>
-  <?php require_once "js/script.html"?>
 </body>
 </html>
