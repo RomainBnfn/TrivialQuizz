@@ -36,7 +36,7 @@ CREATE TABLE quiz
 CREATE TABLE score
 (
   sc_id INTEGER NOT NULL PRIMARY KEY AUTO_INCREMENT,
-  sc_point INTEGER NOT NULL,
+  sc_point FLOAT NOT NULL,
   sc_temps INTEGER NOT NULL,
   sc_difficulte INTEGER NOT NULL,
   sc_date DATE NOT NULL,

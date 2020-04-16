@@ -33,7 +33,6 @@
 
   //temps et réduction par difficulté par quizzes
   $quizzesDuration = getAllQuizzesDuration($bdd, $theme['id']);
-  print_r($quizzesDuration);
   //$quizzesDuration = array( 1 => array(2*60,20));
 
   //meilleurs scores globaux
@@ -159,7 +158,6 @@
     var btnCheck = 0; //stock l'id du btn correspondant au choix du joueur (difficulté/qcm)
 
     var duration = <?=json_encode($quizzesDuration)?>; //{qui_id: {temps, malus}, ... , ...}
-    console.log(duration);
     var isTimerPaused = true, //timer en pause lors des chargement
       maxDuration, // durée max du quizz en prenant en compte la difficulté
       timer, // objet setInterval
@@ -337,6 +335,7 @@
             $('.quest-container').children().addClass('disappearance');
             setTimeout(function(){
               $('.quest-container').remove();
+              console.log(response);
               if(response == "finish"){
                 endQuizz(false);
               }else{
@@ -386,7 +385,7 @@
 
       if(typeQuest == 1){ // réponse libre
         if(isEqual($('#free-answer-input').val(),bonneRep)){
-          score++;
+          score+=(difficulty-1)/2+1;
           $('#score').text(score);
           $(bonneRep).addClass('right-answer');
           $('#validated').addClass('right-answer');
@@ -398,7 +397,7 @@
         }
       }else{ //qcm
         if(btnCheck==bonneRep){
-          score++;
+          score+=(difficulty-1)/2+1;
           $('#score').text(score);
           $(bonneRep).addClass('right-answer');
           $('#validated').addClass('right-answer');
