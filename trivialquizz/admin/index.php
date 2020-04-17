@@ -100,7 +100,6 @@
           .then((response)=>{
             response.text()
             .then((resp)=>{
-              console.log(resp);
               if(resp == "ok"){
                 location.reload(true);
               }
