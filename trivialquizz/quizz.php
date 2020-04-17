@@ -195,7 +195,9 @@
           //agrandissement de la carte cliquée
           $('body').css('overflow','hidden');
           clickedCard.addClass('full-page');
-
+          setTimeout(function(){
+            $('nav').addClass('nav-remove');
+          },800);        
           //remplacement du font du body par celui de la carte cliqué
           //puis suppression de la section de sélèction du quizz
           setTimeout(function(){
@@ -203,6 +205,8 @@
             $('html')[0].style.backgroundImage = clickedCard[0].style.backgroundImage;
             $('section')[0].remove();
             $('section')[0].remove();
+            //$('nav').remove();
+            $('footer').remove();
           },1000);
 
           //apparition des elements
