@@ -167,19 +167,20 @@
                     </span>
                   </span>
                 </div>
-                <label>Exemples :</label>
+
                 <div>
+                  <label>Exemples :</label>
                   <div>
                     Niveau Facile :
                     <span id="tempsFacile">
-                      <?= $_QUIZZ["temps"] ?>s
+                      <?= timeToString($_QUIZZ["temps"]) ?>
                     </span>
                   </div>
 
                   <div>
                     Niveau Extrême :
                     <span id="tempsDifficile">
-                      <?= (int) ( $_QUIZZ["temps"] * (1 - $_QUIZZ["malus"]/100) )?>s
+                      <?= timeToString((int) ( $_QUIZZ["temps"] * (1 - $_QUIZZ["malus"]/100) )) ?>
                     </span>
                   </div>
                 </div>
@@ -216,14 +217,14 @@
         <h1 >Les questions</h1>
         <!-- Quand on appuie sur le bouton, on envoie une requête -->
         <div >
-          <button id="boutonAjouterQuestion" type="button" class="btn btn-success button-open-modal" data-toggle="modal" data-target="#modalCreationQuestion">
+          <button type="button" class="btn btn-success button-open-modal" data-toggle="modal" data-target="#modalCreationQuestion">
             Ajouter
           </button>
-          <button id="boutonImporterQuestion" type="button" class="btn btn-info button-open-modal" data-toggle="modal" data-target="#modalImportationQuestion">
+          <button type="button" class="btn btn-info button-open-modal" data-toggle="modal" data-target="#modalImportationQuestion">
             Importer
           </button>
           <?php if(!empty($_QUESTIONS) && count($_QUESTIONS) > 0){ ?>
-            <button id="boutonViderQuestions" type="button" class="btn btn-danger button-open-modal" data-toggle="modal" data-target="#modalConfirmationVider">
+            <button type="button" class="btn btn-danger button-open-modal" data-toggle="modal" data-target="#modalConfirmationVider">
               Vider le Quizz
             </button>
           <?php } ?>
@@ -354,7 +355,7 @@
                                         <input name="reponseID<?= $u ?>" type="hidden"
                                         <?php if($_QUESTION["type"]==1){ ?>value="-1" <?php }else{ $idR = $keys[$u-1]; ?> value="<?= $_QUESTION["reponses"][$idR]["id"] ?>"<?php } ?> required/>
 
-                                        <input id="input_repQCMN<?= $u ?>" class="input-dark col-sm-11 form-control" name="reponseQCM_N<?=$u?>" type="text" placeholder="<?php if($u==1){ echo "Entrez la réponse correcte."; }else{ echo "Entrez une mauvaise réponse"; } ?>"
+                                        <input class="input-dark col-sm-11 form-control" name="reponseQCM_N<?=$u?>" autocomplete="off" type="text" placeholder="<?php if($u==1){ echo "Entrez la réponse correcte."; }else{ echo "Entrez une mauvaise réponse"; } ?>"
                                         <?php if($_QUESTION["type"]==2){ $idR = $keys[$u-1]; ?> value="<?= $_QUESTION["reponses"][$idR]["lib"] ?>" <?php } ?>required>
                                       </div>
                                   </li>
@@ -438,7 +439,7 @@
 
   });
 </script>
-<script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
 <script type="text/javascript" src="js/quizz-edit.js"></script>
+<script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
 </body>
 </html>

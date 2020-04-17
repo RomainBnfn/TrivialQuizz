@@ -170,11 +170,20 @@ function temps_changed(){
     return;
 
   var tempFinal = parseInt(temps * (1 - malus * 4 / 100) );
-
-  $("#tempsDifficile").html(""+tempFinal+ "s");
+  console.log(secToMMSS(temps));
+  $("#tempsDifficile").html(""+secToMMSS(tempFinal));
   $("#amountMalus").html("-"+malus+ "%");
-  $("#tempsFacile").html(""+ temps + "s");
-}
+  $("#tempsFacile").html(""+ secToMMSS(temps));
+};
+
+function secToMMSS(i){
+  var min = (i - i % 60) / 60,
+      sec = i % 60;
+  if(sec<10)
+    return min+"m0"+sec+"s";
+  return min+"m"+sec+"s";
+};
+
 
 function displayAfterDeleteQuestion(id){
   $("#containerQuestionN"+id).remove();

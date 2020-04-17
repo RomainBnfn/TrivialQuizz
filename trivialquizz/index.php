@@ -26,7 +26,7 @@
   $coordTextFocus = generateCoordText($r, $G*$R, $c, $ids);
   $coordTextUnfocus = generateCoordText($r, $R, $c, $ids);
 
-  $_NBOFQUIZZOFTHEME = getNumbersOfQuizzesOfThemes($bdd);
+  $_NBOFQUIZZOFTHEME = getNumbersOfQuizzesWithQuestionsOfThemes($bdd);
 
 ?>
 <!doctype html>

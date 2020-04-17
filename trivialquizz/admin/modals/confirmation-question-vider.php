@@ -19,7 +19,7 @@
       <div class="modal-footer">
         <form id="modalConfirmationVider" method="POST">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
-          <input id="formCreation_Button"  class="btn btn-danger" value="Vider le Quizz" type="submit" />
+          <input  class="btn btn-danger" value="Vider le Quizz" type="submit" />
         </form>
       </div>
 

@@ -67,6 +67,9 @@
   font-family: "CaviarDreams";
   font-weight: bold;
 }
+body{
+  font-family: "CaviarDreams";
+}
 .fond-bleu{
 	color: white;
   background: repeating-linear-gradient(-45deg, #1C558E, 10px, #2A80D5 10px, #2A80D5 20px);
@@ -93,7 +96,7 @@ nav {
   color: white !important;
   height: auto;
 }
-@media (min-width: 768px) {
+@media (min-width: 760px) {
   .navbar-nav{
     width: 100%;
     display: flex !important;

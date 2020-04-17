@@ -148,9 +148,9 @@
     <script type="text/javascript" src="js/ripple.js"></script>
     <script type="text/javascript">
 
-    var isConnected = <?php echo ($isConnected==1) ? "true" : "false";?>;
+    var isConnected = <?php echo ($isConnected==1) ? 'true' : 'false';?>;
     var idTheme = <?=$theme['id']?>;
-    var pseudo = "<?=$_SESSION['pseudo']?>";
+    var pseudo = "<?php echo ($isConnected==1) ? $_SESSION['pseudo'] : "";?>";
     var idQuizz;
     var score = 0;
     var difficulty = 1; // valeur possible: [|1,5|]
@@ -179,8 +179,7 @@
       var card = $('.card-quizz');
 
       /// CLIQUE SUR UN QUIZZ == LANCEMENT DU QUIZZ ///
-      $('.card-quizz').on('click', function(){
-
+      $('.card-quizz').click(function(){
         //il faut que la personne soit connecté
         if(!isConnected){
           $('#modalConnexion').modal('show');
