@@ -3,27 +3,25 @@ html
   background-size: 100% 100%;
   height: 100vh;
 }
-#quizz-description
-{
+#quizz-description{
   padding: 2%;
   font-size: 1.2rem;
   font-weight: lighter;
 }
 
-/* style pour les card */
-.card
-{
+/* style pour les card affichant les quizzes*/
+.card{
   border: none;
   cursor: pointer;
   background-size: 100% 100%;
 }
 
-/*quizz*/
-.hide
+
+.hide  /* cache la zone de choix de difficulté avant que l'ut ne choisisse un quizz */
 {
   display: none !important;
 }
-.control-info{
+.control-info{  /* scoreboard et bouton retour */
   position: fixed;
   color: rgba(0, 0, 0, 0.6);
   font-weight: bold;
@@ -36,27 +34,23 @@ html
   border: solid 1px rgba(0, 0, 0, 0.6);
   border-radius: .5rem;
 }
-.quest-container
+.quest-container  /* sous conteneur lors de la phase de jeu*/
 {
   width: 100%;
-  height: 100%;
   position: fixed;
   top: calc(65px + var(--navbar-height));
-  height: calc(100vh - var(--navbar-height) - 65px);
-  overflow-y: scroll;
-  margin-bottom: 10%;
-  text-align: center;
+  height: calc(100vh - var(--navbar-height) - 65px); /* hauteur total - la navbar */
+  overflow-y: scroll;                                /* - la zone du scoreboard et */
+  text-align: center;                                /* bouton retour */
 }
 .quest-container > *{
   opacity: 0;
 }
-.quest-container .btn
-{
+.quest-container .btn{
   border: solid 1px #666;
   background-color: rgba(255, 255, 255, 0.4);
 }
-.quest-container .btn:hover
-{
+.quest-container .btn:hover{
   border: solid 1px #666;
   background-color: rgba(100, 100, 100, 0.8);
   color: white;
@@ -69,17 +63,14 @@ html
   overflow: hidden;
   white-space: break-spaces;
 }
-#question
-{
+#question{
   position: relative;
-
   margin: 0 auto 2% auto;
   padding: 0 2% .2% 2%;
   overflow: hidden;
   white-space: break-spaces;
 }
-#free-answer-container
-{
+#free-answer-container{
   display: flex;
   flex-direction: column;
   font-size: 1.5rem;
@@ -95,30 +86,28 @@ html
   border-left: 0;
   background-color: rgba(255, 255, 255, 0.2);
 }
-#answer-container
-{
+#answer-container{
   position: relative;
   display: flex;
   flex-direction: column;
   width: 80%;
   margin: 0 auto 0 auto;
 }
-#valide-container{
-  padding: 50px 10% 50px 30px;
-  width: 100%;
+#valide-container{             /* conteneur du bouton de validation  */
+  padding: 50px 10% 50px 30px; /* d'une question, permet de mettre un */
+  width: 100%;                 /* espacement en dessous */
   text-align: right;
 }
-#validated{
+#validated{ /* bouton de validation d'une question */
   width: 15%;
   min-width: 100px;
 }
-#quizz-container
-{
+#quizz-container{ /* conteneur principal lors du jeu */
   position: fixed;
   width: 100%;
   height: calc(100vh - var(--navbar-height));
 }
-#back{
+#back{ /* bouton retour en haut à gauche lors du jeu*/
   justify-content: center;
 }
 #back > p{
@@ -139,13 +128,13 @@ html
 #score{
   margin-right: 10px;
 }
-#difficulty-choice
-{
+#difficulty-choice { /* conteneur de choix de difficulté */
   display: flex;
   flex-direction: column;
   margin-top: calc(4% + 20px);
-}
-#slider-difficulty::-moz-range-thumb  {
+}                                       /*curseur de linput[range] */
+                                        /* pour le choix de la difficulté*/
+#slider-difficulty::-moz-range-thumb  { /* pour mozilla */
   width: 18px;
   height: 18px;
   background: rgba(0,0,0,0);
@@ -153,7 +142,7 @@ html
   cursor: pointer;
   border: solid 5px #333;
 }
-#slider-difficulty::-webkit-slider-thumb{
+#slider-difficulty::-webkit-slider-thumb{ /* chrome */
   -webkit-appearance: none;
   appearance: none;
   width: 24px;
@@ -163,7 +152,7 @@ html
   cursor: pointer;
   border: solid 5px #333;
 }
-#slider-difficulty::-ms-thumb{
+#slider-difficulty::-ms-thumb{ /* pour edge/ie */
   width: 24px;
   height: 24px;
   background: rgba(0,0,0,0);
@@ -171,7 +160,7 @@ html
   cursor: pointer;
   border: solid 5px #333;
 }
-#slider-difficulty{
+#slider-difficulty{  /* bar du input[range] choix de difficulté*/
   -webkit-appearance: none;
   background: linear-gradient(90deg,rgba(0, 255, 0, 0.7),rgba(255,255,0,0.7) 40%,rgba(255, 0, 0, 0.7) 90%);
   border-radius: .5rem;
@@ -183,29 +172,27 @@ html
   margin: 10px 0 10px 0;
   cursor: pointer;
 }
-#difficulty{
+#difficulty{  /* libellé de la difficulté correspondant à l'input */
   font-weight: lighter;
 }
-#difficulty-container{
+#difficulty-container{ /* conteneur de l'input[range] */
   display: flex;
   flex-direction: row;
   justify-content: center;
   height: 35px;
 }
-#difficulty-container > p{
-  margin-bottom: 0;
+#difficulty-container > p{ /* "facile" et "difficile" à gauche et à droite de */
+  margin-bottom: 0;        /* input[range] le slider de choix de difficulté */
   padding-left: 2%;
   padding-right: 2%;
   line-height: 35px;
 }
-#difficulty-desc{
+#difficulty-desc{     /* "(bouger le curseur)" : description en dessous du slider*/
   width: 100%;
   text-align: center;
 }
-
-#btn-begin
-{
-  width: 30%;
+#btn-begin{      /*bouton de confirmation du choix de la difficulté qui */
+  width: 30%;    /* qui lance la première question : "Commencer"*/
   margin: 15% auto 50px auto;
 }
 @media (max-width: 550px) {
@@ -229,7 +216,8 @@ html
 }
 
 /**** ANIMATIONS ****/
-/* agrandissement du font */
+/* agrandissement du font lors du choix du quizz*/
+/* apparition en fondu */
 #background-transition{
   position: fixed;
   top: 0;
@@ -249,9 +237,8 @@ html
   }
 }
 
-/* apparition des questions */
-.spawn-question
-{
+/* apparition des questions depuis le bas */
+.spawn-question{
   animation: bottomApparitionEffect 1s ease;
   animation-fill-mode: forwards;
   display: block;
@@ -267,10 +254,8 @@ html
   }
 }
 
-
-/* disparition des questions*/
-.disappearance
-{
+/* disparition des questions vers le haut*/
+.disappearance{
   animation: topDisappearanceEffect .6s ease;
   animation-fill-mode: forwards;
 }
@@ -286,7 +271,7 @@ html
   }
 }
 
-/* pour le scoreboard */
+/* pour l'apparition du scoreboard */
 @keyframes leftApparitionEffect {
   0%{
     right: -400px;
@@ -297,8 +282,7 @@ html
 }
 
 /* bonne réponse*/
-.right-answer
-{
+.right-answer{
   animation: rightEffect .5s;
   animation-fill-mode: forwards;
 }
@@ -316,7 +300,7 @@ html
   font-weight: bold;
   animation: plusEffect 1.5s;
   animation-fill-mode: forwards;
-  right: calc(130px + 3%);
+  right: calc(130px + 3%); /*largeur du bouton (environ) + (marge/padding) du bouton */
   font-family: "CaviarDreams";
 }
 @keyframes plusEffect {
@@ -334,8 +318,7 @@ html
   }
 }
 /* mauvaise réponse */
-.bad-answer
-{
+.bad-answer{
   animation: badEffect .5s;
   animation-fill-mode: forwards;
 }
@@ -359,40 +342,24 @@ html
 
 @keyframes expendEffect {
   0%{
+    height: 40px;
     width: 200px;
     text-align: center;
     border: 0;
     line-height: 45px;
   }
   100%{
-    top: 25vh;
+    height: 60vh;
+    width: 100%;
+    line-height: 20vh;
+    top: var(--navbar-height);
     right: 0;
     border: 0;
-    font-size: 300%;
-    line-height: 130px;
-    width: 100%;
+    font-size: 250%;
     text-align: center;
   }
 }
-@media (max-height: 500px) {
-  @keyframes expendEffect {
-    0%{
-      width: 200px;
-      text-align: center;
-      border: 0;
-      line-height: 45px;
-    }
-    100%{
-      top: 18vh;
-      right: 0;
-      border: 0;
-      font-size: 200%;
-      line-height: 80px;
-      width: 100%;
-      text-align: center;
-    }
-  }
-}
+
 /* animation button retour en fin de quizz */
 .continue{
   animation: backButtonEffect 2s;
@@ -407,7 +374,7 @@ html
       height: 25px;
       color: rgba(0, 0, 0, 0.6);
       left: 0;
-      top: var(--navbar-height);
+      top: 0;
   }
   30%{
       border-radius: 50%;
@@ -425,8 +392,8 @@ html
       height: 12px;
       color: rgba(0, 0, 0, 0);
       left: 0;
-      top: calc(30vh + 2*130px + 50px);
-  }
+      top: calc(100vh - 60px - 3%); /* tout en bas moins la hauteur du bouton (environ)*/
+  }                                 /* et une marge */
   90%{
       border-radius: 50%;
       border-width: 10px;
@@ -434,7 +401,7 @@ html
       height: 12px;
       color: rgba(0, 0, 0, 0);
       left: 49vw;
-      top: calc(30vh + 2*130px + 50px);
+      top: calc(100vh - 60px - 3%);
   }
   100%{
       border-radius: .5rem;
@@ -444,56 +411,7 @@ html
       color: rgba(0, 0, 0, 0.6);
       font-size: 2rem;
       left: 20vw;
-      top: calc(30vh + 2*130px + 50px);
-  }
-}
-@media (max-height: 500px) {
-  @keyframes backButtonEffect {
-    0{
-        border-radius: .5rem;
-        border-width: 1px;
-        width: 100px;
-        height: 25px;
-        color: rgba(0, 0, 0, 0.6);
-        left: 0;
-        top: var(--navbar-height);
-    }
-    30%{
-        border-radius: 50%;
-        border-width: 10px;
-        width: 12px;
-        height: 12px;
-        color: rgba(0, 0, 0, 0);
-        left: 0;
-        top: 0;
-    }
-    60%{
-        border-radius: 50%;
-        border-width: 10px;
-        width: 12px;
-        height: 12px;
-        color: rgba(0, 0, 0, 0);
-        left: 0;
-        top: calc(22vh + 2*130px + 50px);
-    }
-    90%{
-        border-radius: 50%;
-        border-width: 10px;
-        width: 12px;
-        height: 12px;
-        color: rgba(0, 0, 0, 0);
-        left: 49vw;
-        top: calc(22vh + 2*130px + 50px);
-    }
-    100%{
-        border-radius: .5rem;
-        border-width: 1px;
-        width: 60vw;
-        height: auto;
-        color: rgba(0, 0, 0, 0.6);
-        font-size: 2rem;
-        left: 20vw;
-        top: calc(22vh + 2*130px + 50px);
-    }
+      height: auto;
+      top: calc(100vh - 60px - 3%);
   }
 }
