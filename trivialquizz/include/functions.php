@@ -356,6 +356,27 @@
           return $_SCORE;
         }
 
+        function getStatistique($bdd, $idQuizz){
+          if(!is_numeric($idQuizz)){
+            return;
+          }
+          $data = tryQueryBDD($bdd, "SELECT COUNT(*) as nbFois, AVG(sc_difficulte) as difMoy, AVG(sc_point) as scoMoy, AVG(sc_temps) as tempMoy FROM score WHERE qui_id = $idQuizz");
+          $_STATS;
+          if(is_null($data)){
+            $_STATS["score"] = 0;
+            $_STATS["temps"] = 0;
+            $_STATS["difficulte"] = 0;
+            $_STATS["nb"] = 0;
+            return $_STATS;
+          }
+          $info = $data[0];
+          $_STATS["score"] = $info["scoMoy"];
+          $_STATS["temps"] = $info["tempMoy"];
+          $_STATS["difficulte"] = $info["difMoy"];
+          $_STATS["nb"] = $info["nbFois"];
+          return $_STATS;
+        }
+
 // Get Nb
   function getNbQuizz($bdd)
   {

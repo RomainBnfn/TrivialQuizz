@@ -200,11 +200,46 @@
           <div class="jumbotron jumbotron-vert col-lg-4" >
             <h3 class="titre3 titre-shadow">Statistiques</h3>
             <div>
+              <?php $_STATS = getStatistique($bdd, $_QUIZZ["id"]);?>
               <!-- A droite : Les statistiques générales: Chargé en dernier
               pour pas prendre trop de temps à la génération -->
-              Nb de fois effectué:
-              Score moyen:
-              Temps moyen:
+              <div>
+                <label class="main-label form-label" style="width: 100%; color: #AAFFFF !important">
+                  <i class="fab fa-flickr"></i>
+                  Nombre d'utilisation:
+                </label>
+                <span><?= $_STATS["nb"] ?></span>
+              </div>
+
+              <hr/>
+              
+              <div>
+                <label class="main-label form-label" style="width: 100%; color: #AAFFAA !important">
+                  <i class="fas fa-trophy"></i>
+                  Score moyen:
+                </label>
+                <span><?= $_STATS["score"] ?></span>
+              </div>
+
+              <hr/>
+
+              <div>
+                <label class="main-label form-label" style="width: 100%; color: #E3E371 !important">
+                  <i class="fas fa-history"></i>
+                  Temps moyen:
+                </label>
+                <span><?= timeToString($_STATS["temps"]) ?></span>
+              </div>
+
+              <hr/>
+
+              <div>
+                <label class="main-label form-label" style="width: 100%; color: #F1B8B8 !important">
+                  <i class="fas fa-fire"></i>
+                  Difficulte moyenne:
+                </label>
+                <span><?= (int) $_STATS["difficulte"] ?></span>
+              </div>
             </div>
           </div>
       </article>
