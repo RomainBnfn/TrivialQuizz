@@ -38,7 +38,6 @@
   //meilleurs scores perso
   $scoresPerso = (!empty($_SESSION) && isset($_SESSION['pseudo'])) ? getScorePerso($bdd, $theme['id'], $_SESSION['pseudo']) : null;
 
-
 ?>
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
