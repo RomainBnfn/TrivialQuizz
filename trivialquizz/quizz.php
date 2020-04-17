@@ -195,7 +195,7 @@
           //agrandissement de la carte cliquée
           $('body').css('overflow','hidden');
           //clickedCard.addClass('full-page');
-          clickedCard.append($('<div id="background-transition"></div>'))
+          $('html').append($('<div id="background-transition"></div>'))
           $('#background-transition')[0].style.backgroundImage = clickedCard[0].style.backgroundImage;
           setTimeout(function(){
             $('nav').addClass('nav-remove');
@@ -205,7 +205,7 @@
           setTimeout(function(){
             $('html').css('margin-top','0');
             $('html')[0].style.backgroundImage = clickedCard[0].style.backgroundImage;
-            $('#backButtonEffect').remove();
+            $('#background-transition').remove();
             $('section')[0].remove();
             $('section')[0].remove();
             $('nav').remove();
