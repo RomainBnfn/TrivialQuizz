@@ -100,6 +100,7 @@
       ?>
     </div>
   </section>
+  <?php print_r($themesPrincipaux) ?>
   <?php require_once "include/script.html"?>
   <script type="text/javascript" src="js/animation_roue.js"></script>
   <script type="text/javascript" src="js/ripple.js"></script>
