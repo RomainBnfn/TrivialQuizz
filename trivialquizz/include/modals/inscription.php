@@ -93,8 +93,7 @@
 
     $("#inscriptionPseudo").keyup(()=>{
       var pseudo = $("#inscriptionPseudo").val();
-
-      if(listePseudo.includes(pseudo)){
+      if(listePseudo != null && pseudo != null && listePseudo.includes(pseudo)){
         $('#invalid-pseudo-feedback').css('display','inline');
         $('#valid-pseudo-feedback').css('display','none');
       }
