@@ -456,15 +456,26 @@
 // -----------------------------------------------------------------------------
 
   //renvoie les path svg du camembert tableau de dim 6 (6 parts)
-  //$r marge entre les "part", $R rayon d'une "part", $c centre de la roue/"du gateau"
+  //$r marge entre les "part", $R rayon d'une "part", $c centre de la roue
   function generatePath($r, $R, $c, $ids){
+    /*
+    renvoie un array() composé de 6 chaines de caractère corespondant aux 6
+    chemin svg de chaque part et ayant pour clé l'id du thème principal associé à cette part.
+    Ils sont composer de deux lignes et d'un arc ce qui relit 3 points (pour chaque part).
+    les coordonnées de chaque point sont calculées dans un rectangle de 2*$c par 2*c.
+    */
+
+    // calcule les coordonnées des points les plus proches du
+    // centre pour chaque part : array( X, Y)
     $A = array( $c-$r*cos(toRad(60)), $c-$r*sin(toRad(60)));
     $B = array( $c+$r*cos(toRad(60)), $A[1]);
     $C = array( $c+$r, $c);
     $D = array( $B[0], $c+$r*sin(toRad(60)));
     $E = array( $A[0], $D[1]);
-    $F = array( $c-$r, $c);
+    $F = array( $c-$r, $c);                 
 
+    // calcule les points deux autres points (ceux reliés par l'arc)
+    // ex: a1x = coordonnées X du point 1 de la part a
     $a1x = $A[0]-$R*cos(toRad(30)); $a1y = $A[1]-$R*sin(toRad(30));
     $a2y = $A[1]-$R;
     $b2x = $B[0]+$R*cos(toRad(30));
@@ -474,6 +485,8 @@
     $d2y = $D[1]+$R;
     $f1x = $F[0]-$R*cos(toRad(30));
 
+    // distance entre le centre du cercle et les points les plus éloignés (ceux reliés par l'arc)
+    // correspon au rayon de l'arc
     $l = $R+$r;
 
     $path = array();
