@@ -64,10 +64,10 @@
               ?>
               </svg>
           </div>
-          <p id="th-desc"></p>
           <a href="">
             <button id="btn-quizz-smartphone" type="button" name="button" class="btn btn-primary btn-block">Voir les quizz</button>
           </a>
+          <p id="th-desc"></p>
       </article>
 
 

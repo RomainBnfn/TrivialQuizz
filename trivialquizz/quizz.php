@@ -194,12 +194,9 @@
 
           //agrandissement de la carte cliquée
           $('body').css('overflow','hidden');
-          //clickedCard.addClass('full-page');
           $('html').append($('<div id="background-transition"></div>'))
           $('#background-transition')[0].style.backgroundImage = clickedCard[0].style.backgroundImage;
-          setTimeout(function(){
-            $('nav').addClass('nav-remove');
-          },200);
+
           //remplacement du font du body par celui de la carte cliqué
           //puis suppression de la section de sélèction du quizz
           setTimeout(function(){
@@ -208,7 +205,6 @@
             $('#background-transition').remove();
             $('section')[0].remove();
             $('section')[0].remove();
-            $('nav').remove();
             $('footer').remove();
           },1500);
 
