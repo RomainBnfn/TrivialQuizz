@@ -198,7 +198,7 @@
           //puis suppression de la section de sélèction du quizz
           setTimeout(function(){
             $('html').css('margin-top','0');
-            $('body')[0].style.backgroundImage = clickedCard[0].style.backgroundImage;
+            $('html')[0].style.backgroundImage = clickedCard[0].style.backgroundImage;
             $('section')[0].remove();
             $('section')[0].remove();
           },1000);

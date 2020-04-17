@@ -1,4 +1,4 @@
-body
+html
 {
   background-size: 100% 100%;
   height: 100vh;
@@ -163,6 +163,14 @@ body
   cursor: pointer;
   border: solid 5px #333;
 }
+#slider-difficulty::-ms-thumb{
+  width: 24px;
+  height: 24px;
+  background: rgba(0,0,0,0);
+  border-radius: 50%;
+  cursor: pointer;
+  border: solid 5px #333;
+}
 #slider-difficulty{
   -webkit-appearance: none;
   background: linear-gradient(90deg,rgba(0, 255, 0, 0.7),rgba(255,255,0,0.7) 40%,rgba(255, 0, 0, 0.7) 90%);
@@ -198,7 +206,7 @@ body
 #btn-begin
 {
   width: 30%;
-  margin: 15% auto 0 auto;
+  margin: 15% auto 20px auto;
 }
 @media (max-width: 550px) {
   #difficulty-choice{
@@ -211,7 +219,7 @@ body
     margin-top: 3%;
   }
 }
-@media (max-height: 700px) or (max-width: 700px){
+@media (max-height: 700px) and (max-width: 700px){
   #question{
     font-size: 2rem;
   }
@@ -243,7 +251,7 @@ body
     }
     100%{
       position: absolute;
-      top:0;
+      top: 0;
       left:0;
       height: 100vh;
       width: 100vw;
@@ -323,15 +331,15 @@ body
 }
 @keyframes plusEffect {
   0%{
-    top:250px;
+    top:120px;
     font-size: 3.2rem;
   }
   99%{
-    top:150px;
+    top:40px;
     font-size: .5rem;
   }
   100%{
-    top:150px;
+    top:40px;
     font-size: 0rem;
   }
 }
