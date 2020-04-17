@@ -5,7 +5,7 @@
   // Le visiteur n'est pas un admin.
   if(!isset($_SESSION['is_admin']))
   {
-    header("Location: ".$index_location);
+    header("Location: ".$index_location."/index.php");
     exit();
   }
 
@@ -23,7 +23,7 @@
   $_THEME = tryLoadTheme($bdd, $id);
   if(empty($_THEME))
   {
-    header("Location: ".$index_location);
+    header("Location: $index_location/index.php");
     exit();
   }
 
@@ -66,7 +66,7 @@
       <article class="container">
         <div class="row reduced-div" style="justify-content: space-between;">
 
-          <div class="jumbotron jumbotron-vert col-sm-7">
+          <div class="jumbotron jumbotron-vert col-sm-12">
             <!-- A gauche : Changer le nom... -->
             <!-- A Rajouter
 
@@ -115,55 +115,9 @@
 
           </div>
 
-
-
         </div>
 
       </article>
-
-      <div class="titre1">
-        <h1>Les Quizz associés</h1>
-        <div>
-          <a>
-            <!-- Pour en ajouter plusieurs en même temps -->
-            <button type="button" class="btn btn-success">Ajouter</button>
-          </a>
-        </div>
-      </div>
-
-      <!-- FIN : Cadre des options générales -->
-      <article class="container">
-        <br/>
-
-        <!-- DEBUT : Cadre de la liste des Questions -->
-
-          <div>
-            <?php
-              $_QUIZZES = getAllQuizzesInfosOfTheme($bdd, $_THEME["id"]);
-              if(empty($_QUIZZES))
-              {
-                echo "Il parrait qu'aucun quizz n'a été associé à ce thème, c'est terrible !";
-              }
-              else
-              {
-                foreach ($_QUIZZES as $_QUIZZ)
-                {
-                  ?>
-                    <div>
-                      <?= $_QUIZZ["nom"] ?>
-                      <?php
-                      if ($_THEME["id"] != 6) { ?>
-                        <button type="button" class="btn btn-error">Dissocier</button>;
-                      <?php } ?>
-                    </div>
-                  <?php
-                }
-              }
-             ?>
-          </div>
-      </article>
-      <!-- FIN : Cadre de la liste des Questions -->
-
     </div>
   </div>
   <?php require_once "../include/footer.html" ?>

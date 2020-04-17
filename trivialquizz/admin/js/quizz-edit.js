@@ -170,7 +170,6 @@ function temps_changed(){
     return;
 
   var tempFinal = parseInt(temps * (1 - malus * 4 / 100) );
-  console.log(secToMMSS(temps));
   $("#tempsDifficile").html(""+secToMMSS(tempFinal));
   $("#amountMalus").html("-"+malus+ "%");
   $("#tempsFacile").html(""+ secToMMSS(temps));
@@ -215,7 +214,6 @@ $(document).ready(function(){
     .then((response) => {
       response.text()
       .then((resp) => {
-        console.log(resp);
         if(resp=="ok"){
           $("#infoGeneral_Button").css("visibility", "visible");
           setTimeout(() => {
