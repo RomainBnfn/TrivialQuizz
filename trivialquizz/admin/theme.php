@@ -48,7 +48,7 @@
           </button>
         </div>
 
-      <article class="container">
+        <article class="container">
 
           <!-- DEBUT: Liste des Thèmes-->
           <div>
@@ -103,13 +103,13 @@
               <?php
               }
             ?>
-            </div>
-          </article>
-        </div>
-          <!-- FIN: Liste des Thèmes-->
+          </div>
+        </article>
       </div>
-      <!-- FIN: Section des Thèmes -->
-      </div>
+    <!-- FIN: Liste des Thèmes-->
+    </div>
+  <!-- FIN: Section des Thèmes -->
+  </div>
   <?php require_once "../include/footer.html" ?>
   <?php require_once "../include/script.html"?>
   <?php require_once "modals/theme-create.php"?>
