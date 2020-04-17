@@ -396,6 +396,19 @@
     return $_PSEUDOS;
   }
 
+
+
+  //transformer un temps en second pour le mettre en mm:ss'
+  function formatTimeToString($time){
+    $min = floor($time % (60 * 60) / (60));
+    $sec = floor($time % 60);
+    $timeText = "";
+    if($min>0) $timeText.=$min.":";
+    if($sec>9) $timeText.=$sec."'";
+    else $timeText.="0".$sec."'";
+    return $timeText;
+  }
+
 // -----------------------------------------------------------------------------
 //  Fonctions pour la construction du camembert des thèmes sur la page d'Accueil:
 // -----------------------------------------------------------------------------

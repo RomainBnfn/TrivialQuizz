@@ -38,15 +38,6 @@
   //meilleurs scores perso
   $scoresPerso = (!empty($_SESSION) && isset($_SESSION['pseudo'])) ? getScorePerso($bdd, $theme['id'], $_SESSION['pseudo']) : null;
 
-  function formatTimeToString($time){
-    $min = floor($time % (60 * 60) / (60));
-    $sec = floor($time % 60);
-    $timeText = "";
-    if($min>0) $timeText.=$min.":";
-    if($sec>9) $timeText.=$sec."'";
-    else $timeText.="0".$sec."'";
-    return $timeText;
-  }
 
 ?>
 <!DOCTYPE html>
@@ -148,17 +139,20 @@
     <script type="text/javascript" src="js/ripple.js"></script>
     <script type="text/javascript">
 
-    var isConnected = <?php echo ($isConnected==1) ? "true" : "false";?>;
-    var idTheme = <?=$theme['id']?>;
-    var pseudo = "<?=$_SESSION['pseudo']?>";
-    var idQuizz;
-    var score = 0;
-    var difficulty = 1; // valeur possible: [|1,5|]
+    var isConnected = <?php echo ($isConnected==1) ? "true" : "false";?>,
+      idTheme = <?=$theme['id']?>,
+      pseudo = "<?=$_SESSION['pseudo']?>",
+      recordGénéral = <?=json_encode($scoresGlobaux)?>,
+      recordPerso = <?=json_encode($scoresPerso)?>;
+
+    var idQuizz,
+      score = 0,
+      difficulty = 1; // valeur possible: [|1,5|]
 
     var btnCheck = 0; //stock l'id du btn correspondant au choix du joueur (difficulté/qcm)
 
-    var duration = <?=json_encode($quizzesDuration)?>; //{qui_id: {temps, malus}, ... , ...}
-    var isTimerPaused = true, //timer en pause lors des chargement
+    var duration = <?=json_encode($quizzesDuration)?>, //{qui_id: {temps, malus}, ... , ...}
+      isTimerPaused = true, //timer en pause lors des chargement
       maxDuration, // durée max du quizz en prenant en compte la difficulté
       timer, // objet setInterval
       lastTime, // la durée qu'il reste pour répondre aux questions, actualisé à chaque tour de timer
@@ -189,6 +183,8 @@
           var clickedCard = $(this);
           idQuizz = clickedCard.attr('id').substring(5);
           duration = duration[idQuizz];
+          recordPerso = recordPerso[idQuizz];
+          recordGénéral = recordGénéral[idQuizz];
           //suppression de toutes les autres cartes
           for(var i =0;i<card.length;i++){
             if(card[i]!=clickedCard[0]){
@@ -246,11 +242,6 @@
         if (window.event) e = window.event;
         else return true;
         var touche = window.event ? e.keyCode : e.which;
-        //empécher le retour lors de l'appuie sur la touche supprimer, génant lors de la saisi
-        if (touche == 8) {
-          if (e.keyCode) e.keyCode=0;
-          return false;
-        }
         //valider la question
         if(touche == 13 && $('#validated').length != 0){
           valideQuestion();
@@ -350,7 +341,6 @@
             $('.quest-container').children().addClass('disappearance');
             setTimeout(function(){
               $('.quest-container').remove();
-              console.log(response);
               if(response == "finish"){
                 endQuizz(false);
               }else{
@@ -359,6 +349,7 @@
                 isTimerPaused = false;
                 typeQuest = response[0];
                 bonneRep = response.substring(1,response.indexOf('%'));
+                console.log(bonneRep);
                 $('#quizz-container').append(response.substring(response.indexOf('%')+1));
                 refreshRipple();
                 var elements = $('.quest-container').children();
@@ -439,7 +430,31 @@
       }
 
       var time = Math.round((maxDuration-lastTime)/1000+1);
-      $('#time').text(formatTime(Math.min(time*1000,maxDuration)));
+      var timeText = formatTime(Math.min(time*1000,maxDuration));
+      if(score >= recordGénéral.point){
+        if(score > recordGénéral.point){
+          $('#score').parent().append($('<i class="fa fa-trophy" aria-hidden="true"></i>'));
+          $('#score').parent().append($('<span style="font-size: 50%">Nouveau record général !</span>'));
+        }else if(score == recordGénéral.point && time < recordGénéral.temps){
+          $('#time').parent().append($("<span style='font-size: 50%'>.. t'es rapide</span>"));
+          $('#time').parent().append($('<i class="fa fa-trophy" aria-hidden="true"></i>'));
+        }
+        $('#score').text(score);
+      }else if(score >= recordPerso.point){
+        if(score > recordPerso.point){
+          $('#score').parent().append($('<i class="fa fa-star" aria-hidden="true"></i>'));
+          $('#score').parent().append($('<span style="font-size: 50%">Nouveau record perso !</span>'));
+        }else if(score == recordPerso.point && time < recordPerso.temps){
+          $('#time').parent().append($("<span style='font-size: 50%'>.. t'es rapide</span>"));
+          $('#time').parent().append($('<i class="fa fa-star" aria-hidden="true"></i>'));
+        }
+        $('#score').text(score);
+      }else{
+        $('#score').text(score+"  Record: "+recordGénéral.point);
+      }
+
+      $('#time').text(timeText);
+
       $('#scoreboard').addClass('expend');
       $('#back').addClass('continue');
 
@@ -468,9 +483,8 @@
       var minute = Math.floor((timeInMillis % (1000 * 60 * 60)) / (1000 * 60));
       var seconde = Math.floor((timeInMillis % (1000 * 60)) / 1000);
       var timeText = "";
-      if(minute>0) timeText += minute+":";
-      if(seconde>9) timeText += seconde+"'";
-      else timeText += "0"+seconde+"'";
+      timeText += minute>0 ? minute+":" : "";
+      timeText += seconde>9 ? seconde+"'" : "0"+seconde+"'";
       return timeText;
     }
 

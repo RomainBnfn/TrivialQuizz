@@ -24,31 +24,28 @@
 
             $answers = $question["reponses"];
 
-            //suppression de réponse fausse s'il y en a trop pour la difficulté choisie
-            /*$keys = array_keys($answers);
-            while(count($answers)>$nbrOfAnswer){
-              $r = rand(0,count($keys)-1);
-              if(isset($answers[$keys[$r]])){
-                if(!$answers[$keys[$r]]['isBonne']){
-                  unset($answers[$keys[$r]]);
-                }
-              }
-            }*/
-
-            // mélange des réponses et garde que le nombre nécessaire pour la difficulté
-            // choisis. La bonne réponse est toujours la premiére !!
+            // mélange des réponses et garde que le nombre nécessaire pour la difficulté choisis
             $answersRandomized = array();
             $temp = array();
             $i = 1;
-            foreach ($answers as $ans) {
-
+            $isRightAnswerInclude = false;
+            foreach ($answers as $key  => $ans) {
+              if($ans['isBonne']) $isRightAnswerInclude = true;
               do{
                 $r = rand(0,$nbrOfAnswer-1);
               } while(in_array($r,$temp));
               array_push($temp,$r);
               $answersRandomized[$r] = $ans;
-              if($i++>=$nbrOfAnswer) break;
+              unset($answers[$key]);
+              if($i++ >= $nbrOfAnswer) break;
             }
+            if(!$isRightAnswerInclude){
+                foreach ($answers as $ans) {
+                    if($ans['isBonne'])
+                      $answersRandomized[rand(0,$nbrOfAnswer-1)] = $ans;
+                }
+            }
+
             //construction de la question
             $infoQuest;
             $html = "
@@ -81,7 +78,7 @@
             <h1 id='question'>".$question['lib']."</h1>
             <div id='free-answer-container'>
             <label for='answer'>Réponse:</label>
-            <input type='text' id='free-answer-input' name='answer' placeholder='Entre une réponse beau mal'>
+            <input type='text' id='free-answer-input' name='answer' autocomplete='off' placeholder='Entre une réponse beau mal'>
             </div>
             <div id='valide-container'>
             <button id='validated' class='btn' type='button name='valided' onclick='valideQuestion()'>VALIDER&nbsp</button>
