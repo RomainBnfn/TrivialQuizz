@@ -3,8 +3,6 @@
   //
   session_start();
 
-  echo "save";
-
   // On regarde si l'utilisateur est bien un admin
   if(!isset($_SESSION['is_admin']))
   {
