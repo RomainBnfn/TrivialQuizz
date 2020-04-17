@@ -419,6 +419,15 @@
     else
       return $min."m".$sec."s";
   }
+
+  function existNotEmptyThemeCustom($_NBOFQUIZZOFTHEME){
+    foreach ($_NBOFQUIZZOFTHEME as $id => $value) {
+      if($id > 6){
+        return true;
+      }
+    }
+    return false;
+  }
 // -----------------------------------------------------------------------------
 //  Fonctions pour la construction du camembert des thèmes sur la page d'Accueil:
 // -----------------------------------------------------------------------------

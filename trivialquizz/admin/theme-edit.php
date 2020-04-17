@@ -33,7 +33,7 @@
 <html lang="fr">
 <head>
   <title>Edition de Theme</title>
-  <?php require_once "../include/header.html"?>
+  <?php require_once "../include/header.php"?>
   <link rel="stylesheet" href="../css/jumbotron-custom.css" />
   <link rel="stylesheet" href="../css/modal.css" />
   <link rel="stylesheet" href="https://unpkg.com/huebee@1/dist/huebee.min.css">
@@ -115,7 +115,7 @@
 
           </div>
 
-          
+
 
         </div>
 
@@ -166,7 +166,7 @@
 
     </div>
   </div>
-
+  <?php require_once "../include/footer.html" ?>
   <?php require_once "../include/script.html"?>
   <script src="https://unpkg.com/huebee@1/dist/huebee.pkgd.min.js">
     var hueb = new Huebee( '.color-input', {

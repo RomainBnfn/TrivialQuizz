@@ -53,7 +53,7 @@
 <html lang="en" dir="ltr">
   <head>
     <meta charset="utf-8">
-    <?php require_once "include/header.html"?>
+    <?php require_once "include/header.php"?>
     <link rel="stylesheet" type="text/css" href="css/style-quizz.css">
     <link rel="stylesheet" type="text/css" href="css/card-2.css">
     <title>Choix du quizz - Trivial Quizz</title>
@@ -122,7 +122,7 @@
         </article>
       </div>
     </section>
-
+    <?php require_once "include/footer.html" ?>
     <!--Choix de la difficulté-->
     <section id="quizz-container">
       <a class="hide control-info ripple-container" id="back" href="quizz.php?theme=<?=$theme['id']?>"><p>RETOUR</p></a>

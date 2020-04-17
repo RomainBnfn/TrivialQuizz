@@ -235,12 +235,13 @@ $(document).ready(function(){
   });
 
   $("#editGeneral_Nom").keyup(() => {
-    $("#titreGeneral").text("Edition de Quizz : "+ $("#editGeneral_Nom").val());
-    if( listeNoms.includes( $("#editGeneral_Nom").val() ))
-    {
-      $("#errorGeneral_Nom").css("visibility", "visible");
-    } else {
-      $("#errorGeneral_Nom").css("visibility", "collapse");
+    var nom = $("#editGeneral_Nom").val();
+    if(nom == "" || listeNoms.includes(nom) ){
+      $('#messageNomQuizzError').css('display','inline');
+    }
+    else{
+      $('#messageNomQuizzError').css('display','none');
+      $("#titreGeneral").text("Edition de Quizz : "+ $("#editGeneral_Nom").val());
     }
   });
 });

@@ -33,7 +33,7 @@
 <html lang="fr">
 <head>
   <title>Trivial Quizz</title>
-  <?php require_once "include/header.html"?>
+  <?php require_once "include/header.php"?>
   <link rel="stylesheet" type="text/css" href="css/style-index.css">
   <link rel="stylesheet" type="text/css" href="css/card-2.css">
   <link rel="stylesheet" type="text/css" href="css/modal.css">
@@ -45,12 +45,11 @@
   </section>
   <section class="cadre-global">
     <div class="cadre-central">
+    
+      <div class="titre1">
+        <h1>Thèmes classique</h1>
+      </div>
       <article class="container">
-
-        <div class="titre1">
-          <h1>Thèmes classique</h1>
-        </div>
-
         <div class="center div-roue">
             <svg id="roue-theme-classique" viewBox="0 0 <?="$L $L"?>">
               <?php
@@ -70,15 +69,23 @@
             <button id="btn-quizz-smartphone" type="button" name="button" class="btn btn-primary btn-block">Voir les quizz</button>
           </a>
       </article>
-      <?php
-      if(!empty($themesCustoms)){
-      ?>
+
+
+      <div class="titre1">
+        <h1>Thèmes personnalisés</h1>
+      </div>
+      <div class="card-columns">
       <article class="container">
-        <h1 class="titre1">Thèmes personnalisés</h1>
-        <div class="card-columns">
         <?php
+          if(!existNotEmptyThemeCustom($_NBOFQUIZZOFTHEME)){
+          ?>
+            <p>
+              Il n'y a aucun Thème personalisés n'a été créé, terrible ;( !
+            </p>
+          <?php
+        } else { //IL Y A DES THEMES
           foreach ($themesCustoms as $id => $theme) {
-            if(!isset($_NBOFQUIZZOFTHEME[$id]) || $_NBOFQUIZZOFTHEME[$id] <=0) {
+            if( !isset($_NBOFQUIZZOFTHEME[$id]) || $_NBOFQUIZZOFTHEME[$id] <=0) {
               continue;
             }
         ?>
@@ -93,11 +100,12 @@
         ?>
         </div>
       </article>
-      <?php
+        <?php
       }
       ?>
     </div>
   </section>
+  <?php require_once "include/footer.html" ?>
   <?php require_once "include/script.html"?>
 
   <script type="text/javascript" src="js/animation_roue.js"></script>

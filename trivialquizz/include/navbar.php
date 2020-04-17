@@ -58,9 +58,9 @@
           </li>
 
           <li class="navbar-item">
-            <a class="nav-link" href="#">
-              <button type="button" class="btn btn-outline-primary" onclick="logout()">Deconnexion</button>
-            </a>
+            <button type="button" class="btn btn-outline-primary" onclick="logout()">
+              Deconnexion
+            </button>
           </li>
 
         <?php } else { ?>
