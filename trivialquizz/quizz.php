@@ -178,6 +178,8 @@
         //il faut que la personne soit connecté
         if(!isConnected){
           $('#modalConnexion').modal('show');
+          return;
+
         }else{
           // carte cliquée
           var clickedCard = $(this);

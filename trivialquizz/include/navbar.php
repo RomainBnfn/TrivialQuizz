@@ -23,7 +23,7 @@
 
     <a class="navbar-brand" href="<?=$index_location?>/index.php" style="padding: 0;">
       ​<picture>
-        <img src="<?=$index_location?>/image/logo.png" class="img-logo" alt="Logo du Trivial Quizz">
+        <img id="logoNav" src="<?=$index_location?>/image/logo.png" class="img-logo" alt="Logo du Trivial Quizz">
       </picture>
     </a>
 
@@ -58,7 +58,7 @@
           </li>
 
           <li class="navbar-item">
-            <button type="button" class="btn btn-outline-primary" onclick="logout()">
+            <button id="btnDeconnexion" type="button" class="btn btn-outline-primary" onclick="logout()">
               Deconnexion
             </button>
           </li>
@@ -92,6 +92,9 @@
   require_once "modals/inscription.php";
 ?>
 <script type="text/javascript">
+  var size = 900;
+  resizeChange(document.documentElement.clientWidth);
+
   function logout(){
     fetch("<?=$index_location?>/ajax/unlog.php")
     .then((response)=>{
@@ -101,5 +104,26 @@
         location.reload(true);
       })
     })
+  }
+
+  $( window ).resize(function() {
+    var newsize = document.documentElement.clientWidth;
+    resizeChange(newsize);
+  });
+
+  function resizeChange(newsize){
+    if(newsize<850 && size >= 850){
+      $("#logoNav").attr("src", "<?=$index_location?>/image/minilogo.png");
+      <?php if($isConnected){ ?>
+        $("#btnDeconnexion").html("<i class='fas fa-sign-out-alt'></i>");
+      <?php } ?>
+    }
+    else if(newsize>= 850 && size < 850){
+      $("#logoNav").attr("src", "<?=$index_location?>/image/logo.png");
+      <?php if($isConnected){ ?>
+        $("#btnDeconnexion").html("Deconnexion");
+      <?php } ?>
+    }
+    size = newsize;
   }
 </script>
