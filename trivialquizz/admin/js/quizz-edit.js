@@ -190,9 +190,11 @@ function displayAfterDeleteQuestion(id){
 }
 
 $(document).ready(function(){
+
   $(".btn-delier-question").click((e)=>{
     var idQuestion = e.target.dataset.idquestion;
     var idQuizz = e.target.dataset.idquizz;
+    var form = new FormData(document.getElementById("editQuestionN"+id));
     fetch("ajax/question-delier.php?idQuizz="+idQuizz+"&idQuest="+idQuestion)
     .then((response)=>{
       response.text()
@@ -205,6 +207,7 @@ $(document).ready(function(){
   });
 
   $("#editGeneral").submit((e) => {
+    console.log("clicked");
     e.preventDefault();
     var form = new FormData(document.getElementById("editGeneral"));
     fetch("ajax/quizz-save-edit.php", {
@@ -214,6 +217,7 @@ $(document).ready(function(){
     .then((response) => {
       response.text()
       .then((resp) => {
+        console.log(resp);
         if(resp=="ok"){
           $("#infoGeneral_Button").css("visibility", "visible");
           setTimeout(() => {

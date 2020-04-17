@@ -121,13 +121,19 @@
             if (empty($_THEME["id"])) break;
             if ($_THEME["is_Principal"] == 1) continue;
           ?>
+
           $("#suppressionThemeN<?= $_THEME["id"] ?>").click(function(){
             fetch("ajax/theme-delete.php?id=<?= $_THEME["id"] ?>")
               .then((response) => {
-                $("#themeN<?= $_THEME["id"] ?>").text("");
-                $("#themeN<?= $_THEME["id"] ?>").css("display", "none");
-                // Pas besoin de voir s'il reste encore des thèmes,
-                // il y aura toujours les principaux.
+                response.text()
+                .then((resp)=>{
+                  if(resp == "ok"){
+                    $("#themeN<?= $_THEME["id"] ?>").text("");
+                    $("#themeN<?= $_THEME["id"] ?>").css("display", "none");
+                    // Pas besoin de voir s'il reste encore des thèmes,
+                    // il y aura toujours les principaux.
+                  }
+                })
               })
           });
           <?php
