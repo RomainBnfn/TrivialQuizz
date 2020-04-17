@@ -228,6 +228,25 @@ html
 }
 
 /**** ANIMATIONS ****/
+#background-transition{
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: 100vw;
+  background-size: 100% 100%;
+  animation: fonduEffect 1.5s;
+  animation-fill-mode: forwards;
+}
+@keyframes fonduEffect {
+  0%{
+    opacity: 0;
+  }
+  100%{
+    opacity: 1;
+  }
+}
+
 /* agrandissement du font */
 .full-page
 {

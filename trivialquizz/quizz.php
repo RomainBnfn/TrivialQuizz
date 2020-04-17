@@ -194,20 +194,23 @@
 
           //agrandissement de la carte cliquée
           $('body').css('overflow','hidden');
-          clickedCard.addClass('full-page');
+          //clickedCard.addClass('full-page');
+          clickedCard.append($('<div id="background-transition"></div>'))
+          $('#background-transition')[0].style.backgroundImage = clickedCard[0].style.backgroundImage;
           setTimeout(function(){
             $('nav').addClass('nav-remove');
-          },800);        
+          },200);
           //remplacement du font du body par celui de la carte cliqué
           //puis suppression de la section de sélèction du quizz
           setTimeout(function(){
             $('html').css('margin-top','0');
             $('html')[0].style.backgroundImage = clickedCard[0].style.backgroundImage;
+            $('#backButtonEffect').remove();
             $('section')[0].remove();
             $('section')[0].remove();
-            //$('nav').remove();
+            $('nav').remove();
             $('footer').remove();
-          },1000);
+          },1500);
 
           //apparition des elements
           var text = $('.quest-container').children();
