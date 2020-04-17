@@ -38,15 +38,6 @@
   //meilleurs scores perso
   $scoresPerso = (!empty($_SESSION) && isset($_SESSION['pseudo'])) ? getScorePerso($bdd, $theme['id'], $_SESSION['pseudo']) : null;
 
-  function formatTimeToString($time){
-    $min = floor($time % (60 * 60) / (60));
-    $sec = floor($time % 60);
-    $timeText = "";
-    if($min>0) $timeText.=$min.":";
-    if($sec>9) $timeText.=$sec."'";
-    else $timeText.="0".$sec."'";
-    return $timeText;
-  }
 
 ?>
 <!DOCTYPE html>
@@ -86,18 +77,18 @@
                     <div class="card-body">
                       <h3><?=$quizz['nom']?></h3>
                         <p>Nombre de questions: <span class="badge badge-pill badge-info"><?=$nbrQuestByQuizz[$quizz['id']]?></span><br>
-                          Durée: <span class="badge badge-pill badge-info"><?=formatTimeToString($quizzesDuration[$quizz['id']]['temps']*(1-5*$quizzesDuration[$quizz['id']]['malus']/100))?></span>
-                          - <span class="badge badge-pill badge-info"><?=formatTimeToString($quizzesDuration[$quizz['id']]['temps'])?></span>
+                          Durée: <span class="badge badge-pill badge-info"><?=timeToString($quizzesDuration[$quizz['id']]['temps']*(1-5*$quizzesDuration[$quizz['id']]['malus']/100))?></span>
+                          - <span class="badge badge-pill badge-info"><?=timeToString($quizzesDuration[$quizz['id']]['temps'])?></span>
                         </p>
                         <p>
                         <?php
                           if($scoresGlobaux[$quizz['id']]['point'] != -1){
                             ?>
-                            <i class="fa fa-trophy" aria-hidden="true"></i>&nbsp; Meilleur score global: <span class="badge badge-pill badge-danger"><?=$scoresGlobaux[$quizz['id']]['point']." (".formatTimeToString($scoresGlobaux[$quizz['id']]['temps']).")"?></span><br>
+                            <i class="fa fa-trophy" aria-hidden="true"></i>&nbsp; Meilleur score global: <span class="badge badge-pill badge-danger"><?=$scoresGlobaux[$quizz['id']]['point']." (".timeToString($scoresGlobaux[$quizz['id']]['temps']).")"?></span><br>
                             <?php
                             if($isConnected &&  $scoresPerso[$quizz['id']]['point'] != -1){
                               ?>
-                              <i class="fa fa-star" aria-hidden="true"></i>&nbsp; Meilleur score perso: <span class="badge badge-pill badge-warning"><?=$scoresPerso[$quizz['id']]['point']." (".formatTimeToString($scoresPerso[$quizz['id']]['temps']).")"?></span>
+                              <i class="fa fa-star" aria-hidden="true"></i>&nbsp; Meilleur score perso: <span class="badge badge-pill badge-warning"><?=$scoresPerso[$quizz['id']]['point']." (".timeToString($scoresPerso[$quizz['id']]['temps']).")"?></span>
                               <?php
                             }
                           }
@@ -148,17 +139,20 @@
     <script type="text/javascript" src="js/ripple.js"></script>
     <script type="text/javascript">
 
-    var isConnected = <?php echo ($isConnected==1) ? 'true' : 'false';?>;
-    var idTheme = <?=$theme['id']?>;
-    var pseudo = "<?php echo ($isConnected==1) ? $_SESSION['pseudo'] : "";?>";
-    var idQuizz;
-    var score = 0;
-    var difficulty = 1; // valeur possible: [|1,5|]
+    var isConnected = <?php echo ($isConnected==1) ? "true" : "false";?>,
+      idTheme = <?=$theme['id']?>,
+      pseudo = "<?php echo ($isConnected==1) ? $_SESSION['pseudo'] : "";?>",
+      recordGénéral = <?=json_encode($scoresGlobaux)?>,
+      recordPerso = <?=json_encode($scoresPerso)?>;
+
+    var idQuizz,
+      score = 0,
+      difficulty = 1; // valeur possible: [|1,5|]
 
     var btnCheck = 0; //stock l'id du btn correspondant au choix du joueur (difficulté/qcm)
 
-    var duration = <?=json_encode($quizzesDuration)?>; //{qui_id: {temps, malus}, ... , ...}
-    var isTimerPaused = true, //timer en pause lors des chargement
+    var duration = <?=json_encode($quizzesDuration)?>, //{qui_id: {temps, malus}, ... , ...}
+      isTimerPaused = true, //timer en pause lors des chargement
       maxDuration, // durée max du quizz en prenant en compte la difficulté
       timer, // objet setInterval
       lastTime, // la durée qu'il reste pour répondre aux questions, actualisé à chaque tour de timer
@@ -188,6 +182,8 @@
           var clickedCard = $(this);
           idQuizz = clickedCard.attr('id').substring(5);
           duration = duration[idQuizz];
+          recordPerso = recordPerso[idQuizz];
+          recordGénéral = recordGénéral[idQuizz];
           //suppression de toutes les autres cartes
           for(var i =0;i<card.length;i++){
             if(card[i]!=clickedCard[0]){
@@ -245,11 +241,6 @@
         if (window.event) e = window.event;
         else return true;
         var touche = window.event ? e.keyCode : e.which;
-        //empécher le retour lors de l'appuie sur la touche supprimer, génant lors de la saisi
-        if (touche == 8) {
-          if (e.keyCode) e.keyCode=0;
-          return false;
-        }
         //valider la question
         if(touche == 13 && $('#validated').length != 0){
           valideQuestion();
@@ -349,17 +340,18 @@
             $('.quest-container').children().addClass('disappearance');
             setTimeout(function(){
               $('.quest-container').remove();
-              console.log(response);
               if(response == "finish"){
                 endQuizz(false);
               }else{
                 var t2 = new Date().getTime();
                 delay += Math.max(1000,t2-t0);
                 isTimerPaused = false;
+                validated = false;
                 typeQuest = response[0];
                 bonneRep = response.substring(1,response.indexOf('%'));
+                console.log(bonneRep);
+
                 $('#quizz-container').append(response.substring(response.indexOf('%')+1));
-                refreshRipple();
                 var elements = $('.quest-container').children();
                 for(var i=0;i<elements.length;i++){
                   spawn(elements[i],i,elements.length,500);
@@ -421,7 +413,6 @@
           $('#validated').addClass('bad-answer');
         }
       }
-      validated = false;
       btnCheck = null;
     }
 
@@ -438,7 +429,31 @@
       }
 
       var time = Math.round((maxDuration-lastTime)/1000+1);
-      $('#time').text(formatTime(Math.min(time*1000,maxDuration)));
+      var timeText = formatTime(Math.min(time*1000,maxDuration));
+      if(score >= recordGénéral.point){
+        if(score > recordGénéral.point){
+          $('#score').parent().append($('<i class="fa fa-trophy" aria-hidden="true"></i>'));
+          $('#score').parent().append($('<span style="font-size: 50%">Nouveau record général !</span>'));
+        }else if(score == recordGénéral.point && time < recordGénéral.temps){
+          $('#time').parent().append($("<span style='font-size: 50%'>.. t'es rapide</span>"));
+          $('#time').parent().append($('<i class="fa fa-trophy" aria-hidden="true"></i>'));
+        }
+        $('#score').text(score);
+      }else if(score >= recordPerso.point){
+        if(score > recordPerso.point){
+          $('#score').parent().append($('<i class="fa fa-star" aria-hidden="true"></i>'));
+          $('#score').parent().append($('<span style="font-size: 50%">Nouveau record perso !</span>'));
+        }else if(score == recordPerso.point && time < recordPerso.temps){
+          $('#time').parent().append($("<span style='font-size: 50%'>.. t'es rapide</span>"));
+          $('#time').parent().append($('<i class="fa fa-star" aria-hidden="true"></i>'));
+        }
+        $('#score').text(score);
+      }else{
+      $('#score').parent().append($('<span style="font-size: 50%"> (Record: '+recordGénéral.point+')</span>'));
+      }
+
+      $('#time').text(timeText);
+
       $('#scoreboard').addClass('expend');
       $('#back').addClass('continue');
 
@@ -467,9 +482,8 @@
       var minute = Math.floor((timeInMillis % (1000 * 60 * 60)) / (1000 * 60));
       var seconde = Math.floor((timeInMillis % (1000 * 60)) / 1000);
       var timeText = "";
-      if(minute>0) timeText += minute+":";
-      if(seconde>9) timeText += seconde+"'";
-      else timeText += "0"+seconde+"'";
+      timeText += minute>0 ? minute+":" : "";
+      timeText += seconde>9 ? seconde+"'" : "0"+seconde+"'";
       return timeText;
     }
 

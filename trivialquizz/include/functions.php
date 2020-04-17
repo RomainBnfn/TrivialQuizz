@@ -416,8 +416,10 @@
     $sec = $time  % 60;
     if($sec<10)
       return $min."m0".$sec."s";
-    else
+    else if($min>0)
       return $min."m".$sec."s";
+    else
+      return $sec."s";
   }
 
   function existNotEmptyThemeCustom($_NBOFQUIZZOFTHEME){
