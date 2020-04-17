@@ -472,7 +472,7 @@
     $C = array( $c+$r, $c);
     $D = array( $B[0], $c+$r*sin(toRad(60)));
     $E = array( $A[0], $D[1]);
-    $F = array( $c-$r, $c);                 
+    $F = array( $c-$r, $c);
 
     // calcule les points deux autres points (ceux reliés par l'arc)
     // ex: a1x = coordonnées X du point 1 de la part a
@@ -513,7 +513,6 @@
     );
   }
 
-//HEAD
   function getAllThemesNames($bdd)
   {
     $requete = $bdd -> query("SELECT th_nom FROM theme");
@@ -528,8 +527,7 @@
     }
     return $listeNoms;
   }
-//=======
-//>>>>>>> 01c6d0109fa1704f7170b5425b27b78f5e216193
+
   // -----------------------------------------------------------------------------
   //  Autre :
 
