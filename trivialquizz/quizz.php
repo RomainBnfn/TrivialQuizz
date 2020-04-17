@@ -355,7 +355,6 @@
                 validated = false;
                 typeQuest = response[0];
                 bonneRep = response.substring(1,response.indexOf('%'));
-                console.log(bonneRep);
 
                 $('#quizz-container').append(response.substring(response.indexOf('%')+1));
                 var elements = $('.quest-container').children();
