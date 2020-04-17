@@ -112,7 +112,7 @@
     $("#importationQuestion").submit((e)=>{
       e.preventDefault();
       if($("#selectImportQuizz").val() == null || $("#selectImportQuestions").val() == null){
-        alert("Il faut selectionner les trucs, abuses pas.");
+        alert("Merci de sélectionner tout.");
       }
       else{//OK
         var idQuest = $("#selectImportQuestions").val();
