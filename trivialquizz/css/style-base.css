@@ -72,7 +72,12 @@ body{
 }
 .fond-bleu{
 	color: white;
-  background: repeating-linear-gradient(-45deg, #1C558E, 10px, #2A80D5 10px, #2A80D5 20px);
+  background: repeating-linear-gradient(-45deg, #1C558E, 10px, #226cb6 10px, #226cb6 20px);
+}
+footer{
+	color: white;
+  background: repeating-linear-gradient(-45deg, #1C558E, 10px, #226cb6 10px, #226cb6 20px);
+  box-shadow: inset 0px 0px 5px 2px rgba(0, 0, 0, .55);
 }
 
 /* Navbar */

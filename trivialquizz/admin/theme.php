@@ -19,7 +19,7 @@
 <html lang="fr">
 <head>
   <title>Panel d'Admin</title>
-  <?php require_once "../include/header.html"?>
+  <?php require_once "../include/header.php"?>
   <link rel="stylesheet" href="../css/cards.css" />
   <link rel="stylesheet" href="../css/modal.css" />
 </head>
@@ -109,7 +109,8 @@
           <!-- FIN: Liste des Thèmes-->
       </div>
       <!-- FIN: Section des Thèmes -->
-
+      </div>
+  <?php require_once "../include/footer.html" ?>
   <?php require_once "../include/script.html"?>
   <?php require_once "modals/theme-create.php"?>
   <script>

@@ -40,7 +40,7 @@
   <title>Edition de Quizz</title>
   <link rel="stylesheet" href="../css/modal.css" />
   <link rel="stylesheet" href="../css/jumbotron-custom.css" />
-  <?php require_once "../include/header.html"?>
+  <?php require_once "../include/header.php"?>
 </head>
 <body>
   <?php require_once "../include/navbar.php"?>
@@ -92,8 +92,8 @@
                   Nom:
                 </label>
                 <input id="editGeneral_Nom" type="text" class="input-dark form-control" maxlength="50" name="nom" placeholder="Entrez le nom de la Question !" value="<?= $_QUIZZ["nom"] ?>" autocomplete="off" required/>
-                <div id="errorGeneral_Nom" class="invalid-feedback">
-                  Ce nom est déjà utilisé !
+                <div id="messageNomQuizzError" class="invalid-feedback">
+                    Le nom de quizz est invalide ou déjà utilisé !
                 </div>
               </div>
 
@@ -213,10 +213,15 @@
       <!-- ================================================================================= -->
       </article>
       <!-- DEBUT : Cadre de la liste des Questions -->
+
       <div class="titre1 titre-shadow">
-        <h1 >Les questions</h1>
+        <div>
+          <h1 >
+            Les questions
+          </h1>
+        </div>
+        <div>
         <!-- Quand on appuie sur le bouton, on envoie une requête -->
-        <div >
           <button type="button" class="btn btn-success button-open-modal" data-toggle="modal" data-target="#modalCreationQuestion">
             Ajouter
           </button>
@@ -230,6 +235,7 @@
           <?php } ?>
         </div>
       </div>
+
       <article class="container">
 
         <div class="containerQuestions" id="containerQuestions">
@@ -397,7 +403,7 @@
 
     </div>
   </div>
-
+  <?php require_once "../include/footer.html" ?>
   <?php require_once "../include/script.html"?>
   <?php require_once "modals/question-create.php"?>
   <?php require_once "modals/question-importer.php"?>
