@@ -179,12 +179,10 @@
       var card = $('.card-quizz');
 
       /// CLIQUE SUR UN QUIZZ == LANCEMENT DU QUIZZ ///
-      $('.card-quizz').click(function(){
+      $('.card-quizz').on('click', function(){
 
         //il faut que la personne soit connecté
-        console.log(isConnected);
         if(!isConnected){
-          console.log("t");
           $('#modalConnexion').modal('show');
         }else{
           // carte cliquée
@@ -243,6 +241,22 @@
             break;
         }
       })
+
+      $("body").on('keydown', function(e){
+        if (window.event) e = window.event;
+        else return true;
+        var touche = window.event ? e.keyCode : e.which;
+        //empécher le retour lors de l'appuie sur la touche supprimer, génant lors de la saisi
+        if (touche == 8) {
+          if (e.keyCode) e.keyCode=0;
+          return false;
+        }
+        //valider la question
+        if(touche == 13 && $('#validated').length != 0){
+          valideQuestion();
+        }
+        return true;
+      });
     });
 
     //fait apparaitre l'élément n, d'un total de nmax éléments après delay millisecondes
@@ -321,10 +335,9 @@
       $('.plusOne').remove();
       var t0 = new Date().getTime(), t1=0;
 
-      if (window.XMLHttpRequest) {
-        // code for IE7+, Firefox, Chrome, Opera, Safari
+      if (window.XMLHttpRequest) {    // code for IE7+, Firefox, Chrome, Opera, Safari
         xmlhttp=new XMLHttpRequest();
-      } else { // code for IE6, IE5
+      } else {                        // code for IE6, IE5
         xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
       }
       xmlhttp.onreadystatechange=function() {
@@ -346,7 +359,6 @@
                 isTimerPaused = false;
                 typeQuest = response[0];
                 bonneRep = response.substring(1,response.indexOf('%'));
-                console.log(bonneRep);
                 $('#quizz-container').append(response.substring(response.indexOf('%')+1));
                 refreshRipple();
                 var elements = $('.quest-container').children();
@@ -391,7 +403,7 @@
           $('#score').text(score);
           $(bonneRep).addClass('right-answer');
           $('#validated').addClass('right-answer');
-          var plus = $('<span class="plusOne">+1</span>');
+          var plus = $('<span class="plusOne">+'+((difficulty-1)/2+1)+'</span>');
           $('#quizz-container').append(plus);
         }else{
           $(btnCheck).addClass('bad-answer');
@@ -403,7 +415,7 @@
           $('#score').text(score);
           $(bonneRep).addClass('right-answer');
           $('#validated').addClass('right-answer');
-          var plus = $('<span class="plusOne">+1</span>');
+          var plus = $('<span class="plusOne">+'+((difficulty-1)/2+1)+'</span>');
           $('#quizz-container').append(plus);
         }else{
           $(btnCheck).addClass('bad-answer');

@@ -28,16 +28,6 @@
 
   $_NBOFQUIZZOFTHEME = getNumbersOfQuizzesOfThemes($bdd);
 
-  // $colorTheme = array();
-  // $descTheme = array();
-  // $nomTheme = array();
-  // $i=0;
-  // foreach ($themesPrincipaux as $theme) {
-  //   $colorTheme[$i] = $theme['couleur'];
-  //   $descTheme[$i] = $theme['desc'];
-  //   $nomTheme[$i++] = $theme['nom'];
-  // }
-  //variable qui permet de revenir à la page où était l'ut avant qu'il se connecte
 ?>
 <!doctype html>
 <html lang="fr">
@@ -108,7 +98,6 @@
       ?>
     </div>
   </section>
-  <?php print_r($themesPrincipaux) ?>
   <?php require_once "include/script.html"?>
 
   <script type="text/javascript" src="js/animation_roue.js"></script>

@@ -145,7 +145,7 @@ body
   flex-direction: column;
   margin-top: calc(4% + 20px);
 }
-#slider-difficulty::-webkit-slider-thumb, #slider-difficulty::-moz-range-thumb  {
+#slider-difficulty::-moz-range-thumb  {
   width: 18px;
   height: 18px;
   background: rgba(0,0,0,0);
@@ -156,6 +156,12 @@ body
 #slider-difficulty::-webkit-slider-thumb{
   -webkit-appearance: none;
   appearance: none;
+  width: 24px;
+  height: 24px;
+  background: rgba(0,0,0,0);
+  border-radius: 50%;
+  cursor: pointer;
+  border: solid 5px #333;
 }
 #slider-difficulty{
   -webkit-appearance: none;
@@ -312,7 +318,7 @@ body
   font-weight: bold;
   animation: plusEffect 1.5s;
   animation-fill-mode: forwards;
-  right: calc(130px + 2%);
+  right: calc(130px + 3%);
   font-family: "CaviarDreams";
 }
 @keyframes plusEffect {
@@ -321,11 +327,11 @@ body
     font-size: 3.2rem;
   }
   99%{
-    top:110px;
+    top:150px;
     font-size: .5rem;
   }
   100%{
-    top:110px;
+    top:150px;
     font-size: 0rem;
   }
 }
