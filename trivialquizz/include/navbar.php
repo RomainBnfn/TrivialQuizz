@@ -3,11 +3,13 @@
   require_once "liaisonbdd.php";
   require_once "functions.php";
   $isConnected ="";
+  $isAdmin = "";
 
   if(!empty($_SESSION) && isset($_SESSION['pseudo'])){ // Connecté
     $isConnected = 1;
     if(isset($_SESSION['is_admin'])){
-      $hello_txt = "(Admin) Bonjour, ". $_SESSION['pseudo'];
+      $hello_txt = "Bonjour, ". $_SESSION['pseudo'];
+      $isAdmin = 1;
     }
     else{
       $hello_txt = "Bonjour, ".$_SESSION['pseudo'];
@@ -16,61 +18,75 @@
 
 ?>
 <link rel="stylesheet" type="text/css" href="<?=$index_location?>/css/modal.css">
-<nav class="navbar fixed-top navbar-expand-md navbar" role="navigation">
-  <div>
-      <a href="<?=$index_location?>/index.php">
-        ​<picture>
-          <img src="<?=$index_location?>/image/logo.png" class="img-logo" alt="Logo du Trivial Quizz">
-        </picture>
-      </a>
-  </div>
+<nav class="navbar navbar-expand-md fixed-top" role="navigation">
+  <div class="navbar-center">
 
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#menuNavbar" aria-controls="menuNavbar" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon" style="color: white !important"></span>
-  </button>
+    <a class="navbar-brand" href="<?=$index_location?>/index.php" style="padding: 0;">
+      ​<picture>
+        <img src="<?=$index_location?>/image/logo.png" class="img-logo" alt="Logo du Trivial Quizz">
+      </picture>
+    </a>
 
-  <div class="collapse navbar-collapse" id="menuNavbar">
-    <div class="dropdown">
+    <div class="collapse navbar-collapse" id="collapseMenu">
+      <ul class="navbar-nav">
+        <?php if($isAdmin){ ?>
+          <li class="navbar-item dropdown">
 
-      <span class="dropdown-toggle-dark dropdown-toggle" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-        Administration
-      </span>
+            <a class="nav-link dropdown-toggle dropdown-toggle-dark" data-toggle="dropdown" data-target="dropD" >
+              Administration
+              <span class"caret"></span>
+            </a>
 
-      <div class="dropdown-menu-dark dropdown-menu" aria-labelledby="dropdownMenuButton">
+            <div class="dropdown-menu dropdown-menu-dark" aria-labelledby="dropD">
+              <a class="dropdown-dark dropdown-item-dark dropdown-item" href="<?=$index_location?>/admin/theme.php">
+                Editer des thèmes
+              </a>
+              <a class="dropdown-dark dropdown-item-dark dropdown-item" href="<?=$index_location?>/admin/quizz.php">
+                Editer des quizzes
+              </a>
+            </div>
+          </li>
+        <?php } ?>
 
-        <a class="dropdown-dark dropdown-item-dark dropdown-item" href="<?=$index_location?>/admin/theme.php">
-          Editer des thèmes
-        </a>
-        <a class="dropdown-dark dropdown-item-dark dropdown-item" href="<?=$index_location?>/admin/quizz.php">
-          Editer des quizzes
-        </a>
-      </div>
+        <?php if($isConnected){ ?>
+          <li class="navbar-item">
+            <a class="nav-link">
+              <i class="fas fa-user"></i>
+              <?= $hello_txt ?>
+              <span class"caret"></span>
+            </a>
+          </li>
+
+          <li class="navbar-item">
+            <a class="nav-link" href="#">
+              <button type="button" class="btn btn-outline-primary" onclick="logout()">Deconnexion</button>
+            </a>
+          </li>
+
+        <?php } else { ?>
+
+          <li class="navbar-item">
+            <button id="boutonInscription" type="button" class="btn btn-primary button-open-modal" data-toggle="modal" data-target="#modalInscription">
+              Inscription
+            </button>
+          </li>
+
+          <li class="navbar-item">
+            <button id="boutonConnexion" type="button" class="btn btn-outline-primary button-open-modal" data-toggle="modal" data-target="#modalConnexion">
+              Connexion
+            </button>
+          </li>
+
+        <?php } ?>
+      </ul>
     </div>
 
-    <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
-      <?php if($isConnected){ ?>
-        <p>
-          <?= $hello_txt ?>
-        </p>
-        <li>
-          <button type="button" class="btn btn-outline-primary" onclick="logout()">Deconnexion</button>
-        </li>
-      <?php } else { ?>
-        <li>
-          <button id="boutonInscription" type="button" class="btn btn-primary button-open-modal" data-toggle="modal" data-target="#modalInscription">
-            Inscription
-          </button>
-        </li>
-        <li>
-          <button id="boutonConnexion" type="button" class="btn btn-outline-primary button-open-modal" data-toggle="modal" data-target="#modalConnexion">
-            Connexion
-          </button>
-        </li>
-      <?php } ?>
-    </ul>
-
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapseMenu" aria-controls="menuNavbar" aria-expanded="false" aria-label="Toggle navigation">
+      <i class="fas fa-bars fa-lg" style="color: white !important"></i>
+    </button>
   </div>
 </nav>
+
 <?php
   require_once "modals/connexion.php";
   require_once "modals/inscription.php";

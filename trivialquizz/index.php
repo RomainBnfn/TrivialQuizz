@@ -56,7 +56,7 @@
     <div class="cadre-central">
       <article class="container">
         <h1 class="titre1">Thèmes classique</h1>
-        <div class="center">
+        <div class="center div-roue">
             <svg id="roue-theme-classique" viewBox="0 0 <?="$L $L"?>">
               <?php
               $i = 0;

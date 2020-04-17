@@ -28,7 +28,7 @@
 <body>
   <?php require_once "../include/navbar.php"?>
 
-  <div class="bandeau-principal fond-bleu progress-bar-striped">
+  <div class="bandeau-principal fond-bleu">
     Panel d'admin
   </div>
 

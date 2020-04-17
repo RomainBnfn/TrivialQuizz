@@ -68,8 +68,8 @@
   font-weight: bold;
 }
 .fond-bleu{
-	background-color: #2A80D5;
 	color: white;
+  background: repeating-linear-gradient(-45deg, #1C558E, 10px, #2A80D5 10px, #2A80D5 20px);
 }
 
 /* Navbar */
@@ -93,7 +93,24 @@ nav {
   color: white !important;
   height: auto;
 }
-
+@media (min-width: 768px) {
+  .navbar-nav{
+    width: 100%;
+    display: flex !important;
+    flex-flow: row !important;
+    justify-content: flex-end !important;
+  }
+}
+.navbar{
+  justify-content: center !important;
+  display: flex;
+}
+.navbar-center{
+  display: flex !important;
+  flex-flow: row !important;
+  justify-content: space-between !important;
+  width: 70%;
+}
 .dark-background{
   background-color: var(--cadre-central-background-color) !important;
 }
@@ -156,6 +173,16 @@ label
 	display: block;
 	float: left;
 }
+.div-roue{
+  padding-top: 15px;
+  padding-bottom: 15px;
+  border-radius: 30px;
+  background-image: repeating-conic-gradient(from 0deg, #454545 0deg 10deg, #555555 10deg 25deg);
+  margin-bottom: 15px;
+}
+#th-desc{
+
+}
 label.main-label
 {
   font-size: 1.1rem;
@@ -187,7 +214,7 @@ a:hover{
 }
 /* medium screen */
 @media (min-width: 768px) and (max-width: 1200px) {
-  .cadre-central{
+  .navbar-center, .cadre-central{
     width: 80% !important;
   }
   .titre1{
@@ -196,7 +223,7 @@ a:hover{
 }
 /* small screen */
 @media (max-width: 767px) {
-  .cadre-central{
+  .navbar-center, .cadre-central{
     width: 100% !important;
   }
   .titre1{
@@ -242,7 +269,9 @@ a:hover{
     opacity: 0;
   }
 }
-
+.navbar-item{
+  margin: 3px !important;
+}
 /*** utilisé dans log et register ***/
 .form-padding
 {

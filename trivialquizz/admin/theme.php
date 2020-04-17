@@ -3,7 +3,6 @@
 
   require_once "../include/index_location.php";
 
-  $_SESSION['is_admin'] = true;
   if(!isset($_SESSION['is_admin']))
   {
     header("Location: $index_location/index.php");
@@ -27,14 +26,14 @@
 <body>
   <?php require_once "../include/navbar.php"?>
 
-  <div class="bandeau-principal fond-bleu progress-bar-striped">
+  <div class="bandeau-principal fond-bleu">
     Panel d'admin
   </div>
 
   <div class="cadre-global">
     <div class="cadre-central">
 
-      <a href="../index.php">
+      <a class="blue-text" href="../index.php">
         <i class="fas fa-arrow-left" style="height: 2.5em;"></i>
         Retour
       <a/>

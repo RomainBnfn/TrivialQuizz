@@ -45,7 +45,7 @@
                  Connexion
                </button>
           	</div>
-          	<p class="text-center">
+          	<p id="changeConToInsc" class="text-center">
               <span class="blue-text">
                 Pas encore inscrit ?
               </span>
@@ -58,6 +58,12 @@
   </div>
 </div>
 <script>
+
+  $("#changeConToInsc").click(()=>{
+    $('#modalInscription').modal('show');
+    $('#modalConnexion').modal('hide');
+  });
+
   $("#formConnexion").submit((e)=>{
     e.preventDefault();
 

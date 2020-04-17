@@ -57,11 +57,11 @@
             <hr/>
 
           	<div class="form-group">
-          	   <button id="btnInscription" type="submit" class="btn btn-success btn-block">Déjà inscrit ?</button>
+          	   <button id="btnInscription" type="submit" class="btn btn-success btn-block">Inscription</button>
           	</div>
-          	<p class="text-center">
+          	<p id="changeInscToCon" class="text-center">
               <span class="blue-text">
-                Pas encore inscrit ?
+                Déjà inscrit ?
               </span>
             </p>
 
@@ -85,6 +85,11 @@
   }
 
   $(document).ready(function(){
+
+    $("#changeInscToCon").click(()=>{
+      $('#modalInscription').modal('hide');
+      $('#modalConnexion').modal('show');
+    });
 
     $("#inscriptionPseudo").keyup(()=>{
       var pseudo = $("#inscriptionPseudo").val();
