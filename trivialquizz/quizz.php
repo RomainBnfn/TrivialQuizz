@@ -105,7 +105,9 @@
             <?php
           }else{
             ?>
-            <p>Il n'y a pas encore de quizzes dans ce thème...</p>
+            <p>
+              Il n'y a pas encore de quizzes dans ce thème...
+            </p>
             <?php
           }
           ?>

@@ -58,7 +58,7 @@
   align-items: center;
 }
 .bandeau-principal{
-	height: 65px;
+	height: auto;
 	text-align: center;
 	justify-content: center;
 	align-items: center;

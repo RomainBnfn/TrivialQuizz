@@ -45,7 +45,7 @@
   </section>
   <section class="cadre-global">
     <div class="cadre-central">
-    
+
       <div class="titre1">
         <h1>Thèmes classique</h1>
       </div>
@@ -74,7 +74,6 @@
       <div class="titre1">
         <h1>Thèmes personnalisés</h1>
       </div>
-      <div class="card-columns">
       <article class="container">
         <?php
           if(!existNotEmptyThemeCustom($_NBOFQUIZZOFTHEME)){
@@ -84,6 +83,7 @@
             </p>
           <?php
         } else { //IL Y A DES THEMES
+          echo "<div class='card-columns'>";
           foreach ($themesCustoms as $id => $theme) {
             if( !isset($_NBOFQUIZZOFTHEME[$id]) || $_NBOFQUIZZOFTHEME[$id] <=0) {
               continue;
