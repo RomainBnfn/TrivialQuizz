@@ -47,12 +47,12 @@
             Créer un Thème !
           </button>
         </div>
-        
+
       <article class="container">
 
           <!-- DEBUT: Liste des Thèmes-->
           <div>
-            <p>Les six premiers thèmes ne sont qu'éditable, ce sont ceux présents sur la roue de l'accueil du site !</p>
+            <p>Les six premiers thèmes ne sont pas supprimables, ce sont ceux présents sur la roue de l'accueil du site !</p>
 
           <div class="card-columns">
             <?php

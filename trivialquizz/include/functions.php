@@ -178,6 +178,21 @@
           return $_NUMBERS;
         }
 
+        function getNumbersOfQuizzesWithQuestionsOfThemes($bdd)
+        {
+          $data = tryQueryBDD($bdd, "SELECT COUNT(*) AS NB, th_id FROM quiz WHERE qui_id IN (SELECT qui_id FROM quiz_quest GROUP BY qui_id HAVING COUNT(qui_id) > 0) GROUP BY th_id ");
+          $_NUMBERS;
+          if ($data == null)
+          {
+              return null;
+          }
+          foreach ($data as $infos)
+          {
+            $_NUMBERS[$infos["th_id"]] = $infos["NB"];
+          }
+          return $_NUMBERS;
+        }
+
   // (QUIZZES)
 
         /// Essaie de charger tous les quizzes, puis renvoie une liste de listes
@@ -396,19 +411,16 @@
     return $_PSEUDOS;
   }
 
-
-
-  //transformer un temps en second pour le mettre en mm:ss'
-  function formatTimeToString($time){
-    $min = floor($time % (60 * 60) / (60));
-    $sec = floor($time % 60);
-    $timeText = "";
-    if($min>0) $timeText.=$min.":";
-    if($sec>9) $timeText.=$sec."'";
-    else $timeText.="0".$sec."'";
-    return $timeText;
+  function timeToString($time){
+    $min = ($time  - $time  % 60) / 60;
+    $sec = $time  % 60;
+    if($sec<10)
+      return $min."m0".$sec."s";
+    else if($min>0)
+      return $min."m".$sec."s";
+    else
+      return $sec."s";
   }
-
 // -----------------------------------------------------------------------------
 //  Fonctions pour la construction du camembert des thèmes sur la page d'Accueil:
 // -----------------------------------------------------------------------------

@@ -115,21 +115,12 @@
 
           </div>
 
-          <div class="jumbotron jumbotron-vert col-sm-4" >
-            <h3 class="titre3 titre-shadow">Statistiques</h3>
-            <div>
-              <!-- A droite : Les statistiques générales: Chargé en dernier
-              pour pas prendre trop de temps à la génération -->
-              Nb de fois effectué:
-              Score moyen:
-              Temps moyen:
-            </div>
-          </div>
+          
 
         </div>
 
       </article>
-      
+
       <div class="titre1">
         <h1>Les Quizz associés</h1>
         <div>

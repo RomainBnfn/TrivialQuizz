@@ -77,18 +77,18 @@
                     <div class="card-body">
                       <h3><?=$quizz['nom']?></h3>
                         <p>Nombre de questions: <span class="badge badge-pill badge-info"><?=$nbrQuestByQuizz[$quizz['id']]?></span><br>
-                          Durée: <span class="badge badge-pill badge-info"><?=formatTimeToString($quizzesDuration[$quizz['id']]['temps']*(1-5*$quizzesDuration[$quizz['id']]['malus']/100))?></span>
-                          - <span class="badge badge-pill badge-info"><?=formatTimeToString($quizzesDuration[$quizz['id']]['temps'])?></span>
+                          Durée: <span class="badge badge-pill badge-info"><?=timeToString($quizzesDuration[$quizz['id']]['temps']*(1-5*$quizzesDuration[$quizz['id']]['malus']/100))?></span>
+                          - <span class="badge badge-pill badge-info"><?=timeToString($quizzesDuration[$quizz['id']]['temps'])?></span>
                         </p>
                         <p>
                         <?php
                           if($scoresGlobaux[$quizz['id']]['point'] != -1){
                             ?>
-                            <i class="fa fa-trophy" aria-hidden="true"></i>&nbsp; Meilleur score global: <span class="badge badge-pill badge-danger"><?=$scoresGlobaux[$quizz['id']]['point']." (".formatTimeToString($scoresGlobaux[$quizz['id']]['temps']).")"?></span><br>
+                            <i class="fa fa-trophy" aria-hidden="true"></i>&nbsp; Meilleur score global: <span class="badge badge-pill badge-danger"><?=$scoresGlobaux[$quizz['id']]['point']." (".timeToString($scoresGlobaux[$quizz['id']]['temps']).")"?></span><br>
                             <?php
                             if($isConnected &&  $scoresPerso[$quizz['id']]['point'] != -1){
                               ?>
-                              <i class="fa fa-star" aria-hidden="true"></i>&nbsp; Meilleur score perso: <span class="badge badge-pill badge-warning"><?=$scoresPerso[$quizz['id']]['point']." (".formatTimeToString($scoresPerso[$quizz['id']]['temps']).")"?></span>
+                              <i class="fa fa-star" aria-hidden="true"></i>&nbsp; Meilleur score perso: <span class="badge badge-pill badge-warning"><?=$scoresPerso[$quizz['id']]['point']." (".timeToString($scoresPerso[$quizz['id']]['temps']).")"?></span>
                               <?php
                             }
                           }
@@ -141,7 +141,7 @@
 
     var isConnected = <?php echo ($isConnected==1) ? "true" : "false";?>,
       idTheme = <?=$theme['id']?>,
-      pseudo = "<?=$_SESSION['pseudo']?>",
+      pseudo = "<?php echo ($isConnected==1) ? $_SESSION['pseudo'] : "";?>",
       recordGénéral = <?=json_encode($scoresGlobaux)?>,
       recordPerso = <?=json_encode($scoresPerso)?>;
 
@@ -173,8 +173,7 @@
       var card = $('.card-quizz');
 
       /// CLIQUE SUR UN QUIZZ == LANCEMENT DU QUIZZ ///
-      $('.card-quizz').on('click', function(){
-
+      $('.card-quizz').click(function(){
         //il faut que la personne soit connecté
         if(!isConnected){
           $('#modalConnexion').modal('show');
@@ -347,11 +346,12 @@
                 var t2 = new Date().getTime();
                 delay += Math.max(1000,t2-t0);
                 isTimerPaused = false;
+                validated = false;
                 typeQuest = response[0];
                 bonneRep = response.substring(1,response.indexOf('%'));
                 console.log(bonneRep);
+
                 $('#quizz-container').append(response.substring(response.indexOf('%')+1));
-                refreshRipple();
                 var elements = $('.quest-container').children();
                 for(var i=0;i<elements.length;i++){
                   spawn(elements[i],i,elements.length,500);
@@ -413,7 +413,6 @@
           $('#validated').addClass('bad-answer');
         }
       }
-      validated = false;
       btnCheck = null;
     }
 
@@ -450,7 +449,7 @@
         }
         $('#score').text(score);
       }else{
-        $('#score').text(score+"  Record: "+recordGénéral.point);
+      $('#score').parent().append($('<span style="font-size: 50%"> (Record: '+recordGénéral.point+')</span>'));
       }
 
       $('#time').text(timeText);

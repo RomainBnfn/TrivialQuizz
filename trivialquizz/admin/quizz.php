@@ -60,6 +60,7 @@
               }
               else // Il y a au moins un quizz
               {
+                echo "<p>Cliquez sur les noms d'un thème pour voir ses Quizzes !</p>";
                 $id_previousTheme = -1;
                 foreach ($_QUIZZES as $id => $_QUIZZ)
                 {
@@ -71,15 +72,16 @@
                     ?>
                       <div class="card">
                         <?php $color = $_THEMES["$id_previousTheme"]["couleur"]; ?>
-                        <div onclick="collapseOrShow(<?= $id_previousTheme ?>)" class="d-flex justify-content-between card-header" style="background-color: <?= $color ?>;">
-                          <h4>
+                        <div onclick="collapseOrShow(<?= $id_previousTheme ?>)" class="d-flex justify-content-between card-header" style="background-color: #353535 ;">
+                          <h4 style="color: <?= $color ?>">
+                            <i class="fas fa-certificate"></i>
                             <?= $_THEMES["$id_previousTheme"]["nom"] ?>
                           </h4>
 
-                          <i id="cardQuizzSymbolN<?= $id_previousTheme ?>" class="fas fa-angle-double-up"></i>
+                          <i id="cardQuizzSymbolN<?= $id_previousTheme ?>" class="fas fa-angle-double-down"></i>
                         </div>
 
-                        <div id="cardQuizzOfThemeN<?= $id_previousTheme ?>" class="card-body" style="background: <?= $color?>40;">
+                        <div id="cardQuizzOfThemeN<?= $id_previousTheme ?>" class="card-body" style="display: none; background-color: #404040 ;">
                           <div class="card-columns-sm card-columns">
                     <?php
                   }
@@ -87,18 +89,23 @@
                   <div class="card" id="quizzN<?= $_QUIZZ["id"] ?>" style="background-color: <?= $color ?>20"> <!-- L'id sert pour identifier les différents div des quizz-->
                     <div class="card-header" style="background-color: <?= $color ?>50">
                       <div class="card-title">
-                        <h5>
+                        <h5 style="color: white;">
                           <?= $_QUIZZ["nom"] ?>
                         </h5>
-                        <span class="badge badge-pill badge-primary">
-                          <?=  (isset($_NBQUESTIONS[$id])) ? $_NBQUESTIONS[$id] : 0 ?>
-                          Questions
-                        </span>
 
                       </div>
                     </div>
-                    <div class="card-body">
-                      <div>Description: <?= $_QUIZZ["desc"] ?></div>
+                    <div class="card-body" style="color: white">
+                      <span class="badge badge-pill <?php if(!isset($_NBQUESTIONS[$id])){ echo "badge-danger"; } else { echo "badge-primary"; } ?> ">
+                        <?=  (isset($_NBQUESTIONS[$id])) ? $_NBQUESTIONS[$id] : 0 ?>
+                        Questions
+                      </span>
+                      <div>
+                        <b>
+                          Description:
+                        </b>
+                        <?= $_QUIZZ["desc"] ?>
+                      </div>
                     </div>
                     <div class="card-footer d-flex justify-content-around">
                       <a href="quizz-edit.php?id=<?= $_QUIZZ["id"] ?>">
