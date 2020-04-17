@@ -309,11 +309,11 @@ html
     font-size: 3.2rem;
   }
   99%{
-    top:40px;
+    top:60px;
     font-size: .5rem;
   }
   100%{
-    top:40px;
+    top:60px;
     font-size: 0rem;
   }
 }
@@ -392,7 +392,7 @@ html
       height: 12px;
       color: rgba(0, 0, 0, 0);
       left: 0;
-      top: calc(100vh - 60px - 3%); /* tout en bas moins la hauteur du bouton (environ)*/
+      top: calc(100vh - 60px - 8%); /* tout en bas moins la hauteur du bouton (environ)*/
   }                                 /* et une marge */
   90%{
       border-radius: 50%;
@@ -401,7 +401,7 @@ html
       height: 12px;
       color: rgba(0, 0, 0, 0);
       left: 49vw;
-      top: calc(100vh - 60px - 3%);
+      top: calc(100vh - 60px - 8%);
   }
   100%{
       border-radius: .5rem;
@@ -412,6 +412,6 @@ html
       font-size: 2rem;
       left: 20vw;
       height: auto;
-      top: calc(100vh - 60px - 3%);
+      top: calc(100vh - 60px - 8%);
   }
 }
