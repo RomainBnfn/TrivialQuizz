@@ -26,6 +26,7 @@
   $coordTextFocus = generateCoordText($r, $G*$R, $c, $ids);
   $coordTextUnfocus = generateCoordText($r, $R, $c, $ids);
 
+  $_NBOFQUIZZOFTHEME = getNumbersOfQuizzesOfThemes($bdd);
 
   // $colorTheme = array();
   // $descTheme = array();
@@ -37,7 +38,6 @@
   //   $nomTheme[$i++] = $theme['nom'];
   // }
   //variable qui permet de revenir à la page où était l'ut avant qu'il se connecte
-  $_SESSION["origin"] = "index.php";
 ?>
 <!doctype html>
 <html lang="fr">
@@ -46,6 +46,7 @@
   <?php require_once "include/header.html"?>
   <link rel="stylesheet" type="text/css" href="css/style-index.css">
   <link rel="stylesheet" type="text/css" href="css/card-2.css">
+  <link rel="stylesheet" type="text/css" href="css/modal.css">
 </head>
 <body>
   <?php require_once "include/navbar.php"?>
@@ -55,8 +56,12 @@
   <section class="cadre-global">
     <div class="cadre-central">
       <article class="container">
-        <h1 class="titre1">Thèmes classique</h1>
-        <div class="center">
+
+        <div class="titre1">
+          <h1>Thèmes classique</h1>
+        </div>
+
+        <div class="center div-roue">
             <svg id="roue-theme-classique" viewBox="0 0 <?="$L $L"?>">
               <?php
               $i = 0;
@@ -82,7 +87,10 @@
         <h1 class="titre1">Thèmes personnalisés</h1>
         <div class="card-columns">
         <?php
-          foreach ($themesCustoms as $theme) {
+          foreach ($themesCustoms as $id => $theme) {
+            if(!isset($_NBOFQUIZZOFTHEME[$id]) || $_NBOFQUIZZOFTHEME[$id] <=0) {
+              continue;
+            }
         ?>
           <a class="card ripple-container dynamic-shadow"  href="quizz.php?theme=<?=$theme['id']?>" style="background-color: <?=$theme['couleur']?>">
               <div class="card-body">
@@ -102,6 +110,7 @@
   </section>
   <?php print_r($themesPrincipaux) ?>
   <?php require_once "include/script.html"?>
+
   <script type="text/javascript" src="js/animation_roue.js"></script>
   <script type="text/javascript" src="js/ripple.js"></script>
   <script type="text/javascript">
@@ -113,6 +122,5 @@
       fontSizeTextUnfocus = <?=$fontSizeTextUnfocus?>,
       themes = <?=json_encode($themesPrincipaux)?>;
   </script>
-  <?php require_once "js/script.html"?>
 </body>
 </html>

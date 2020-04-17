@@ -27,7 +27,7 @@
   $id = $_POST['id'];
 
   //
-  if($typeQuestion==1){
+  if($typeQuestion == 1){
     if(empty($_POST['reponse']) || empty($_POST["reponseID"]) || !is_numeric($_POST["reponseID"])){
       exit();
     }
@@ -42,14 +42,14 @@
       editReponseLibre($bdd, $_POST["reponseID"], $_POST['reponse']);
     }
   }
+  else if($typeQuestion == 2){
 
-
-  if($typeQuestion==2){
     for($i = 1; $i <=4; $i++){
       if(empty($_POST["reponseQCM_N$i"]) || empty($_POST["reponseID$i"])){
         exit();
       }
     }
+
     if($_POST["reponseID1"]==-1){ //On vient de changer de type -> Il faut supprimer l'ancienne rep libre
       deleteReponses($bdd, $id);
       //Et on doit insert la réponse dans la bdd
@@ -64,6 +64,7 @@
                             $_POST["reponseID3"], $_POST["reponseQCM_N3"],
                             $_POST["reponseID4"], $_POST["reponseQCM_N4"]);
     }
+
 
   }
 

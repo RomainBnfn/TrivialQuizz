@@ -1,8 +1,28 @@
-$result = ($bdd -> query("SELECT COUNT(que_id) as nbOccurrence FROM quiz_quest WHERE que_id = $id_question")) -> fetch();
-$nbOccurence = $result["nbOccurrence"];
-if($nbOccurence > 1)// La question est présente dans plusieurs quizzes, on supprime juste le quiz-quest
-{
-  $bdd -> query("DELETE FROM quiz_quest WHERE que_id = $id_question AND qui_id = $id_quizz");
-}
-else { //La question est présente un seul quizz : on la supprime
-   
+<?php
+  /*  Ceci n'est pas une page.
+   */
+   session_start();
+
+   // On regarde si l'utilisateur est bien un admin
+   if(!isset($_SESSION['is_admin']))
+   {
+     exit();
+   }
+
+   require_once "../../include/liaisonbdd.php";
+   require_once "../../include/functions.php";
+   require_once "../include/functions.php";
+
+   // On regarde si l'id passé en méthode get est correct
+   if(empty($_GET) || empty($_GET["idQuizz"]) || !is_numeric($_GET["idQuizz"])
+                    || empty($_GET["idQuest"]) || !is_numeric($_GET["idQuest"]))
+   {
+     exit();
+   }
+
+   $idQuizz = $_GET["idQuizz"];
+   $idQuest = $_GET["idQuest"];
+
+   deleteLiaisonQuizzQuestionSQL($bdd, $idQuizz, $idQuest);
+   echo "ok";
+?>

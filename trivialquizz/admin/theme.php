@@ -26,12 +26,17 @@
 <body>
   <?php require_once "../include/navbar.php"?>
 
-  <div class="bandeau-principal fond-bleu progress-bar-striped">
+  <div class="bandeau-principal fond-bleu">
     Panel d'admin
   </div>
 
   <div class="cadre-global">
     <div class="cadre-central">
+
+      <a class="blue-text" href="../index.php">
+        <i class="fas fa-arrow-left" style="height: 2.5em;"></i>
+        Retour
+      <a/>
 
       <!-- DEBUT: Section des Thèmes-->
       <div>
@@ -42,62 +47,64 @@
             Créer un Thème !
           </button>
         </div>
+        
+      <article class="container">
 
-        <!-- DEBUT: Liste des Thèmes-->
-        <div>
-          <p>Les six premiers thèmes ne sont qu'éditable, ce sont ceux présents sur la roue de l'accueil du site !</p>
+          <!-- DEBUT: Liste des Thèmes-->
+          <div>
+            <p>Les six premiers thèmes ne sont qu'éditable, ce sont ceux présents sur la roue de l'accueil du site !</p>
 
-        <div class="card-columns">
-          <?php
-            $_NBOFQUIZZ = getNumbersOfQuizzesOfThemes($bdd);
-            foreach($_THEMES as $_THEME)
-            {
-              ?>
-              <div id="themeN<?= $_THEME["id"]?>" class="card">
-
-                <div class="card-header" style="background-color: <?= $_THEME['couleur'] ?>;">
-                </div>
-
-                <div class="card-body" style="background: <?= $_THEME['couleur'] ?>20;">
-                  <h5><?= $_THEME["nom"] ?></h5>
-                  <div class="card-text"><?php
-                  if(!empty($_NBOFQUIZZ[$_THEME["id"]])){
-                    if($_NBOFQUIZZ[$_THEME["id"]]==1){
-                      echo '<span class="badge badge-pill badge-info">1</span> Quizz Associé !';
-                    }
-                    else {
-                      echo '<span class="badge badge-pill badge-info">'.$_NBOFQUIZZ[$_THEME["id"]].'</span> Quizzes associés !';
-                    }
-                  }
-                  else{
-                      echo '<span class="badge badge-pill badge-danger">0</span> Quizz Associé :(';
-                  } ?></div>
-                  <br/>
-                  <p class="card-text"><?= $_THEME["desc"] ?></p>
-                </div>
-
-
-                <div class="card-footer d-flex justify-content-around" style="background: <?= $_THEME['couleur'] ?>60;">
-                  <a href="theme-edit.php?id=<?= $_THEME["id"] ?>">
-                    <button type="button" class="btn btn-warning btn-border-blanc">
-                      <i class="far fa-edit"></i>
-                      Edition
-                    </button>
-                  </a>
-                  <?php if($_THEME["is_Principal"] == 0){
-                    // On ne met que le boutton de suppression pour les Thèmes non principaux?>
-                    <button id="suppressionThemeN<?= $_THEME["id"]?>" type="button" class="btn btn-danger btn-border-blanc">
-                      <i class="fas fa-trash-alt" style="color: #ffffff;"></i>
-                      Supprimer
-                    </button>
-                  <?php } ?>
-                </div>
-              </div>
+          <div class="card-columns">
             <?php
-            }
-          ?>
-          </div>
+              $_NBOFQUIZZ = getNumbersOfQuizzesOfThemes($bdd);
+              foreach($_THEMES as $_THEME)
+              {
+                ?>
+                <div id="themeN<?= $_THEME["id"]?>" class="card">
 
+                  <div class="card-header" style="background-color: <?= $_THEME['couleur'] ?>;">
+                  </div>
+
+                  <div class="card-body" style="background: <?= $_THEME['couleur'] ?>20;">
+                    <h5><?= $_THEME["nom"] ?></h5>
+                    <div class="card-text"><?php
+                    if(!empty($_NBOFQUIZZ[$_THEME["id"]])){
+                      if($_NBOFQUIZZ[$_THEME["id"]]==1){
+                        echo '<span class="badge badge-pill badge-info">1</span> Quizz Associé !';
+                      }
+                      else {
+                        echo '<span class="badge badge-pill badge-info">'.$_NBOFQUIZZ[$_THEME["id"]].'</span> Quizzes associés !';
+                      }
+                    }
+                    else{
+                        echo '<span class="badge badge-pill badge-danger">0</span> Quizz Associé :(';
+                    } ?></div>
+                    <br/>
+                    <p class="card-text"><?= $_THEME["desc"] ?></p>
+                  </div>
+
+
+                  <div class="card-footer d-flex justify-content-around" style="background: <?= $_THEME['couleur'] ?>60;">
+                    <a href="theme-edit.php?id=<?= $_THEME["id"] ?>">
+                      <button type="button" class="btn btn-warning btn-border-blanc">
+                        <i class="far fa-edit"></i>
+                        Edition
+                      </button>
+                    </a>
+                    <?php if($_THEME["is_Principal"] == 0){
+                      // On ne met que le boutton de suppression pour les Thèmes non principaux?>
+                      <button id="suppressionThemeN<?= $_THEME["id"]?>" type="button" class="btn btn-danger btn-border-blanc">
+                        <i class="fas fa-trash-alt" style="color: #ffffff;"></i>
+                        Supprimer
+                      </button>
+                    <?php } ?>
+                  </div>
+                </div>
+              <?php
+              }
+            ?>
+            </div>
+          </article>
         </div>
           <!-- FIN: Liste des Thèmes-->
       </div>

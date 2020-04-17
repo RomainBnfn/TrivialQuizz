@@ -33,8 +33,7 @@ function deleteQuestion(id)
       response.text()
       .then((resp)=>{
         if(resp == "ok"){
-          $("#containerQuestionN"+id).remove();
-          decreasePosition(getPos(id));
+          displayAfterDeleteQuestion(id);
         }
       });
     })
@@ -108,7 +107,6 @@ function moveQuestion(direction, idQuestion, posQuestion){
 
           //fleches edit;
           editFleches(posQuestion+direction, idQuestion);
-          console.log("oh");
           editFleches(posQuestion, idCible);
         });
       }
@@ -178,7 +176,25 @@ function temps_changed(){
   $("#tempsFacile").html(""+ temps + "s");
 }
 
+function displayAfterDeleteQuestion(id){
+  $("#containerQuestionN"+id).remove();
+  decreasePosition(getPos(id));
+}
+
 $(document).ready(function(){
+  $(".btn-delier-question").click((e)=>{
+    var idQuestion = e.target.dataset.idquestion;
+    var idQuizz = e.target.dataset.idquizz;
+    fetch("ajax/question-delier.php?idQuizz="+idQuizz+"&idQuest="+idQuestion)
+    .then((response)=>{
+      response.text()
+      .then((resp)=>{
+        if(resp=="ok"){
+          displayAfterDeleteQuestion(idQuestion);
+        }
+      })
+    })
+  });
 
   $("#editGeneral").submit((e) => {
     e.preventDefault();

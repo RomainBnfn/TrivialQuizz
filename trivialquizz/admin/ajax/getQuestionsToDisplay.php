@@ -41,7 +41,7 @@
       $lib = $result["que_lib"];
       $type = $result["que_type"];
       if($type==1){
-        $logo = "(Lib) ";
+        $logo = "(Libre) ";
       }
       else{
         $logo = "(Qcm) ";

@@ -24,7 +24,6 @@
       $requete = $bdd -> prepare("INSERT INTO profil (pr_pseudo, pr_password) VALUES (?,?)");
       $isRegisterValid = $requete -> execute(array($_POST['pseudo'],$_POST['pswd']));
       $_SESSION['pseudo'] = $_POST['pseudo'];
-      $_SESSION['is_admin'] = false;
     }
   }
 ?>
@@ -87,7 +86,8 @@
         ?>
       </div>
     </section>
-    <?php require_once "js/script.html" ?>
+    <?php require_once "include/script.html"?>
+
     <script type="text/javascript" src="js/form-register.js"></script>
   </body>
 </html>

@@ -1,18 +1,6 @@
 <?php
 
-  function aQuestionHasBeenRemoved($idQuest, $idQuizz, $order, $nbQuestion, $nbOccurence){
-    $_THEME;
-    $_THEME["id"] = $result["th_id"];
-    $_THEME["nom"] = $result["th_nom"];
-    $_THEME["desc"] = $result["th_description"];
-    $_THEME["couleur"] = $result["th_couleur"];
-    $_THEME["is_Principal"] = $result["th_is_principal"];
-    return $_THEME;
-  }
-
-  function deleteReponses($bdd, $idQuestion){
-    $bdd -> query("DELETE FROM reponse WHERE que_id = $idQuestion");
-  }
+  // C R E A T E
 
   function createQuestionSQL($bdd, $intitule, $type){
     $requete = $bdd -> prepare("INSERT INTO QUESTION (que_lib,
@@ -22,17 +10,9 @@
     return $bdd->lastInsertId();
   }
 
-  function getNumberOfQuestions($bdd, $id_quizz){
-    $requete = $bdd -> query("SELECT COUNT(*) FROM quiz_quest WHERE qui_id = $id_quizz");
-    $result = $requete -> fetch();
-    return $result[0];
-  }
-
-  function createLiaisonQuizzQuestionSQL($bdd, $id_quizz , $id_quest, $order){
-    $bdd -> query("INSERT INTO quiz_quest (qui_id,
-                                                que_id,
-                                                qq_order)
-                                              VALUES ( $id_quizz , $id_quest , $order)");
+  function createLiaisonQuizzQuestionSQL($bdd, $idQuizz , $idQuest, $order ){
+    $bdd -> query("INSERT INTO quiz_quest (qui_id, que_id, qq_order)
+                                   VALUES ( $idQuizz , $idQuest , $order)");
   }
 
   function createReponseLibre($bdd, $id_quest, $lib){
@@ -57,6 +37,18 @@
                               escape($lib3),
                               escape($lib4)));
   }
+
+  // D E L E T E
+
+  function deleteReponses($bdd, $idQuestion){
+    $bdd -> query("DELETE FROM reponse WHERE que_id = $idQuestion");
+  }
+
+  function deleteLiaisonQuizzQuestionSQL($bdd, $idQuizz , $idQuest){
+    $bdd -> query("DELETE FROM quiz_quest WHERE qui_id = $idQuizz AND que_id = $idQuest");
+  }
+
+  // E D I T
 
   function editReponseLibre($bdd, $idRep, $lib){
     $requete = $bdd -> prepare("UPDATE reponse SET re_lib = ?
@@ -89,5 +81,23 @@
 
     $requete -> execute(array(escape($lib)));
   }
+
+  // O T H E R
+  function aQuestionHasBeenRemoved($idQuest, $idQuizz, $order, $nbQuestion, $nbOccurence){
+    $_THEME;
+    $_THEME["id"] = $result["th_id"];
+    $_THEME["nom"] = $result["th_nom"];
+    $_THEME["desc"] = $result["th_description"];
+    $_THEME["couleur"] = $result["th_couleur"];
+    $_THEME["is_Principal"] = $result["th_is_principal"];
+    return $_THEME;
+  }
+
+  function getNumberOfQuestions($bdd, $id_quizz){
+    $requete = $bdd -> query("SELECT COUNT(*) FROM quiz_quest WHERE qui_id = $id_quizz");
+    $result = $requete -> fetch();
+    return $result[0];
+  }
+
 
 ?>
