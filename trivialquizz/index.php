@@ -26,6 +26,7 @@
   $coordTextFocus = generateCoordText($r, $G*$R, $c, $ids);
   $coordTextUnfocus = generateCoordText($r, $R, $c, $ids);
 
+  $_NBOFQUIZZOFTHEME = getNumbersOfQuizzesOfThemes($bdd);
 
   // $colorTheme = array();
   // $descTheme = array();
@@ -55,7 +56,11 @@
   <section class="cadre-global">
     <div class="cadre-central">
       <article class="container">
-        <h1 class="titre1">Thèmes classique</h1>
+
+        <div class="titre1">
+          <h1>Thèmes classique</h1>
+        </div>
+
         <div class="center div-roue">
             <svg id="roue-theme-classique" viewBox="0 0 <?="$L $L"?>">
               <?php
@@ -82,7 +87,10 @@
         <h1 class="titre1">Thèmes personnalisés</h1>
         <div class="card-columns">
         <?php
-          foreach ($themesCustoms as $theme) {
+          foreach ($themesCustoms as $id => $theme) {
+            if(!isset($_NBOFQUIZZOFTHEME[$id]) || $_NBOFQUIZZOFTHEME[$id] <=0) {
+              continue;
+            }
         ?>
           <a class="card ripple-container dynamic-shadow"  href="quizz.php?theme=<?=$theme['id']?>" style="background-color: <?=$theme['couleur']?>">
               <div class="card-body">

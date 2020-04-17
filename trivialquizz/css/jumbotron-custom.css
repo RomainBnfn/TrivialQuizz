@@ -2,9 +2,10 @@
 {
   padding-top: 15px !important;
   padding-bottom: 30px !important;
+  border-radius: 25px !important;
 }
 .jumbotron{
-  background-color: rgb(80,80,80) !important;
+  background-color: rgb(62,62,62) !important;
   color: white !important;
 }
 .reduced-div

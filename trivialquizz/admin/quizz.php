@@ -44,82 +44,82 @@
       <a/>
 
       <!-- DEBUT: Section des Quizz-->
-      <div>
-        <div class="titre1">
-          <h1>Les Quizz</h1>
-          <button id="boutonCreerQuizz" type="button" class="btn btn-success button-open-modal" data-toggle="modal" data-target="#modalCreationQuizz">
-            Créer un Quizz !
-          </button>
-        </div>
-
-        <!-- DEBUT: Liste des Quizz-->
-        <div id="containerListQuizz">
-          <?php
-            if ($_QUIZZES == null) // Pas de quizz
-            {
-              echo $messagePasDeQuizz;
-            }
-            else // Il y a au moins un quizz
-            {
-              $id_previousTheme = -1;
-              foreach ($_QUIZZES as $id => $_QUIZZ)
+      <div class="titre1">
+        <h1>Les Quizz</h1>
+        <button id="boutonCreerQuizz" type="button" class="btn btn-success button-open-modal" data-toggle="modal" data-target="#modalCreationQuizz">
+          Créer un Quizz !
+        </button>
+      </div>
+        <article class="container">
+          <!-- DEBUT: Liste des Quizz-->
+          <div id="containerListQuizz">
+            <?php
+              if ($_QUIZZES == null) // Pas de quizz
               {
-                if($_QUIZZ['id_theme'] != $id_previousTheme){ // Si c'est pas le premier changement de Thème : On ferme la "Card".
-                  if($id_previousTheme != -1){ //Si c'est pas le premier
-                    echo "</div></div></div>";
-                  }
-                  $id_previousTheme = $_QUIZZ['id_theme'];
-                  ?>
-                    <div class="card">
-                      <?php $color = $_THEMES["$id_previousTheme"]["couleur"]; ?>
-                      <div onclick="collapseOrShow(<?= $id_previousTheme ?>)" class="d-flex justify-content-between card-header" style="background-color: <?= $color ?>;">
-                        <h4>
-                          <?= $_THEMES["$id_previousTheme"]["nom"] ?>
-                        </h4>
-
-                        <i id="cardQuizzSymbolN<?= $id_previousTheme ?>" class="fas fa-angle-double-up"></i>
-                      </div>
-
-                      <div id="cardQuizzOfThemeN<?= $id_previousTheme ?>" class="card-body" style="background: <?= $color?>40;">
-                        <div class="card-columns-sm card-columns">
-                  <?php
-                }
-                ?>
-                <div class="card" id="quizzN<?= $_QUIZZ["id"] ?>" style="background-color: <?= $color ?>20"> <!-- L'id sert pour identifier les différents div des quizz-->
-                  <div class="card-header" style="background-color: <?= $color ?>50">
-                    <div class="card-title">
-                      <h5>
-                        <?= $_QUIZZ["nom"] ?>
-                      </h5>
-                      <span class="badge badge-pill badge-primary">
-                        <?=  (isset($_NBQUESTIONS[$id])) ? $_NBQUESTIONS[$id] : 0 ?>
-                        Questions
-                      </span>
-
-                    </div>
-                  </div>
-                  <div class="card-body">
-                    <div>Description: <?= $_QUIZZ["desc"] ?></div>
-                  </div>
-                  <div class="card-footer d-flex justify-content-around">
-                    <a href="quizz-edit.php?id=<?= $_QUIZZ["id"] ?>">
-                      <button type="button" class="btn btn-warning">
-                        <i class="far fa-edit"></i>
-                        Édition
-                      </button>
-                    </a>
-                    <button id="suppressionQuizzN<?= $_QUIZZ["id"] ?>" type="button" class="btn btn-danger">
-                      <i class="fas fa-trash-alt" style="color: #ffffff;"></i>
-                      Supprimer
-                    </button>
-                  </div>
-
-                </div>
-
-              <?php
+                echo $messagePasDeQuizz;
               }
-            }
-          ?>
+              else // Il y a au moins un quizz
+              {
+                $id_previousTheme = -1;
+                foreach ($_QUIZZES as $id => $_QUIZZ)
+                {
+                  if($_QUIZZ['id_theme'] != $id_previousTheme){ // Si c'est pas le premier changement de Thème : On ferme la "Card".
+                    if($id_previousTheme != -1){ //Si c'est pas le premier
+                      echo "</div></div></div>";
+                    }
+                    $id_previousTheme = $_QUIZZ['id_theme'];
+                    ?>
+                      <div class="card">
+                        <?php $color = $_THEMES["$id_previousTheme"]["couleur"]; ?>
+                        <div onclick="collapseOrShow(<?= $id_previousTheme ?>)" class="d-flex justify-content-between card-header" style="background-color: <?= $color ?>;">
+                          <h4>
+                            <?= $_THEMES["$id_previousTheme"]["nom"] ?>
+                          </h4>
+
+                          <i id="cardQuizzSymbolN<?= $id_previousTheme ?>" class="fas fa-angle-double-up"></i>
+                        </div>
+
+                        <div id="cardQuizzOfThemeN<?= $id_previousTheme ?>" class="card-body" style="background: <?= $color?>40;">
+                          <div class="card-columns-sm card-columns">
+                    <?php
+                  }
+                  ?>
+                  <div class="card" id="quizzN<?= $_QUIZZ["id"] ?>" style="background-color: <?= $color ?>20"> <!-- L'id sert pour identifier les différents div des quizz-->
+                    <div class="card-header" style="background-color: <?= $color ?>50">
+                      <div class="card-title">
+                        <h5>
+                          <?= $_QUIZZ["nom"] ?>
+                        </h5>
+                        <span class="badge badge-pill badge-primary">
+                          <?=  (isset($_NBQUESTIONS[$id])) ? $_NBQUESTIONS[$id] : 0 ?>
+                          Questions
+                        </span>
+
+                      </div>
+                    </div>
+                    <div class="card-body">
+                      <div>Description: <?= $_QUIZZ["desc"] ?></div>
+                    </div>
+                    <div class="card-footer d-flex justify-content-around">
+                      <a href="quizz-edit.php?id=<?= $_QUIZZ["id"] ?>">
+                        <button type="button" class="btn btn-warning">
+                          <i class="far fa-edit"></i>
+                          Édition
+                        </button>
+                      </a>
+                      <button id="suppressionQuizzN<?= $_QUIZZ["id"] ?>" type="button" class="btn btn-danger">
+                        <i class="fas fa-trash-alt" style="color: #ffffff;"></i>
+                        Supprimer
+                      </button>
+                    </div>
+
+                  </div>
+
+                <?php
+                }
+              }
+            ?>
+          </article>
         </div>
           <!-- FIN: Liste des Quizz-->
       </div>

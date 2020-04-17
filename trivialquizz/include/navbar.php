@@ -39,10 +39,10 @@
 
             <div class="dropdown-menu dropdown-menu-dark" aria-labelledby="dropD">
               <a class="dropdown-dark dropdown-item-dark dropdown-item" href="<?=$index_location?>/admin/theme.php">
-                Editer des thèmes
+                Gestion des thèmes
               </a>
               <a class="dropdown-dark dropdown-item-dark dropdown-item" href="<?=$index_location?>/admin/quizz.php">
-                Editer des quizzes
+                Gestion des quizzes
               </a>
             </div>
           </li>

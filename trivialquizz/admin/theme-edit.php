@@ -55,14 +55,15 @@
       <a/>
 
       <!-- DEBUT : Cadre des options générales -->
-      <div>
-        <div class="titre1 titre-shadow">
-          <h1>Général</h1>
-          <?php if($_THEME["is_Principal"] == 0){?>
-            <!-- Quand on appuie sur le bouton, on envoie une requête -->
-            <button id="boutonSuppression" type="button" class="btn btn-danger button-open-modal">Supprimer le quizz</button>
-          <?php }?>
-        </div>
+
+      <div class="titre1 titre-shadow">
+        <h1>Général</h1>
+        <?php if($_THEME["is_Principal"] == 0){?>
+          <!-- Quand on appuie sur le bouton, on envoie une requête -->
+          <button id="boutonSuppression" type="button" class="btn btn-danger button-open-modal">Supprimer le quizz</button>
+        <?php }?>
+      </div>
+      <article class="container">
         <div class="row reduced-div" style="justify-content: space-between;">
 
           <div class="jumbotron jumbotron-vert col-sm-7">
@@ -127,48 +128,49 @@
 
         </div>
 
-      </div>
-      <!-- FIN : Cadre des options générales -->
-
-      <br/>
-
-      <!-- DEBUT : Cadre de la liste des Questions -->
-      <div>
-        <div class="titre1">
-          <div>Les Quizz associés</div>
-          <div>
-            <a>
-              <!-- Pour en ajouter plusieurs en même temps -->
-              <button type="button" class="btn btn-success">Ajouter</button>
-            </a>
-          </div>
-        </div>
-
+      </article>
+      
+      <div class="titre1">
+        <h1>Les Quizz associés</h1>
         <div>
-          <?php
-            $_QUIZZES = getAllQuizzesInfosOfTheme($bdd, $_THEME["id"]);
-            if(empty($_QUIZZES))
-            {
-              echo "Il parrait qu'aucun quizz n'a été associé à ce thème, c'est terrible !";
-            }
-            else
-            {
-              foreach ($_QUIZZES as $_QUIZZ)
-              {
-                ?>
-                  <div>
-                    <?= $_QUIZZ["nom"] ?>
-                    <?php
-                    if ($_THEME["id"] != 6) { ?>
-                      <button type="button" class="btn btn-error">Dissocier</button>;
-                    <?php } ?>
-                  </div>
-                <?php
-              }
-            }
-           ?>
+          <a>
+            <!-- Pour en ajouter plusieurs en même temps -->
+            <button type="button" class="btn btn-success">Ajouter</button>
+          </a>
         </div>
       </div>
+
+      <!-- FIN : Cadre des options générales -->
+      <article class="container">
+        <br/>
+
+        <!-- DEBUT : Cadre de la liste des Questions -->
+
+          <div>
+            <?php
+              $_QUIZZES = getAllQuizzesInfosOfTheme($bdd, $_THEME["id"]);
+              if(empty($_QUIZZES))
+              {
+                echo "Il parrait qu'aucun quizz n'a été associé à ce thème, c'est terrible !";
+              }
+              else
+              {
+                foreach ($_QUIZZES as $_QUIZZ)
+                {
+                  ?>
+                    <div>
+                      <?= $_QUIZZ["nom"] ?>
+                      <?php
+                      if ($_THEME["id"] != 6) { ?>
+                        <button type="button" class="btn btn-error">Dissocier</button>;
+                      <?php } ?>
+                    </div>
+                  <?php
+                }
+              }
+             ?>
+          </div>
+      </article>
       <!-- FIN : Cadre de la liste des Questions -->
 
     </div>

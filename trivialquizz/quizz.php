@@ -36,7 +36,7 @@
   $scoresGlobaux = getScoreGlobaux($bdd, $theme['id']);
 
   //meilleurs scores perso
-  $scoresPerso = getScorePerso($bdd, $theme['id'], $_SESSION['pseudo']);
+  $scoresPerso = (!empty($_SESSION) && isset($_SESSION['pseudo'])) ? getScorePerso($bdd, $theme['id'], $_SESSION['pseudo']) : null;
 
   function formatTimeToString($time){
     $min = floor($time % (60 * 60) / (60));
@@ -69,7 +69,10 @@
           <p><?=$theme['desc']?></p>
         </article>
         <article>
-          <h1 class="titre1">Les quizzes</h1>
+          <div class="titre1">
+            <h1>Les quizzes</h1>
+          </div>
+          <article class="container">
           <?php
           if(!empty($quizzes))
           {
@@ -92,7 +95,7 @@
                             ?>
                             <i class="fa fa-trophy" aria-hidden="true"></i>&nbsp; Meilleur score global: <span class="badge badge-pill badge-danger"><?=$scoresGlobaux[$quizz['id']]['point']." (".formatTimeToString($scoresGlobaux[$quizz['id']]['temps']).")"?></span><br>
                             <?php
-                            if($scoresPerso[$quizz['id']]['point'] != -1){
+                            if($isConnected &&  $scoresPerso[$quizz['id']]['point'] != -1){
                               ?>
                               <i class="fa fa-star" aria-hidden="true"></i>&nbsp; Meilleur score perso: <span class="badge badge-pill badge-warning"><?=$scoresPerso[$quizz['id']]['point']." (".formatTimeToString($scoresPerso[$quizz['id']]['temps']).")"?></span>
                               <?php
@@ -115,6 +118,7 @@
             <?php
           }
           ?>
+          </article>
         </article>
       </div>
     </section>
@@ -144,12 +148,7 @@
     <script type="text/javascript" src="js/ripple.js"></script>
     <script type="text/javascript">
 
-    var isConnected = <?php
-      if($isConnected==1) {
-        echo "true";
-      } else {
-        echo "false";
-      } ?>;
+    var isConnected = <?php echo ($isConnected==1) ? "true" : "false";?>;
     var idTheme = <?=$theme['id']?>;
     var pseudo = "<?=$_SESSION['pseudo']?>";
     var idQuizz;

@@ -53,20 +53,22 @@
     <div class="cadre-central">
 
       <!-- DEBUT : Cadre des options générales -->
-      <div>
-        <a class="blue-text" href="quizz.php">
-          <i class="fas fa-arrow-left" style="height: 2.5em;"></i>
-          Retour
-        <a/>
 
-        <div class="titre1 titre-shadow">
-          <div>
-            <h1>Général</h1>
-          </div>
-          <!-- Quand on appuie sur le bouton, on envoie une requête -->
-          <button id="boutonSuppression" type="button" class="btn btn-danger" style="height: 2.5em;">Supprimer le quizz</button>
+      <a class="blue-text" href="quizz.php">
+        <i class="fas fa-arrow-left" style="height: 2.5em;"></i>
+        Retour
+      <a/>
+
+      <div class="titre1 titre-shadow">
+        <div>
+          <h1>Général</h1>
         </div>
-        <div class="row reduced-div" style="justify-content: space-between;">
+        <!-- Quand on appuie sur le bouton, on envoie une requête -->
+        <button id="boutonSuppression" type="button" class="btn btn-danger" style="height: 2.5em;">Supprimer le quizz</button>
+      </div>
+
+      <article class="container">
+        <div class="row " style="justify-content: space-between;">
 
           <div class="jumbotron jumbotron-vert col-lg-7">
             <!-- A gauche : Changer le nom... -->
@@ -204,34 +206,30 @@
               Temps moyen:
             </div>
           </div>
-
-        </div>
-
-      </div>
+      </article>
       <!-- FIN : Cadre des options générales -->
 
       <!-- ================================================================================= -->
-
+      </article>
       <!-- DEBUT : Cadre de la liste des Questions -->
-      <div>
-        <div class="titre1 titre-shadow">
-          <h1 >Les questions</h1>
-          <!-- Quand on appuie sur le bouton, on envoie une requête -->
-          <div >
-            <button id="boutonAjouterQuestion" type="button" class="btn btn-success button-open-modal" data-toggle="modal" data-target="#modalCreationQuestion">
-              Ajouter
+      <div class="titre1 titre-shadow">
+        <h1 >Les questions</h1>
+        <!-- Quand on appuie sur le bouton, on envoie une requête -->
+        <div >
+          <button id="boutonAjouterQuestion" type="button" class="btn btn-success button-open-modal" data-toggle="modal" data-target="#modalCreationQuestion">
+            Ajouter
+          </button>
+          <button id="boutonImporterQuestion" type="button" class="btn btn-info button-open-modal" data-toggle="modal" data-target="#modalImportationQuestion">
+            Importer
+          </button>
+          <?php if(!empty($_QUESTIONS) && count($_QUESTIONS) > 0){ ?>
+            <button id="boutonViderQuestions" type="button" class="btn btn-danger button-open-modal" data-toggle="modal" data-target="#modalConfirmationVider">
+              Vider le Quizz
             </button>
-            <button id="boutonImporterQuestion" type="button" class="btn btn-info button-open-modal" data-toggle="modal" data-target="#modalImportationQuestion">
-              Importer
-            </button>
-            <?php if(!empty($_QUESTIONS) && count($_QUESTIONS) > 0){ ?>
-              <button id="boutonViderQuestions" type="button" class="btn btn-danger button-open-modal" data-toggle="modal" data-target="#modalConfirmationVider">
-                Vider le Quizz
-              </button>
-            <?php } ?>
-          </div>
+          <?php } ?>
         </div>
-
+      </div>
+      <article class="container">
 
         <div class="containerQuestions" id="containerQuestions">
           <?php
