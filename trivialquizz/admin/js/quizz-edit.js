@@ -194,7 +194,7 @@ $(document).ready(function(){
   $(".btn-delier-question").click((e)=>{
     var idQuestion = e.target.dataset.idquestion;
     var idQuizz = e.target.dataset.idquizz;
-    var form = new FormData(document.getElementById("editQuestionN"+id));
+    var form = new FormData( document.getElementById("editQuestionN"+idQuestion) );
     fetch("ajax/question-delier.php?idQuizz="+idQuizz+"&idQuest="+idQuestion)
     .then((response)=>{
       response.text()

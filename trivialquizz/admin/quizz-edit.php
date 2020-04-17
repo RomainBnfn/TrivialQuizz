@@ -296,7 +296,7 @@
                 <!-- ===========CONTAINER QUESTION =========== -->
 
                   <div id="containerQuestionN<?= $_QUESTION["id"] ?>" class="jumbotron jumbotron-vert questionContainer" style="order: <?= $_QUESTION['order'] ?>;">
-                    <form id="editQuestionN<?= $_QUESTION["id"] ?>" data-idquestion="<?= $_QUESTION["id"]?>"  class="form-edit-question" method="POST">
+                    <form id="editQuestionN<?= $_QUESTION["id"] ?>" data-idquestion="<?= $_QUESTION["id"]?>" data-idquizz="<?= $_QUIZZ["id"]?>"  class="form-edit-question" method="POST">
                       <div class="reduced-div row">
                         <input id="editQuestion_IdN<?= $_QUESTION["id"] ?>" name="id" type="hidden" value="<?= $_QUESTION["id"] ?>" required/>
 

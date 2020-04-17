@@ -123,6 +123,7 @@
           ?>
 
           $("#suppressionThemeN<?= $_THEME["id"] ?>").click(function(){
+
             fetch("ajax/theme-delete.php?id=<?= $_THEME["id"] ?>")
               .then((response) => {
                 response.text()

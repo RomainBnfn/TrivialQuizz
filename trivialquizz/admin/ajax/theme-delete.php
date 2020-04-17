@@ -2,7 +2,7 @@
   /*  Ceci n'est pas une page.
    */
    session_start();
-   
+
    // On regarde si l'utilisateur est bien un admin
    if(!isset($_SESSION['is_admin']))
    {
@@ -40,5 +40,5 @@
 
    //Tout est ok : Suppression !
    $bdd -> query("DELETE FROM THEME WHERE th_id = $id");
-
+   echo "ok";
 ?>
