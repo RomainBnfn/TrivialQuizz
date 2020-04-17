@@ -7,7 +7,6 @@ $(document).ready(function(){
     var idTheme = getThemeId($(this));
     focusTheme(idTheme);
     displayDescTheme(themes[idTheme].desc)
-    unDisplayButtonTheme()
   });
   $(".bt-theme").on('mouseleave',function(){
     var idTheme = getThemeId($(this));
@@ -19,6 +18,7 @@ $(document).ready(function(){
     if(idTheme==themeFocused){
       unfocusTheme(idTheme);
       undisplayDescTheme();
+      unDisplayButtonTheme();
       themeFocused=-1;
     }else{
       if(themeFocused!=-1){
