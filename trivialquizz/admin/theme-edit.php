@@ -5,7 +5,7 @@
   // Le visiteur n'est pas un admin.
   if(!isset($_SESSION['is_admin']))
   {
-    header("Location: ".$index_location);
+    header("Location: ".$index_location."/index.php");
     exit();
   }
 
@@ -23,7 +23,7 @@
   $_THEME = tryLoadTheme($bdd, $id);
   if(empty($_THEME))
   {
-    header("Location: ".$index_location);
+    header("Location: $index_location/index.php");
     exit();
   }
 

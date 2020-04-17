@@ -1,10 +1,11 @@
 <?php
   session_start();
+
   require_once "../include/index_location.php";
 
-  if(!isset($_SESSION['is_admin']))
+  if($_SESSION == null || !isset($_SESSION['is_admin']))
   {
-    header("Location: ".$index_location);
+    header("Location: $index_location/index.php");
     exit();
   }
 
@@ -13,21 +14,21 @@
 
   if(empty($_GET['id']) || !is_numeric($_GET['id']) )
   {
-    header("Location: ".$index_location);
+    header("Location: $index_location/index.php");
     exit();
   }
 
   $_QUIZZ = tryLoadQuizz($bdd, $_GET["id"]);
   if(empty($_QUIZZ))
   {
-    header("Location: ".$index_location);
+    header("Location: $index_location/index.php");
     exit();
   }
 
   $_THEME = tryLoadTheme($bdd, $_QUIZZ["id_theme"]);
   if(empty($_THEME))
   {
-    header("Location: ".$index_location);
+    header("Location: $index_location/index.php");
     exit();
   }
 
@@ -208,17 +209,17 @@
                   <i class="fab fa-flickr"></i>
                   Nombre d'utilisation:
                 </label>
-                <span><?= $_STATS["nb"] ?></span>
+                <span><?= (int) $_STATS["nb"] ?></span>
               </div>
 
               <hr/>
-              
+
               <div>
                 <label class="main-label form-label" style="width: 100%; color: #AAFFAA !important">
                   <i class="fas fa-trophy"></i>
                   Score moyen:
                 </label>
-                <span><?= $_STATS["score"] ?></span>
+                <span><?= (int) $_STATS["score"] ?></span>
               </div>
 
               <hr/>
@@ -228,7 +229,7 @@
                   <i class="fas fa-history"></i>
                   Temps moyen:
                 </label>
-                <span><?= timeToString($_STATS["temps"]) ?></span>
+                <span><?= timeToString((int) $_STATS["temps"]) ?></span>
               </div>
 
               <hr/>

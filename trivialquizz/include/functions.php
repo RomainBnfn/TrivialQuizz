@@ -288,7 +288,7 @@
                                                        WHERE quiz_quest.qui_id = $idQuizz
                                                        AND question.que_id = reponse.que_id
                                                        AND question.que_id = quiz_quest.que_id
-                                                       ORDER BY qq_order;");
+                                                       ORDER BY qq_order, question.que_id;");
           if(empty($data)){
             return null;
           }
